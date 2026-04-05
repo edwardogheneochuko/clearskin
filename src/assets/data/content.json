@@ -1,9 +1,9 @@
 {
   "navItems": [
     { "title": "Collection" },
-    { "title": "Shop"},
-    { "title": "Offer"},
-    {"title": "Blog"}
+    { "title": "Shop" },
+    { "title": "Offer" },
+    { "title": "Blog" }
   ],
   "hero": [
     {
@@ -48,161 +48,172 @@
       "image": "./assets/images/collection-3.png"
     }
   ],
-    "products": [
+  "products": [
     {
-        "title": "Gentle Foam Facial Cleanser",
-        "image": "./assets/images/product-01.jpg",
-        "price": 32,
-        "oldPrice": 45,
-        "badge": "-25%",
-        "rating": 5,
-        "reviews": 6421
+      "title": "Gentle Foam Facial Cleanser",
+      "image": "./assets/images/product-01.jpg",
+      "price": 32,
+      "oldPrice": 45,
+      "badge": "-25%",
+      "rating": 5,
+      "reviews": 6421
     },
     {
-        "title": "Vitamin C Brightening Serum",
-        "image": "./assets/images/product-02.jpg",
-        "price": 35,
-        "rating": 4,
-        "reviews": 3890
+      "title": "Vitamin C Brightening Serum",
+      "image": "./assets/images/product-02.jpg",
+      "price": 35,
+      "rating": 4,
+      "reviews": 3890
     },
     {
-        "title": "Caffeine Repair Eye Cream",
-        "image": "./assets/images/product-03.jpg",
-        "price": 28,
-        "rating": 5,
-        "reviews": 5170
+      "title": "Caffeine Repair Eye Cream",
+      "image": "./assets/images/product-03.jpg",
+      "price": 28,
+      "rating": 5,
+      "reviews": 5170
     },
     {
-        "title": "Hydrating Daily Moisturizer",
-        "image": "./assets/images/product-04.jpg",
-        "price": 30,
-        "rating": 4,
-        "reviews": 2745
+      "title": "Hydrating Daily Moisturizer",
+      "image": "./assets/images/product-04.jpg",
+      "price": 30,
+      "rating": 4,
+      "reviews": 2745
     },
     {
-        "title": "Overnight Renewal Face Mask",
-        "image": "./assets/images/product-05.jpg",
-        "price": 38,
-        "oldPrice": 45,
-        "badge": "-16%",
-        "rating": 5,
-        "reviews": 1986
+      "title": "Overnight Renewal Face Mask",
+      "image": "./assets/images/product-05.jpg",
+      "price": 38,
+      "oldPrice": 45,
+      "badge": "-16%",
+      "rating": 5,
+      "reviews": 1986
     },
     {
-        "title": "Soothing Aloe Gel Cleanser",
-        "image": "./assets/images/product-06.jpg",
-        "price": 26,
-        "rating": 4,
-        "reviews": 3120
+      "title": "Soothing Aloe Gel Cleanser",
+      "image": "./assets/images/product-06.jpg",
+      "price": 26,
+      "rating": 4,
+      "reviews": 3120
     }
-    ],
-    "under25Products": [
+  ],
+  "under25Products": [
     {
-        "title": "Daily Purifying Face Wash",
-        "image": "./assets/images/product-07.jpg",
-        "price": 19,
-        "oldPrice": 26,
-        "badge": "-18%",
-        "rating": 4,
-        "reviews": 4210
+      "title": "Daily Purifying Face Wash",
+      "image": "./assets/images/product-07.jpg",
+      "price": 19,
+      "oldPrice": 26,
+      "badge": "-18%",
+      "rating": 4,
+      "reviews": 4210
     },
     {
-        "title": "Mini Hydration Boost Serum",
-        "image": "./assets/images/product-08.jpg",
-        "price": 22,
-        "rating": 5,
-        "reviews": 1580
+      "title": "Mini Hydration Boost Serum",
+      "image": "./assets/images/product-08.jpg",
+      "price": 22,
+      "rating": 5,
+      "reviews": 1580
     },
     {
-        "title": "Cooling Eye Roll-On",
-        "image": "./assets/images/product-09.jpg",
-        "price": 24,
-        "rating": 4,
-        "reviews": 990
+      "title": "Cooling Eye Roll-On",
+      "image": "./assets/images/product-09.jpg",
+      "price": 24,
+      "rating": 4,
+      "reviews": 990
     },
     {
-        "title": "Balancing Toner Mist",
-        "image": "./assets/images/product-10.jpg",
-        "price": 21,
-        "rating": 4,
-        "reviews": 2043
+      "title": "Balancing Toner Mist",
+      "image": "./assets/images/product-10.jpg",
+      "price": 21,
+      "rating": 4,
+      "reviews": 2043
     },
     {
-        "title": "Lightweight Daily Sunscreen SPF 30",
-        "image": "./assets/images/product-11.jpg",
-        "price": 23,
-        "oldPrice": 29,
-        "badge": "-20%",
-        "rating": 5,
-        "reviews": 3685
+      "title": "Lightweight Daily Sunscreen SPF 30",
+      "image": "./assets/images/product-11.jpg",
+      "price": 23,
+      "oldPrice": 29,
+      "badge": "-20%",
+      "rating": 5,
+      "reviews": 3685
     },
     {
-        "title": "Gentle Exfoliating Scrub",
-        "image": "./assets/images/product-12.jpg",
-        "price": 18,
-        "rating": 4,
-        "reviews": 1420
+      "title": "Gentle Exfoliating Scrub",
+      "image": "./assets/images/product-12.jpg",
+      "price": 18,
+      "rating": 4,
+      "reviews": 1420
     }
-    ],
-    "features": [
+  ],
+  "features": [
     {
-        "title": "Guaranteed PURE",
-        "text": "All Clear formulations adhere to strict purity standards and will never contain harsh or toxic ingredients.",
-        "image": "./assets/images/feature-1.jpg",
-        "alt": "Guaranteed PURE"
+      "title": "Guaranteed PURE",
+      "text": "All Clear formulations adhere to strict purity standards and will never contain harsh or toxic ingredients.",
+      "image": "./assets/images/feature-1.jpg",
+      "alt": "Guaranteed PURE"
     },
     {
-        "title": "Completely Cruelty-Free",
-        "text": "All Clear products are cruelty-free and never tested on animals.",
-        "image": "./assets/images/feature-2.jpg",
-        "alt": "Completely Cruelty-Free"
+      "title": "Completely Cruelty-Free",
+      "text": "All Clear products are cruelty-free and never tested on animals.",
+      "image": "./assets/images/feature-2.jpg",
+      "alt": "Completely Cruelty-Free"
     },
     {
-        "title": "Ingredient Sourcing",
-        "text": "We carefully source high-quality ingredients from trusted suppliers worldwide.",
-        "image": "./assets/images/feature-3.jpg",
-        "alt": "Ingredient Sourcing"
+      "title": "Ingredient Sourcing",
+      "text": "We carefully source high-quality ingredients from trusted suppliers worldwide.",
+      "image": "./assets/images/feature-3.jpg",
+      "alt": "Ingredient Sourcing"
     }
-    ],
-    "blogs": [
+  ],
+  "blogs": [
     {
-        "title": "Find a Store",
-        "image": "./assets/images/blog-1.jpg",
-        "linkText": "Our Store",
-        "alt": "Find a Store"
+      "title": "Find a Store",
+      "image": "./assets/images/blog-1.jpg",
+      "linkText": "Our Store",
+      "alt": "Find a Store"
     },
     {
-        "title": "From Our Blog",
-        "image": "./assets/images/blog-2.jpg",
-        "linkText": "Read Blog",
-        "alt": "From Our Blog"
+      "title": "From Our Blog",
+      "image": "./assets/images/blog-2.jpg",
+      "linkText": "Read Blog",
+      "alt": "From Our Blog"
     },
     {
-        "title": "Our Story",
-        "image": "./assets/images/blog-3.jpg",
-        "linkText": "Learn More",
-        "alt": "Our Story"
+      "title": "Our Story",
+      "image": "./assets/images/blog-3.jpg",
+      "linkText": "Learn More",
+      "alt": "Our Story"
     }
-    ],
-    "footer": {
+  ],
+  "footer": {
     "company": {
-        "title": "Company",
-        "location": "Find a location nearest you. See Our Stores",
-        "phone": "+391 (0)35 2568 4593",
-        "email": "hello@domain.com"
+      "title": "Company",
+      "location": "Find a location nearest you. See Our Stores",
+      "phone": "+391 (0)35 2568 4593",
+      "email": "hello@domain.com"
     },
-    "usefulLinks": [
-        "New Products",
-        "Best Sellers",
-        "Bundle & Save",
-        "Online Gift Card"
-    ],
-    "informationLinks": [
-        "Start a Return",
-        "Contact Us",
-        "Shipping FAQ",
-        "Terms & Conditions",
-        "Privacy Policy"
-    ]
-    }
+    "usefulLinks": ["New Products", "Best Sellers", "Bundle & Save", "Online Gift Card"],
+    "informationLinks": ["Start a Return", "Contact Us", "Shipping FAQ", "Terms & Conditions", "Privacy Policy"]
+  },
+  "icons": [
+  {
+    "src": "https://img.icons8.com/dotty/80/person-male.png",
+    "alt": "user",
+    "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200"
+  },
+  {
+    "src": "https://img.icons8.com/comic/100/shopping-cart.png",
+    "alt": "cart",
+    "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200"
+  },
+  {
+    "src": "https://img.icons8.com/ios/50/hearts--v1.png",
+    "alt": "heart",
+    "class": "p-2 rounded-full transition duration-200 hover:bg-pink-100 hover:brightness-0 hover:invert hover:sepia hover:hue-rotate-[330deg]"
+  },
+  {
+    "src": "https://img.icons8.com/ios/50/money-bag.png",
+    "alt": "money",
+    "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200"
+  }
+ ]
 }
