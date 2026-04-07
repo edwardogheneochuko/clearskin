@@ -3,7 +3,24 @@
     { "title": "Collection" },
     { "title": "Shop" },
     { "title": "Offer" },
-    { "title": "Blog" }
+    { "title": "Blog"}
+  ],
+  "essentials": [
+    {
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253151/p14iuf26wjflwf69j6ag.png",
+      "text": "Daily Essentials",
+      "price":"Starting at $12.99"
+    },
+    {
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253150/flb1vsyllw5nozm9cx0h.png",
+      "text": "New & Noted",
+      "price": "Fresh formulas just launched"
+    },
+    {
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253153/g0i8hqm9lryejkav8gql.png",
+      "text": "Simple Sets",
+      "price": "Save more with curated bundles"
+    }
   ],
   "hero": [
     {
@@ -51,7 +68,7 @@
   "products": [
     {
       "title": "Gentle Foam Facial Cleanser",
-      "image": "./assets/images/product-01.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253157/kpec10u3shxyiqfbdsiv.jpg",
       "price": 32,
       "oldPrice": 45,
       "badge": "-25%",
@@ -60,28 +77,28 @@
     },
     {
       "title": "Vitamin C Brightening Serum",
-      "image": "./assets/images/product-02.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253158/y3jbqmyd3ttlsdwhad13.jpg",
       "price": 35,
       "rating": 4,
       "reviews": 3890
     },
     {
       "title": "Caffeine Repair Eye Cream",
-      "image": "./assets/images/product-03.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253158/p8qvwvvjoup1klpa1kub.jpg",
       "price": 28,
       "rating": 5,
       "reviews": 5170
     },
     {
       "title": "Hydrating Daily Moisturizer",
-      "image": "./assets/images/product-04.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253159/g4m4noluiezwat29nxk9.jpg",
       "price": 30,
       "rating": 4,
       "reviews": 2745
     },
     {
       "title": "Overnight Renewal Face Mask",
-      "image": "./assets/images/product-05.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253160/i6v8qmgnmeybutsumsyg.jpg",
       "price": 38,
       "oldPrice": 45,
       "badge": "-16%",
@@ -99,7 +116,7 @@
   "under25Products": [
     {
       "title": "Daily Purifying Face Wash",
-      "image": "./assets/images/product-07.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253161/jqmsqxuuzg2plevw6zub.jpg",
       "price": 19,
       "oldPrice": 26,
       "badge": "-18%",
@@ -108,28 +125,28 @@
     },
     {
       "title": "Mini Hydration Boost Serum",
-      "image": "./assets/images/product-08.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253146/kmxxieyf70zafarvmpjb.jpg",
       "price": 22,
       "rating": 5,
       "reviews": 1580
     },
     {
       "title": "Cooling Eye Roll-On",
-      "image": "./assets/images/product-09.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253162/amtbdtiz4rkxrv3im9um.jpg",
       "price": 24,
       "rating": 4,
       "reviews": 990
     },
     {
       "title": "Balancing Toner Mist",
-      "image": "./assets/images/product-10.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253140/omp4vi9pqr4w23ifppct.jpg",
       "price": 21,
       "rating": 4,
       "reviews": 2043
     },
     {
       "title": "Lightweight Daily Sunscreen SPF 30",
-      "image": "./assets/images/product-11.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253140/bmk2ipd4hdtnsbwtcmfq.jpg",
       "price": 23,
       "oldPrice": 29,
       "badge": "-20%",

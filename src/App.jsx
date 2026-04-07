@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route } from "react-router-dom";
-import Home from './components/landingpage/Home';
-import Navbar from './components/Navbar';
+import Home from './components/Home';
+import Navbar from './components/layout/Navbar';
 import "../src/App.css"
 
 export default function App() {

@@ -13,7 +13,7 @@ const Navbar = () => {
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize(); 
+    handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -42,31 +42,28 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 w-full bg-white shadow-sm px-6 py-3 z-50">
+    <nav className="fixed top-0 w-full bg-white shadow-sm px-3 md:px-6 py-3 z-50">
       <div className="flex items-center justify-between w-full">
-
         <div className="md:hidden">
           <button
             onClick={() => setIsOpen(true)}
             className="p-2 rounded hover:bg-gray-100 transition cursor-pointer"
           >
-            <img
-              className="w-8 md:w-10"
-              alt="menu"
-            />
-          </button>
+            <img className="w-8 md:w-10" src="https://img.icons8.com/dotty/80/menu--v2.png" alt="menu--v2"/>
+          </button> 
         </div>
 
-        <h1 className="font-semibold tracking-wide text-2xl font-roboto text-center mx-auto md:mx-0">
-          Clear <span className="text-pink-400">Skin</span>
+        <h1 className="font-semibold tracking-wide text-3xl md:text-4xl
+          text-center mx-auto md:mx-0">
+          Clear<span className="text-pink-400">Skin</span>
         </h1>
 
-        <div className="hidden md:flex gap-6 font-roboto text-md">
+        <div className="hidden md:flex gap-6 font-text text-md">
           {content.navItems.map((item, index) => (
             <a
               key={index}
               href={`#${item.title.toLowerCase()}`}
-              className="hover:text-pink-400 transition capitalize"
+              className="hover:text-pink-400 hover:underline transition capitalize"
             >
               {item.title}
             </a>
@@ -75,20 +72,19 @@ const Navbar = () => {
 
         <div className="hidden md:flex gap-4 items-center">
           {content.icons.map((icon, idx) => (
-  <div key={idx} className="relative">
-    <img
-      src={icon.src}
-      alt={icon.alt}
-      className={`w-8 h-8 md:w-10 md:h-10 cursor-pointer ${icon.class || ""}`}
-    />
-
-    {icon.alt === "money" && (
-      <span className="absolute -top-2 -right-3 bg-black text-white text-[10px] px-2 py-[2px] rounded-full">
-        0.00
-      </span>
-    )}
-  </div>
-))}
+            <div key={idx} className="relative">
+              <img
+                src={icon.src}
+                alt={icon.alt}
+                className={`w-8 h-8 md:w-10 md:h-10 cursor-pointer ${icon.class || ""}`}
+              />
+              {icon.alt === "money" && (
+                <span className="absolute -top-2 -right-3 bg-black text-white text-[10px] px-2 py-[2px] rounded-full">
+                  0.00
+                </span>
+              )}
+            </div>
+          ))}
         </div>
       </div>
 
@@ -121,7 +117,7 @@ const Navbar = () => {
             </div>
 
             <div className="mt-8 ml-5 flex flex-col relative">
-              <h1 className="absolute -top-20 text-pink-400 text-3xl font-roboto">
+              <h1 className="absolute -top-20 text-pink-400 text-3xl font-family">
                 Clear
               </h1>
 
@@ -132,32 +128,30 @@ const Navbar = () => {
                     href={`#${item.title.toLowerCase()}`}
                     onClick={() => setIsOpen(false)}
                     variants={linkVariants}
-                    className="block hover:text-pink-400 transition font-medium mt-4 w-fit capitalize"
+                    className="block hover:text-pink-400 font-text
+                    transition font-medium mt-4 w-fit capitalize"
                   >
                     {item.title}
                   </motion.a>
                 ))}
               </div>
 
-              <motion.div
-                variants={linkVariants}
-                className="flex gap-4 mt-6"
-              >
+              <motion.div variants={linkVariants} className="flex gap-4 mt-6">
                 {content.icons.map((icon, idx) => (
-  <div key={idx} className="relative">
-    <img
-      src={icon.src}
-      alt={icon.alt}
-      className={`w-8 h-8 md:w-10 md:h-10 cursor-pointer ${icon.class || ""}`}
-    />
-
-    {icon.alt === "money" && (
-      <span className="absolute -top-2 -right-3 bg-black text-white text-[10px] px-2 py-[2px] rounded-full">
-        0.00
-      </span>
-    )}
-  </div>
-))}
+                  <div key={idx} className="relative">
+                    <img
+                      src={icon.src}
+                      alt={icon.alt}
+                      className={`w-8 h-8 md:w-10 md:h-10 cursor-pointer ${icon.class || ""}`}
+                    />
+                    {icon.alt === "money" && (
+                      <span className="absolute -top-2 font-text
+                      -right-3 bg-black text-white text-[10px] px-2 py-[2px] rounded-full">
+                        0.00
+                      </span>
+                    )}
+                  </div>
+                ))}
               </motion.div>
             </div>
           </motion.div>
