@@ -165,38 +165,38 @@
     {
       "title": "Guaranteed PURE",
       "text": "All Clear formulations adhere to strict purity standards and will never contain harsh or toxic ingredients.",
-      "image": "./assets/images/feature-1.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253151/evfz8pcsgqrurmutcomx.jpg",
       "alt": "Guaranteed PURE"
     },
     {
       "title": "Completely Cruelty-Free",
       "text": "All Clear products are cruelty-free and never tested on animals.",
-      "image": "./assets/images/feature-2.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253152/uusl65dwkfclmdy33a6j.jpg",
       "alt": "Completely Cruelty-Free"
     },
     {
       "title": "Ingredient Sourcing",
       "text": "We carefully source high-quality ingredients from trusted suppliers worldwide.",
-      "image": "./assets/images/feature-3.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253152/uupomdabtiyrf5aybawd.jpg",
       "alt": "Ingredient Sourcing"
     }
   ],
   "blogs": [
     {
       "title": "Find a Store",
-      "image": "./assets/images/blog-1.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253142/yguselu3ejlbipbuhz75.jpg",
       "linkText": "Our Store",
       "alt": "Find a Store"
     },
     {
       "title": "From Our Blog",
-      "image": "./assets/images/blog-2.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253144/ccdpfm06jq8qfuiwmgnc.jpg",
       "linkText": "Read Blog",
       "alt": "From Our Blog"
     },
     {
       "title": "Our Story",
-      "image": "./assets/images/blog-3.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253144/tjyt0tbnlvhvlviz5ux9.jpg",
       "linkText": "Learn More",
       "alt": "Our Story"
     }
@@ -205,8 +205,8 @@
     "company": {
       "title": "Company",
       "location": "Find a location nearest you. See Our Stores",
-      "phone": "+391 (0)35 2568 4593",
-      "email": "hello@domain.com"
+      "phone": "+234 (0)xo xoxo xoxo",
+      "email": "clearskin@email.com"
     },
     "usefulLinks": ["New Products", "Best Sellers", "Bundle & Save", "Online Gift Card"],
     "informationLinks": ["Start a Return", "Contact Us", "Shipping FAQ", "Terms & Conditions", "Privacy Policy"]
@@ -234,3 +234,4 @@
   }
  ]
 }
+
