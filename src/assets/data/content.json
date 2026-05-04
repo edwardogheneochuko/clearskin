@@ -1,9 +1,9 @@
 {
   "navItems": [
-    { "title": "Collection" },
-    { "title": "Shop" },
-    { "title": "Offer" },
-    { "title": "Blog"}
+    { "title": "Collection", "target": "collection" },
+    { "title": "Shop", "target": "shop" },
+    { "title": "Offer", "target": "offer"},
+    { "title": "Blog", "target": "blog"}
   ],
   "essentials": [
     {
@@ -28,41 +28,21 @@
       "text": "Thoughtfully formulated skincare made with clean ingredients for real, everyday results.",
       "price": "Starting at $9.99",
       "buttonText": "Shop Essentials",
-      "image": "./assets/images/hero-banner-1.png"
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253161/zzuelsmk55mrzmh99qfm.png"
     },
     {
       "title": "Pure Care.<br />Visible Results.",
       "text": "Minimal formulas inspired by dermatology, designed to support healthy, balanced skin.",
       "price": "Starting at $9.99",
       "buttonText": "Explore Collection",
-      "image": "./assets/images/hero-banner-2.png"
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253141/x0a2ho8lvhem0tb9cwsj.jpg"
     },
     {
       "title": "Confidence Starts<br />with Clear.",
       "text": "Gentle, effective skincare that fits seamlessly into your daily routine.",
       "price": "Starting at $9.99",
       "buttonText": "Discover Clear",
-      "image": "./assets/images/hero-banner-3.png"
-    }
-  ],
-  "collections": [
-    {
-      "title": "Daily Essentials",
-      "text": "Starting at $12.99",
-      "buttonText": "Shop Essentials",
-      "image": "./assets/images/collection-1.png"
-    },
-    {
-      "title": "New & Noted",
-      "text": "Fresh formulas just launched",
-      "buttonText": "Discover New",
-      "image": "./assets/images/collection-2.png"
-    },
-    {
-      "title": "Simple Sets",
-      "text": "Save more with curated bundles",
-      "buttonText": "View Sets",
-      "image": "./assets/images/collection-3.png"
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253163/eqsms9bvpddh3dil047i.png"
     }
   ],
   "products": [

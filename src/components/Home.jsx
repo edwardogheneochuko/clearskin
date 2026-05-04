@@ -9,36 +9,41 @@ import BlogSection from "./home/BlogSection";
 import Footer from "./layout/Footer";
 
 const Home = () => {
-  const { essentials, products, under25Products, features, blogs, footer } = content;
+  const { hero, essentials, products, under25Products, features, blogs, footer } = content;
 
   return (
-    <div className="mx-5">
-      {/* SECTION 1 */}
-      <HeroSection />
+    <div className="px-3 sm:px-5 md:px-5 overflow-x-hidden">
 
-      {/* SECTION 2 */}
-      <EssentialsSection essentials={essentials} />
+      <section id="collection" className="w-full">
+        <HeroSection hero={hero} />
+        <EssentialsSection essentials={essentials} />
+      </section>
 
-      {/* SECTION 3 */}
-      <ProductSection title="Our Bestsellers" products={products} />
+      <section id="shop" className="w-full mt-8 sm:mt-10">
+        <ProductSection title="Our Bestsellers" products={products} />
+        <ProductSection title="Under $25" products={under25Products} />
+      </section>
 
-      {/* SECTION 4 */}
-      <ProductSection title="Under $25" products={under25Products} />
+      <div className="w-full mt-8 sm:mt-10">
+        <PromoSection />
+      </div>
 
-      {/* SECTION 5 */}
-      <PromoSection />
+      <section className="w-full mt-8 sm:mt-10">
+        <FeaturesSection features={features} />
+      </section>
 
-      {/* SECTION 6 */}
-      <FeaturesSection features={features} />
+      <section id="offer" className="w-full mt-8 sm:mt-10">
+        <OfferSection />
+      </section>
 
-      {/* SECTION 7 */}
-      <OfferSection />
+      <section id="blog" className="w-full mt-8 sm:mt-10">
+        <BlogSection blogs={blogs} />
+      </section>
 
-      {/* SECTION 8 */}
-      <BlogSection blogs={blogs} />
+      <div className="w-full mt-10 sm:mt-12">
+        <Footer footer={footer} />
+      </div>
 
-      {/* FOOTER */}
-      <Footer  footer={footer}/>
     </div>
   );
 };

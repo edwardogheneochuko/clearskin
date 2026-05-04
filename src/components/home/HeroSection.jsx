@@ -1,47 +1,73 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const HeroSection = () => {
+const HeroSection = ({ hero }) => {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % hero.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [hero.length]);
+
+  const current = hero[index];
+
   return (
-    <div className="relative w-full h-screen md:h-auto overflow-hidden rounded-sm md:mx-5">
+    <div className="relative w-full h-screen overflow-hidden">
 
-      <motion.div
-        initial={{ opacity: 0, x: -40 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, amount: 0.4 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="absolute top-1/5 left-0 max-w-md mx-5 md:ml-30 md:mt-20 z-10"
-      >
-        <h1 className="text-5xl md:text-6xl font-semibold">
-          Clear Skin <br /> Simply Better.
-        </h1>
+      <AnimatePresence mode="wait">
 
-        <p className="text-neutral-500 text-lg md:text-xl mt-5 tracking-wide font-medium">
-          Thoughtfully formulated skincare made with clean ingredients for real, everyday results.
-        </p>
+        <motion.img
+          key={current.image}
+          src={current.image}
+          alt="hero"
+          className="absolute inset-0 w-full h-full object-cover"
+          initial={{ opacity: 0, scale: 1.1 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8 }}
+        />
 
-        <h3 className="mt-8 text-xl font-semibold">
-          Starting at $9.99
-        </h3>
+        <div className="absolute inset-0 bg-black/20" />
 
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="mt-5 px-7 py-3 tracking-wide bg-black text-white rounded-sm hover:bg-green-900 duration-200 cursor-pointer"
+        <motion.div
+          key={current.title}
+          className="
+            absolute z-10
+            left-5 md:left-20
+            top-1/2 -translate-y-1/2
+            max-w-md
+          "
+          initial={{ opacity: 0, x: -80 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 80 }}
+          transition={{ duration: 0.7, ease: "easeInOut" }}
         >
-          Shop Essentials
-        </motion.button>
-      </motion.div>
+          <h1
+            className="text-5xl font-semibold leading-tight"
+            dangerouslySetInnerHTML={{ __html: current.title }}
+          />
 
-      <motion.img
-        src="https://res.cloudinary.com/direjlzc6/image/upload/v1775253161/zzuelsmk55mrzmh99qfm.png"
-        alt="preview"
-        className="w-full h-full object-cover"
-        initial={{ opacity: 0, scale: 1.05 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true, amount: 0.4 }}
-        transition={{ duration: 1 }}
-      />
+          <p className="text-gray-500 text-base md:text-lg mt-5">
+            {current.text}
+          </p>
+
+          <h3 className="mt-6 text-lg md:text-xl font-semibold">
+            {current.price}
+          </h3>
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          className="mt-8 px-7 py-3 tracking-wide bg-black text-white rounded-sm hover:bg-green-900 duration-200 cursor-pointer"
+          >
+            {current.buttonText}
+          </motion.button>
+        </motion.div>
+
+      </AnimatePresence>
 
     </div>
   );

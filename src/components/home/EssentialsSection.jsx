@@ -42,12 +42,12 @@ const EssentialsSection = ({ essentials }) => {
           />
 
           <div className="absolute top-10 left-10 p-2 text-black">
-            <h1 className="font-semibold text-2xl md:text-3xl">
+            <h1 className="font-semibold text-xl md:text-2xl">
               {item.text}
             </h1>
 
             {item.price && (
-              <p className="mt-3 text-xl font-semibold">
+              <p className="mt-3 text-lg font-semibold text-gray-600">
                 {item.price}
               </p>
             )}

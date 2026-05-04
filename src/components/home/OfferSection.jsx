@@ -21,10 +21,10 @@ const rightVariants = {
 
 const OfferSection = () => {
   return (
-    <div className="mt-16 grid md:grid-cols-4 gap-10 items-center ">
+    <div className="mt-16 grid md:grid-cols-4 gap-10 items-center overflow-x-hidden">
 
       <motion.div
-        className="md:col-span-2 grid grid-cols-2 gap-4"
+        className="md:col-span-2 grid grid-cols-2 gap-4 overflow-hidden"
         variants={leftVariants}
         initial="hidden"
         whileInView="visible"
@@ -34,14 +34,14 @@ const OfferSection = () => {
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.3 }}
           src="https://res.cloudinary.com/direjlzc6/image/upload/v1775253154/k91n0e6vhqxvbbh1sk13.jpg"
-          className="mt-8 w-5/6 h-5/6 object-cover items-center mx-auto"
+          className="mt-8 w-5/6 h-5/6 max-w-full object-cover mx-auto"
         />
 
         <motion.img
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.3 }}
           src="https://res.cloudinary.com/direjlzc6/image/upload/v1775253155/kypyu4pvew6fvstohrnh.jpg"
-          className="w-full h-full object-cover"
+          className="w-full h-full max-w-full object-cover"
         />
       </motion.div>
 
@@ -71,13 +71,15 @@ const OfferSection = () => {
           <Countdown />
         </div>
 
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="mt-8 px-7 py-3 tracking-wide bg-black text-white rounded-sm hover:bg-green-900 duration-200 cursor-pointer"
-        >
-          Get Only $39.00
-        </motion.button>
+        <div className="overflow-hidden inline-block">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="mt-8 px-7 py-3 tracking-wide bg-black text-white rounded-sm hover:bg-green-900 duration-200 cursor-pointer"
+          >
+            Get Only $39.00
+          </motion.button>
+        </div>
       </motion.div>
 
     </div>
