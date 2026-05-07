@@ -43,8 +43,8 @@ const ProductCard = ({ item, index, hero }) => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      className="group bg-white p-3 sm:p-4 rounded-2xl border hover:shadow-xl transition
-      duration-300 relative overflow-hidden"
+      className="group bg-white p-3 sm:p-4 rounded-2xl border 
+      hover:shadow-xl transition duration-300 relative overflow-hidden"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -92,7 +92,8 @@ const ProductCard = ({ item, index, hero }) => {
               </h1>
             )}
             {item.heroButton && (
-              <button className="mt-2 sm:mt-3 px-5 sm:px-7 py-2 sm:py-3 tracking-wide bg-white text-black rounded-sm hover:bg-neutral-900 duration-200 cursor-pointer text-sm sm:text-base">
+              <button 
+              className="mt-2 sm:mt-3 px-5 sm:px-7 py-2 sm:py-3 tracking-wide bg-white text-black rounded-sm hover:bg-neutral-900 duration-200 cursor-pointer text-sm sm:text-base">
                 {item.heroButton}
               </button>
             )}

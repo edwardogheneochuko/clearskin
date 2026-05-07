@@ -16,7 +16,6 @@ const Footer = ({ footer }) => {
           </p>
 
           <p className="text-sm text-black font-semibold">
-            {footer.company.phone}
           </p>
 
           <p className="text-sm text-gray-500 mt-1">

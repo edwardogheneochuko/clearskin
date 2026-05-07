@@ -135,7 +135,21 @@
     },
     {
       "title": "Gentle Exfoliating Scrub",
-      "image": "./assets/images/product-12.jpg",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778173773/vxol6vqnlxmgb8imtgm1.jpg",
+      "price": 18,
+      "rating": 4,
+      "reviews": 1420
+    },
+    {
+      "title": "Sheet mask",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778173769/wd1pfmv9q2g6hm4sbw0l.jpg",
+      "price": 18,
+      "rating": 4,
+      "reviews": 1420
+    },
+    {
+      "title": "valeriia_miller_ordinary",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778173770/jllrgdusrukbshfemjmx.jpg",
       "price": 18,
       "rating": 4,
       "reviews": 1420
@@ -195,23 +209,29 @@
   {
     "src": "https://img.icons8.com/dotty/80/person-male.png",
     "alt": "user",
-    "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200"
+    "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200",
+    "subItems": [
+      { "label": "Login", "link": "/login", "type": "action" },
+      { "label": "Signup", "link": "/signup", "type": "action" }
+    ]
   },
   {
     "src": "https://img.icons8.com/comic/100/shopping-cart.png",
     "alt": "cart",
-    "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200"
-  },
-  {
-    "src": "https://img.icons8.com/ios/50/hearts--v1.png",
-    "alt": "heart",
-    "class": "p-2 rounded-full transition duration-200 hover:bg-pink-100 hover:brightness-0 hover:invert hover:sepia hover:hue-rotate-[330deg]"
+    "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200",
+    "subItems": [
+      { "label": "Check Favorite", "link": "/favorites" },
+      { "label": "Starred Items", "link": "/starred" }
+    ]
   },
   {
     "src": "https://img.icons8.com/ios/50/money-bag.png",
     "alt": "money",
-    "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200"
+    "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200",
+    "subItems": [
+      { "label": "Funds", "link": "/funds", "disabled": false }
+    ]
   }
- ]
+]
 }
 

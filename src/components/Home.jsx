@@ -7,11 +7,14 @@ import FeaturesSection from "./home/FeaturesSection";
 import OfferSection from "./home/OfferSection";
 import BlogSection from "./home/BlogSection";
 import Footer from "./layout/Footer";
+import Navbar from "./layout/Navbar";
 
 const Home = () => {
   const { hero, essentials, products, under25Products, features, blogs, footer } = content;
 
   return (
+  <>
+    <Navbar />
     <div className="px-3 sm:px-5 md:px-5 overflow-x-hidden">
 
       <section id="collection" className="w-full">
@@ -45,6 +48,7 @@ const Home = () => {
       </div>
 
     </div>
+  </>
   );
 };
 

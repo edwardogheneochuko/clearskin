@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router";
 
 const HeroSection = ({ hero }) => {
   const [index, setIndex] = useState(0);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -13,6 +15,7 @@ const HeroSection = ({ hero }) => {
   }, [hero.length]);
 
   const current = hero[index];
+  
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
@@ -38,13 +41,11 @@ const HeroSection = ({ hero }) => {
             absolute z-10
             left-5 md:left-20
             top-1/2 -translate-y-1/2
-            max-w-md
-          "
+            max-w-md"
           initial={{ opacity: 0, x: -80 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 80 }}
-          transition={{ duration: 0.7, ease: "easeInOut" }}
-        >
+          transition={{ duration: 0.7, ease: "easeInOut" }} >
           <h1
             className="text-5xl font-semibold leading-tight"
             dangerouslySetInnerHTML={{ __html: current.title }}
@@ -59,6 +60,7 @@ const HeroSection = ({ hero }) => {
           </h3>
 
           <motion.button
+            onClick={() => navigate('/explore')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           className="mt-8 px-7 py-3 tracking-wide bg-black text-white rounded-sm hover:bg-green-900 duration-200 cursor-pointer"
@@ -66,7 +68,6 @@ const HeroSection = ({ hero }) => {
             {current.buttonText}
           </motion.button>
         </motion.div>
-
       </AnimatePresence>
 
     </div>
