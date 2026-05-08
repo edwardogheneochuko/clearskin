@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { ShoppingBag, Star, Repeat } from "lucide-react";
 import { motion } from "framer-motion";
+import useCartStore from "../../store/cartStore";
 
 const ProductCard = ({ item, index, hero }) => {
   const [hovered, setHovered] = useState(false);
+
+  const addToCart = useCartStore((state) => state.addToCart);
 
   const cardVariants = {
     hidden: { opacity: 0, y: 40 },
@@ -129,7 +132,10 @@ const ProductCard = ({ item, index, hero }) => {
             </span>
           </div>
 
-          <button className="mt-2 sm:mt-3 w-full py-2 text-xs sm:text-sm bg-black text-white rounded-lg cursor-pointer opacity-0 group-hover:opacity-100 transition hover:bg-green-900 duration-300">
+          <button
+            onClick={() => addToCart(item)}
+            className="mt-2 sm:mt-3 w-full py-2 text-xs sm:text-sm bg-black text-white rounded-lg cursor-pointer opacity-0 group-hover:opacity-100 transition hover:bg-green-900 duration-300"
+          >
             Add to Cart
           </button>
         </div>

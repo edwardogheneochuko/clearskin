@@ -1,20 +1,33 @@
-import React from 'react'
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from './components/Home';
 import "../src/App.css"
-import Login from './components/auth/Login';
-import Signup from './components/auth/Signup';
-import Explore from './pages/Explore';
+
+import Layout from "./components/layout/Layout";
+
+import Home from "./components/Home";
+import Explore from "./pages/Explore";
+import ProductDetails from "./pages/ProductDetails";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+
+import Login from "./components/auth/Login";
+import Signup from "./components/auth/Signup";
 
 export default function App() {
   return (
-    <>
-     <Routes>
+    <Routes>
+
+      <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/explore' element={<Explore />} />
-     </Routes>
-    </>
-  )
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/cart/checkout" element={<Checkout />} />
+      </Route>
+
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+
+    </Routes>
+  );
 }

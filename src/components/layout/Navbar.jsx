@@ -1,22 +1,31 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import content from "@/assets/data/content.json";
+import { Search } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [search, setSearch] = useState("");
+  const [activeIcon, setActiveIcon] = useState(null);
+
+  const allProducts = [
+    ...content.products,
+    ...content.under25Products,
+  ];
+
+  const filteredProducts = allProducts.filter((product) =>
+    product.title.toLowerCase().includes(search.toLowerCase())
+  );
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
         setIsOpen(false);
-        setActiveDropdown(null);
+        setActiveIcon(null);
       }
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize();
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -24,55 +33,40 @@ const Navbar = () => {
     hidden: { x: "-100%" },
     visible: {
       x: 0,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 30,
-        when: "beforeChildren",
-        staggerChildren: 0.1,
-      },
+      transition: { type: "spring", stiffness: 300, damping: 30 },
     },
     exit: {
       x: "-100%",
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 30,
-      },
+      transition: { type: "spring", stiffness: 300, damping: 30 },
     },
   };
 
-  const linkVariants = {
-    hidden: { x: -20, opacity: 0 },
-    visible: { x: 0, opacity: 1 },
-  };
-
   return (
-    <nav className="fixed top-0 w-full shadow-sm px-3 md:px-6 py-3 z-50 bg-white">
-      <div className="flex items-center justify-between w-full">
-        <div className="md:hidden">
-          <button
-            onClick={() => setIsOpen(true)}
-            className="p-2 rounded hover:bg-gray-100 transition cursor-pointer"
-          >
-            <img
-              className="w-8 md:w-10"
-              src="https://img.icons8.com/dotty/80/menu--v2.png"
-              alt="menu"
-            />
-          </button>
-        </div>
+    <nav className="fixed top-0 w-full bg-white shadow-sm px-3 md:px-6 py-3 z-50">
 
-        <h1 className="font-semibold tracking-wide text-3xl md:text-4xl text-center mx-auto md:mx-0">
+      <div className="relative flex items-center justify-between">
+
+        <button
+          onClick={() => setIsOpen(true)}
+          className="md:hidden p-2 cursor-pointer"
+        >
+          <img
+            className="w-8"
+            src="https://img.icons8.com/dotty/80/menu--v2.png"
+            alt="menu"
+          />
+        </button>
+
+        <h1 className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 text-3xl font-semibold">
           Clear<span className="text-pink-400">Skin</span>
         </h1>
 
-        <div className="hidden md:flex gap-6 font-text text-md">
-          {content.navItems.map((item, index) => (
+        <div className="hidden md:flex gap-6 text-sm font-medium">
+          {content.navItems.map((item, i) => (
             <a
-              key={index}
-              href={`#${item.title.toLowerCase()}`}
-              className="hover:text-pink-400 hover:underline transition capitalize"
+              key={i}
+              href={`#${item.target}`}
+              className="hover:text-pink-400 transition"
             >
               {item.title}
             </a>
@@ -82,12 +76,11 @@ const Navbar = () => {
         <div className="hidden md:flex gap-4 items-center">
           {content.icons.map((icon, idx) => (
             <div key={idx} className="relative group">
+
               <img
                 src={icon.src}
                 alt={icon.alt}
-                className={`w-8 h-8 md:w-10 md:h-10 cursor-pointer ${
-                  icon.class || ""
-                }`}
+                className="w-8 h-8 md:w-10 md:h-10 cursor-pointer"
               />
 
               {icon.alt === "money" && (
@@ -97,20 +90,13 @@ const Navbar = () => {
               )}
 
               {icon.subItems && (
-                <div
-                  className="absolute right-0 mt-3 w-52 bg-white rounded-xl shadow-lg z-50 overflow-hidden
-                  opacity-0 invisible group-hover:opacity-100 group-hover:visible
-                  border border-gray-100 transition-all duration-200 ease-out
-                  translate-y-2 group-hover:translate-y-0"
-                >
+                <div className="absolute right-0 mt-3 w-52 bg-white shadow-lg rounded-xl opacity-0 invisible group-hover:visible group-hover:opacity-100 transition">
                   {icon.subItems.map((item, i) => (
                     <a
                       key={i}
                       href={item.link}
-                      className={`block px-4 py-2 text-sm hover:bg-gray-100 font-serif ${
-                        item.disabled
-                          ? "opacity-50 pointer-events-none"
-                          : ""
+                      className={`block px-4 py-2 text-sm hover:bg-gray-100 ${
+                        item.disabled ? "opacity-50 pointer-events-none" : ""
                       }`}
                     >
                       {item.label}
@@ -118,9 +104,11 @@ const Navbar = () => {
                   ))}
                 </div>
               )}
+
             </div>
           ))}
         </div>
+
       </div>
 
       <AnimatePresence>
@@ -132,18 +120,15 @@ const Navbar = () => {
             />
 
             <motion.div
-              className="fixed top-0 left-0 w-3/4 h-full bg-white shadow-lg z-50 px-6 py-6 overflow-y-auto"
+              className="fixed top-0 left-0 w-3/4 h-full bg-white z-50 px-5 py-6 overflow-y-auto"
               variants={sidebarVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
             >
-              <div className="flex justify-end relative z-[60]">
-                <button
-                  type="button"
-                  onClick={() => setIsOpen(false)}
-                  className="cursor-pointer relative z-[70]"
-                >
+
+              <div className="flex justify-end ">
+                <button className="cursor-pointer" onClick={() => setIsOpen(false)}>
                   <img
                     width="40"
                     height="40"
@@ -153,99 +138,100 @@ const Navbar = () => {
                 </button>
               </div>
 
-              <div className="flex flex-col">
-                <h1 className="text-3xl font-semibold mb-9 -mt-10">
-                  Clear<span className="text-pink-400">Skin</span>
-                </h1>
+              {/* LOGO */}
+              <h1 className="text-3xl font-semibold mb-6 -mt-8">
+                Clear<span className="text-pink-400">Skin</span>
+              </h1>
 
-                <div>
-                  {content.navItems.map((item, index) => (
-                    <motion.a
-                      key={index}
-                      variants={linkVariants}
-                      href={`#${item.title.toLowerCase()}`}
-                      onClick={() => setIsOpen(false)}
-                      className="block hover:text-pink-400 font-text transition font-medium mt-2 capitalize"
+              {/* MOBILE NAV ITEMS */}
+              <div className="flex flex-col gap-3 mb-6 border-b pb-4">
+                {content.navItems.map((item, i) => (
+                  <a
+                    key={i}
+                    href={`#${item.target}`}
+                    onClick={() => setIsOpen(false)}
+                    className="text-sm font-medium hover:text-pink-400"
+                  >
+                    {item.title}
+                  </a>
+                ))}
+              </div>
+
+              <div className="relative mb-6">
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="w-full border rounded-full px-5 py-3"
+                />
+                <Search className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400" />
+              </div>
+
+              <div className="mb-6 border-b pb-4">
+
+                {content.icons.map((icon, idx) => (
+                  <div key={idx} className="border-b py-3">
+
+                    <div
+                      className="flex items-center justify-between cursor-pointer"
+                      onClick={() =>
+                        setActiveIcon(activeIcon === idx ? null : idx)
+                      }
                     >
-                      {item.title}
-                    </motion.a>
-                  ))}
-                </div>
+                      <div className="flex items-center gap-3">
 
-                <motion.div
-                  className="flex flex-col gap-4 mt-8"
-                  variants={linkVariants}
-                >
-                  {content.icons.map((icon, idx) => (
-                    <div key={idx} className="border-b pb-3">
-                      <div
-                        className="flex items-center justify-between cursor-pointer"
-                        onClick={() =>
-                          icon.subItems
-                            ? setActiveDropdown(
-                                activeDropdown === idx ? null : idx
-                              )
-                            : null
-                        }
-                      >
-                        <div className="flex items-center gap-3">
-                          <img
-                            src={icon.src}
-                            alt={icon.alt}
-                            className="w-8 h-8"
-                          />
+                        <img
+                          src={icon.src}
+                          className="w-7 h-7"
+                          alt={icon.alt}
+                        />
 
-                          <span className="capitalize font-medium">
-                            {icon.alt}
-                          </span>
-                        </div>
+                        <span className="capitalize font-medium">
+                          {icon.alt}
+                        </span>
 
-                        {icon.subItems && (
-                          <span className="text-xl">
-                            {activeDropdown === idx ? "−" : "+"}
-                          </span>
-                        )}
                       </div>
 
-                      {icon.alt === "money" && (
-                        <div className="mt-2 text-sm text-gray-600">
-                          Balance: ₦0.00
-                        </div>
+                      {icon.subItems && (
+                        <span className="text-xl">
+                          {activeIcon === idx ? "−" : "+"}
+                        </span>
                       )}
-
-                      <AnimatePresence>
-                        {icon.subItems &&
-                          activeDropdown === idx && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              className="overflow-hidden mt-3 ml-11 flex flex-col"
-                            >
-                              {icon.subItems.map((item, i) => (
-                                <a
-                                  key={i}
-                                  href={item.link}
-                                  className={`py-2 text-sm hover:text-pink-400 ${
-                                    item.disabled
-                                      ? "opacity-50 pointer-events-none"
-                                      : ""
-                                  }`}
-                                >
-                                  {item.label}
-                                </a>
-                              ))}
-                            </motion.div>
-                          )}
-                      </AnimatePresence>
                     </div>
-                  ))}
-                </motion.div>
+
+                    <AnimatePresence>
+                      {icon.subItems && activeIcon === idx && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden ml-10 mt-2 flex flex-col gap-2"
+                        >
+                          {icon.subItems.map((item, i) => (
+                            <a
+                              key={i}
+                              href={item.link}
+                              onClick={() => setIsOpen(false)}
+                              className="text-sm hover:text-pink-400"
+                            >
+                              {item.label}
+                            </a>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                  </div>
+                ))}
+
               </div>
+
             </motion.div>
           </>
         )}
       </AnimatePresence>
+
     </nav>
   );
 };

@@ -29,17 +29,17 @@ const Explore = () => {
   ];
 
   return (
-    <div className="px-4 md:px-10 py-12">
+    <div className="px-4 md:px-10 py-22">
 
       <motion.h1
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
-        className="text-4xl font-bold mb-10 flex items-center gap-x-4">
+        className="text-2xl font-bold mb-10 flex items-center gap-x-4">
         <span>
             <ArrowLeft className="cursor-pointer duration-200 hover:text-gray-400"
             size={20} onClick={() => navigate('/')} />
         </span>
-        Explore <span className="text-pink-400">ClearSkin</span>
+        Homepage
       </motion.h1>
 
       {sections.map((section, i) => (
