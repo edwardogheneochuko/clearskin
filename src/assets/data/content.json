@@ -53,28 +53,34 @@
       "oldPrice": 45,
       "badge": "-25%",
       "rating": 5,
-      "reviews": 6421
+      "reviews": 6421,
+      "details": "A gentle daily cleanser that removes dirt, oil, and makeup without stripping your skin. Infused with soothing botanical extracts to keep skin soft, hydrated, and refreshed. Perfect for sensitive and combination skin types."
     },
     {
       "title": "Vitamin C Brightening Serum",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253158/y3jbqmyd3ttlsdwhad13.jpg",
       "price": 35,
       "rating": 4,
-      "reviews": 3890
+      "reviews": 3890,
+      "details": "A powerful Vitamin C serum designed to brighten dull skin, even out skin tone, and reduce dark spots. Packed with antioxidants, it helps protect the skin from environmental damage while boosting natural radiance. Lightweight and fast-absorbing, it works well for daily use and suits most skin types, especially dull or uneven skin."
     },
     {
       "title": "Caffeine Repair Eye Cream",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253158/p8qvwvvjoup1klpa1kub.jpg",
       "price": 28,
       "rating": 5,
-      "reviews": 5170
+      "reviews": 5170,
+      "details": "A lightweight eye cream infused with caffeine to reduce puffiness, dark circles, and tired-looking eyes. Helps refresh and brighten the under-eye area for a more awake and youthful appearance."
+
     },
     {
       "title": "Hydrating Daily Moisturizer",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253159/g4m4noluiezwat29nxk9.jpg",
       "price": 30,
       "rating": 4,
-      "reviews": 2745
+      "reviews": 2745,
+      "details": "A fast-absorbing daily moisturizer that deeply hydrates the skin without feeling heavy or greasy. Strengthens the skin barrier and keeps skin soft, smooth, and nourished all day."
+
     },
     {
       "title": "Overnight Renewal Face Mask",
@@ -83,14 +89,18 @@
       "oldPrice": 45,
       "badge": "-16%",
       "rating": 5,
-      "reviews": 1986
+      "reviews": 1986,
+      "details": "An overnight treatment mask that works while you sleep to renew dull skin, improve texture, and boost glow. Wakes you up with softer, more radiant skin."
+
     },
     {
       "title": "Soothing Aloe Gel Cleanser",
       "image": "./assets/images/product-06.jpg",
       "price": 26,
       "rating": 4,
-      "reviews": 3120
+      "reviews": 3120,
+      "details": "A gentle gel cleanser powered by aloe vera to calm, cleanse, and refresh the skin. Removes dirt and excess oil without stripping moisture."
+
     }
   ],
   "under25Products": [
@@ -101,28 +111,35 @@
       "oldPrice": 26,
       "badge": "-18%",
       "rating": 4,
-      "reviews": 4210
+      "reviews": 4210,
+      "details": "A gentle daily cleanser that removes dirt, oil, and impurities while keeping the skin balanced and refreshed. Ideal for oily and acne-prone skin."
     },
     {
       "title": "Mini Hydration Boost Serum",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253146/kmxxieyf70zafarvmpjb.jpg",
       "price": 22,
       "rating": 5,
-      "reviews": 1580
+      "reviews": 1580,
+      "details": "A lightweight hydrating serum that instantly boosts moisture levels and restores skin softness. Perfect for dry or dehydrated skin."
+
     },
     {
       "title": "Cooling Eye Roll-On",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253162/amtbdtiz4rkxrv3im9um.jpg",
       "price": 24,
       "rating": 4,
-      "reviews": 990
+      "reviews": 990,
+      "details": "A refreshing roll-on treatment that cools tired eyes, reduces puffiness, and improves circulation around the eye area."
+
     },
     {
       "title": "Balancing Toner Mist",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253140/omp4vi9pqr4w23ifppct.jpg",
       "price": 21,
       "rating": 4,
-      "reviews": 2043
+      "reviews": 2043,
+      "details": "A soothing toner mist that helps balance skin pH, tighten pores, and refresh skin throughout the day."
+
     },
     {
       "title": "Lightweight Daily Sunscreen SPF 30",
@@ -131,28 +148,36 @@
       "oldPrice": 29,
       "badge": "-20%",
       "rating": 5,
-      "reviews": 3685
+      "reviews": 3685,
+      "details": "A non-greasy sunscreen that provides broad-spectrum protection against UVA/UVB rays while keeping skin hydrated."
+
     },
     {
       "title": "Gentle Exfoliating Scrub",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778173773/vxol6vqnlxmgb8imtgm1.jpg",
       "price": 18,
       "rating": 4,
-      "reviews": 1420
+      "reviews": 1420,
+      "details": "A mild exfoliating scrub that removes dead skin cells and smoothens skin texture without irritation."
+
     },
     {
       "title": "Sheet mask",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778173769/wd1pfmv9q2g6hm4sbw0l.jpg",
       "price": 18,
       "rating": 4,
-      "reviews": 1420
+      "reviews": 1420,
+      "details": "A nourishing sheet mask that deeply hydrates and revitalizes dull skin for an instant glow."
+
     },
     {
       "title": "valeriia_miller_ordinary",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778173770/jllrgdusrukbshfemjmx.jpg",
       "price": 18,
       "rating": 4,
-      "reviews": 1420
+      "reviews": 1420,
+      "details": "A minimalist skincare formula designed for simple, effective skin maintenance and everyday use."
+
     }
   ],
   "features": [
