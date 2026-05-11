@@ -1,6 +1,8 @@
 import React from "react";
 
 const Footer = ({ footer }) => {
+  if (!footer) return null;
+
   return (
     <footer className="bg-white border-t mt-10 py-12 px-5 md:px-10">
 
@@ -8,18 +10,21 @@ const Footer = ({ footer }) => {
 
         <div>
           <h3 className="text-2xl font-semibold mb-4">
-            {footer.company.title}
+            {footer.company?.title}
           </h3>
 
           <p className="text-sm text-gray-500 mb-3">
-            {footer.company.location}
+            {footer.company?.location}
           </p>
 
-          <p className="text-sm text-black font-semibold">
-          </p>
+          {footer.company?.phone && (
+            <p className="text-sm text-black font-semibold">
+              {footer.company.phone}
+            </p>
+          )}
 
           <p className="text-sm text-gray-500 mt-1">
-            {footer.company.email}
+            {footer.company?.email}
           </p>
         </div>
 
@@ -29,10 +34,10 @@ const Footer = ({ footer }) => {
           </h3>
 
           <ul className="space-y-2 text-sm text-gray-500">
-            {footer?.usefulLinks?.map((link, index) => (
+            {footer.usefulLinks?.map((link, index) => (
               <li
                 key={index}
-                className="hover:underline cursor-pointer transition"
+                className="hover:text-black hover:underline cursor-pointer transition"
               >
                 {link}
               </li>
@@ -46,10 +51,10 @@ const Footer = ({ footer }) => {
           </h3>
 
           <ul className="space-y-2 text-sm text-gray-500">
-            {footer?.informationLinks?.map((link, index) => (
+            {footer.informationLinks?.map((link, index) => (
               <li
                 key={index}
-                className=" hover:underline cursor-pointer transition"
+                className="hover:text-black hover:underline cursor-pointer transition"
               >
                 {link}
               </li>
@@ -68,12 +73,13 @@ const Footer = ({ footer }) => {
               "https://img.icons8.com/color/48/mastercard.png",
               "https://img.icons8.com/color/48/paypal.png",
               "https://img.icons8.com/color/48/apple-pay.png"
-            ].map((src, index) => (
+            ].map((src) => (
               <img
-                key={index}
+                key={src}
                 src={src}
                 alt="payment method"
-                className="w-10 h-10 object-contain hover:scale-105 transition"
+                className="w-10 h-10 object-contain hover:scale-110 transition"
+                loading="lazy"
               />
             ))}
           </div>

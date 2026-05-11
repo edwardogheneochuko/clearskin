@@ -6,16 +6,19 @@ import { useNavigate } from "react-router-dom";
 import content from "@/assets/data/content.json";
 import useCartStore from "@/store/cartStore";
 import MobileSidebar from "./MobileNav";
-import { allProducts } from "../../utils/product"
+import { allProducts } from "../../utils/product";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [search, setSearch] = useState("");
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [timeoutId, setTimeoutId] = useState(null);
 
   const navigate = useNavigate();
   const cart = useCartStore((state) => state.cart);
+
+  const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   const filteredProducts = useMemo(() => {
     if (!search.trim()) return [];
@@ -39,7 +42,7 @@ const Navbar = () => {
           <Menu />
         </button>
 
-        <h1 onClick={() => navigate('/')} className="text-3xl font-semibold cursor-pointer">
+        <h1 onClick={() => navigate("/")} className="text-3xl font-semibold cursor-pointer">
           Clear<span className="text-pink-400">Skin</span>
         </h1>
 
@@ -54,7 +57,6 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-4">
 
           <div className="relative">
-
             <input
               value={search}
               onFocus={() => setShowSearchResults(true)}
@@ -67,7 +69,6 @@ const Navbar = () => {
 
             {showSearchResults && search && (
               <div className="absolute top-full mt-3 w-full bg-white shadow-xl rounded-xl max-h-96 overflow-y-auto">
-
                 {filteredProducts.map((product) => (
                   <div
                     key={product.id}
@@ -85,10 +86,8 @@ const Navbar = () => {
                     </div>
                   </div>
                 ))}
-
               </div>
             )}
-
           </div>
 
           {content.icons.map((icon, idx) => (
@@ -96,34 +95,44 @@ const Navbar = () => {
               key={idx}
               className="relative"
               onMouseEnter={() => setActiveDropdown(idx)}
-              onMouseLeave={() => setActiveDropdown(null)}
+              onMouseLeave={() => {
+                const id = setTimeout(() => setActiveDropdown(null), 200);
+                setTimeoutId(id);
+              }}
             >
-
-              <button onClick={() => navigate(icon.subItems?.[0]?.link || "/")}>
-                <img src={icon.src} className="w-7 h-7" />
+              <button
+                onClick={() => navigate(icon.subItems?.[0]?.link || "/")}
+                className={icon.class}
+                onMouseEnter={() => {
+                  if (timeoutId) clearTimeout(timeoutId);
+                  setActiveDropdown(idx);
+                }}
+              >
+                <img src={icon.src} alt={icon.alt} className="w-7 h-7" />
               </button>
 
-              {activeDropdown === idx && icon.subItems && (
-                <div className="absolute right-0 top-full mt-2 bg-white shadow-xl rounded-xl p-2 min-w-[160px]">
+              {icon.alt === "cart" && cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                  {cartCount}
+                </span>
+              )}
 
+              {activeDropdown === idx && icon.subItems && (
+                <div className="absolute right-0 top-full mt-2 bg-white shadow-xl rounded-xl p-2 min-w-[160px] z-50">
                   {icon.subItems.map((item, i) => (
                     <button
                       key={i}
                       onClick={() => handleItemClick(item)}
-                      className="block w-full text-left px-4 py-2 hover:bg-pink-50"
+                      className="block w-full text-left px-4 py-2 hover:bg-pink-50 rounded-md"
                     >
                       {item.label}
                     </button>
                   ))}
-
                 </div>
               )}
-
             </div>
           ))}
-
         </div>
-
       </div>
 
       <AnimatePresence>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import "../src/App.css"
 
 import Layout from "./components/layout/Layout";
@@ -14,8 +14,10 @@ import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 
 export default function App() {
+    const location = useLocation();
+
   return (
-    <Routes>
+    <Routes location={location} key={location.pathname}>
 
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />

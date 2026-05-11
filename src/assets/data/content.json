@@ -1,29 +1,36 @@
+
 {
   "navItems": [
     { "title": "Collection", "target": "collection" },
     { "title": "Shop", "target": "shop" },
-    { "title": "Offer", "target": "offer"},
-    { "title": "Blog", "target": "blog"}
+    { "title": "Offer", "target": "offer" },
+    { "title": "Blog", "target": "blog" }
   ],
+
   "essentials": [
     {
+      "id": 1,
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253151/p14iuf26wjflwf69j6ag.png",
       "text": "Daily Essentials",
-      "price":"Starting at $12.99"
+      "price": "Starting at $12.99"
     },
     {
+      "id": 2,
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253150/flb1vsyllw5nozm9cx0h.png",
       "text": "New & Noted",
       "price": "Fresh formulas just launched"
     },
     {
+      "id": 3,
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253153/g0i8hqm9lryejkav8gql.png",
       "text": "Simple Sets",
       "price": "Save more with curated bundles"
     }
   ],
+
   "hero": [
     {
+      "id": 1,
       "title": "Clear Skin.<br />Simply Better.",
       "text": "Thoughtfully formulated skincare made with clean ingredients for real, everyday results.",
       "price": "Starting at $9.99",
@@ -31,6 +38,7 @@
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253161/zzuelsmk55mrzmh99qfm.png"
     },
     {
+      "id": 2,
       "title": "Pure Care.<br />Visible Results.",
       "text": "Minimal formulas inspired by dermatology, designed to support healthy, balanced skin.",
       "price": "Starting at $9.99",
@@ -38,6 +46,7 @@
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253141/x0a2ho8lvhem0tb9cwsj.jpg"
     },
     {
+      "id": 3,
       "title": "Confidence Starts<br />with Clear.",
       "text": "Gentle, effective skincare that fits seamlessly into your daily routine.",
       "price": "Starting at $9.99",
@@ -45,8 +54,10 @@
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253163/eqsms9bvpddh3dil047i.png"
     }
   ],
+
   "products": [
     {
+      "id": 1,
       "title": "Gentle Foam Facial Cleanser",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253157/kpec10u3shxyiqfbdsiv.jpg",
       "price": 32,
@@ -54,35 +65,37 @@
       "badge": "-25%",
       "rating": 5,
       "reviews": 6421,
-      "details": "A gentle daily cleanser that removes dirt, oil, and makeup without stripping your skin. Infused with soothing botanical extracts to keep skin soft, hydrated, and refreshed. Perfect for sensitive and combination skin types."
+      "details": "A gentle daily cleanser that removes dirt, oil, and makeup without stripping your skin."
     },
     {
+      "id": 2,
       "title": "Vitamin C Brightening Serum",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253158/y3jbqmyd3ttlsdwhad13.jpg",
       "price": 35,
       "rating": 4,
       "reviews": 3890,
-      "details": "A powerful Vitamin C serum designed to brighten dull skin, even out skin tone, and reduce dark spots. Packed with antioxidants, it helps protect the skin from environmental damage while boosting natural radiance. Lightweight and fast-absorbing, it works well for daily use and suits most skin types, especially dull or uneven skin."
+      "details": "Brightens skin, evens tone, and reduces dark spots."
     },
     {
+      "id": 3,
       "title": "Caffeine Repair Eye Cream",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253158/p8qvwvvjoup1klpa1kub.jpg",
       "price": 28,
       "rating": 5,
       "reviews": 5170,
-      "details": "A lightweight eye cream infused with caffeine to reduce puffiness, dark circles, and tired-looking eyes. Helps refresh and brighten the under-eye area for a more awake and youthful appearance."
-
+      "details": "Reduces puffiness, dark circles, and tired eyes."
     },
     {
+      "id": 4,
       "title": "Hydrating Daily Moisturizer",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253159/g4m4noluiezwat29nxk9.jpg",
       "price": 30,
       "rating": 4,
       "reviews": 2745,
-      "details": "A fast-absorbing daily moisturizer that deeply hydrates the skin without feeling heavy or greasy. Strengthens the skin barrier and keeps skin soft, smooth, and nourished all day."
-
+      "details": "Deep hydration without greasiness."
     },
     {
+      "id": 5,
       "title": "Overnight Renewal Face Mask",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253160/i6v8qmgnmeybutsumsyg.jpg",
       "price": 38,
@@ -90,21 +103,22 @@
       "badge": "-16%",
       "rating": 5,
       "reviews": 1986,
-      "details": "An overnight treatment mask that works while you sleep to renew dull skin, improve texture, and boost glow. Wakes you up with softer, more radiant skin."
-
+      "details": "Repairs skin overnight for a fresh glow."
     },
     {
+      "id": 6,
       "title": "Soothing Aloe Gel Cleanser",
       "image": "./assets/images/product-06.jpg",
       "price": 26,
       "rating": 4,
       "reviews": 3120,
-      "details": "A gentle gel cleanser powered by aloe vera to calm, cleanse, and refresh the skin. Removes dirt and excess oil without stripping moisture."
-
+      "details": "Gentle aloe cleanser for calming skin."
     }
   ],
+
   "under25Products": [
     {
+      "id": 7,
       "title": "Daily Purifying Face Wash",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253161/jqmsqxuuzg2plevw6zub.jpg",
       "price": 19,
@@ -112,151 +126,115 @@
       "badge": "-18%",
       "rating": 4,
       "reviews": 4210,
-      "details": "A gentle daily cleanser that removes dirt, oil, and impurities while keeping the skin balanced and refreshed. Ideal for oily and acne-prone skin."
+      "details": "Removes oil and impurities while balancing skin."
     },
     {
+      "id": 8,
       "title": "Mini Hydration Boost Serum",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253146/kmxxieyf70zafarvmpjb.jpg",
       "price": 22,
       "rating": 5,
       "reviews": 1580,
-      "details": "A lightweight hydrating serum that instantly boosts moisture levels and restores skin softness. Perfect for dry or dehydrated skin."
-
+      "details": "Instant hydration boost for dry skin."
     },
     {
+      "id": 9,
       "title": "Cooling Eye Roll-On",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253162/amtbdtiz4rkxrv3im9um.jpg",
       "price": 24,
       "rating": 4,
       "reviews": 990,
-      "details": "A refreshing roll-on treatment that cools tired eyes, reduces puffiness, and improves circulation around the eye area."
-
+      "details": "Reduces puffiness and refreshes eyes."
     },
     {
+      "id": 10,
       "title": "Balancing Toner Mist",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253140/omp4vi9pqr4w23ifppct.jpg",
       "price": 21,
       "rating": 4,
       "reviews": 2043,
-      "details": "A soothing toner mist that helps balance skin pH, tighten pores, and refresh skin throughout the day."
-
+      "details": "Balances skin pH and tightens pores."
     },
     {
-      "title": "Lightweight Daily Sunscreen SPF 30",
+      "id": 11,
+      "title": "Lightweight Sunscreen SPF 30",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253140/bmk2ipd4hdtnsbwtcmfq.jpg",
       "price": 23,
       "oldPrice": 29,
       "badge": "-20%",
       "rating": 5,
       "reviews": 3685,
-      "details": "A non-greasy sunscreen that provides broad-spectrum protection against UVA/UVB rays while keeping skin hydrated."
-
+      "details": "Protects skin from UV damage."
     },
     {
+      "id": 12,
       "title": "Gentle Exfoliating Scrub",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778173773/vxol6vqnlxmgb8imtgm1.jpg",
       "price": 18,
       "rating": 4,
       "reviews": 1420,
-      "details": "A mild exfoliating scrub that removes dead skin cells and smoothens skin texture without irritation."
-
+      "details": "Smooths skin and removes dead cells."
     },
     {
-      "title": "Sheet mask",
+      "id": 13,
+      "title": "Sheet Mask",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778173769/wd1pfmv9q2g6hm4sbw0l.jpg",
       "price": 18,
       "rating": 4,
       "reviews": 1420,
-      "details": "A nourishing sheet mask that deeply hydrates and revitalizes dull skin for an instant glow."
-
+      "details": "Hydrating sheet mask for glow."
     },
     {
-      "title": "valeriia_miller_ordinary",
+      "id": 14,
+      "title": "Valeriia Miller Ordinary",
       "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778173770/jllrgdusrukbshfemjmx.jpg",
       "price": 18,
       "rating": 4,
       "reviews": 1420,
-      "details": "A minimalist skincare formula designed for simple, effective skin maintenance and everyday use."
+      "details": "Simple everyday skincare formula."
+    }
+  ],
 
-    }
-  ],
-  "features": [
+  "icons": [
     {
-      "title": "Guaranteed PURE",
-      "text": "All Clear formulations adhere to strict purity standards and will never contain harsh or toxic ingredients.",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253151/evfz8pcsgqrurmutcomx.jpg",
-      "alt": "Guaranteed PURE"
+      "id": 1,
+      "src": "https://img.icons8.com/dotty/80/person-male.png",
+      "alt": "user",
+      "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200",
+      "subItems": [
+        { "label": "Login", "link": "/login", "type": "action" },
+        { "label": "Signup", "link": "/signup", "type": "action" }
+      ]
     },
     {
-      "title": "Completely Cruelty-Free",
-      "text": "All Clear products are cruelty-free and never tested on animals.",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253152/uusl65dwkfclmdy33a6j.jpg",
-      "alt": "Completely Cruelty-Free"
+      "id": 2,
+      "src": "https://img.icons8.com/comic/100/shopping-cart.png",
+      "alt": "cart",
+      "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200",
+      "subItems": [
+        { "label": "Check Cart", "link": "/cart" },
+        { "label": "Check Favorite", "link": "/favorites" },
+        { "label": "Starred Items", "link": "/starred" }
+      ]
     },
     {
-      "title": "Ingredient Sourcing",
-      "text": "We carefully source high-quality ingredients from trusted suppliers worldwide.",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253152/uupomdabtiyrf5aybawd.jpg",
-      "alt": "Ingredient Sourcing"
-    }
-  ],
-  "blogs": [
-    {
-      "title": "Find a Store",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253142/yguselu3ejlbipbuhz75.jpg",
-      "linkText": "Our Store",
-      "alt": "Find a Store"
-    },
-    {
-      "title": "From Our Blog",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253144/ccdpfm06jq8qfuiwmgnc.jpg",
-      "linkText": "Read Blog",
-      "alt": "From Our Blog"
-    },
-    {
-      "title": "Our Story",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253144/tjyt0tbnlvhvlviz5ux9.jpg",
-      "linkText": "Learn More",
-      "alt": "Our Story"
+      "id": 3,
+      "src": "https://img.icons8.com/ios/50/money-bag.png",
+      "alt": "money",
+      "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200",
+      "subItems": [
+        { "label": "Funds", "link": "/funds", "disabled": false }
+      ]
     }
   ],
   "footer": {
     "company": {
       "title": "Company",
       "location": "Find a location nearest you. See Our Stores",
-      "phone": "+234 (0)xo xoxo xoxo",
       "email": "clearskin@email.com"
     },
     "usefulLinks": ["New Products", "Best Sellers", "Bundle & Save", "Online Gift Card"],
     "informationLinks": ["Start a Return", "Contact Us", "Shipping FAQ", "Terms & Conditions", "Privacy Policy"]
-  },
-  "icons": [
-  {
-    "src": "https://img.icons8.com/dotty/80/person-male.png",
-    "alt": "user",
-    "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200",
-    "subItems": [
-      { "label": "Login", "link": "/login", "type": "action" },
-      { "label": "Signup", "link": "/signup", "type": "action" }
-    ]
-  },
-  {
-    "src": "https://img.icons8.com/comic/100/shopping-cart.png",
-    "alt": "cart",
-    "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200",
-    "subItems": [
-      { "label": "Check Favorite", "link": "/favorites" },
-      { "label": "Starred Items", "link": "/starred" }
-    ]
-  },
-  {
-    "src": "https://img.icons8.com/ios/50/money-bag.png",
-    "alt": "money",
-    "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200",
-    "subItems": [
-      { "label": "Funds", "link": "/funds", "disabled": false }
-    ]
   }
-]
 }
 
