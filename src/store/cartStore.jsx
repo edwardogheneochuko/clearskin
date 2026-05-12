@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 const useCartStore = create((set, get) => ({
   cart: [],
+  favorites: [],
 
   addToCart: (product) => {
     const cart = get().cart;
@@ -41,7 +42,8 @@ const useCartStore = create((set, get) => ({
 
   decreaseQty: (id) => {
     set({
-      cart: get().cart
+      cart: get()
+        .cart
         .map((item) =>
           item.id === id
             ? { ...item, quantity: item.quantity - 1 }
@@ -52,6 +54,26 @@ const useCartStore = create((set, get) => ({
   },
 
   clearCart: () => set({ cart: [] }),
+
+  addToFavorites: (product) => {
+    const favorites = get().favorites;
+
+    const exists = favorites.some((item) => item.id === product.id);
+
+    if (exists) return;
+
+    set({
+      favorites: [...favorites, product],
+    });
+  },
+
+  removeFromFavorites: (id) => {
+    set({
+      favorites: get().favorites.filter((item) => item.id !== id),
+    });
+  },
+
+  clearFavorites: () => set({ favorites: [] }),
 }));
 
 export default useCartStore;

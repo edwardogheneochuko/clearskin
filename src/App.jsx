@@ -9,9 +9,11 @@ import Explore from "./pages/Explore";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
-
+ 
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
+import BlogDetails from "./components/blog/BlogDetails";
+import Favorite from "./pages/Favorite";
 
 export default function App() {
     const location = useLocation();
@@ -22,6 +24,8 @@ export default function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/explore" element={<Explore />} />
+        <Route path="/favorites" element={<Favorite />} />
+        <Route path="/blog/:slug" element={<BlogDetails />} />
         <Route path="/product/:slug" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/cart/checkout" element={<Checkout />} />

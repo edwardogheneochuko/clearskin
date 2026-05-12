@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import { ShoppingBag, Star, Repeat } from "lucide-react";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 import useCartStore from "../../store/cartStore";
 
 const ProductCard = ({ item, index, hero }) => {
   const [hovered, setHovered] = useState(false);
 
-  const addToCart = useCartStore((state) => state.addToCart);
+const addToCart = useCartStore((state) => state.addToCart);
+const addToFavorites = useCartStore((state) => state.addToFavorites);
+const favorites = useCartStore((state) => state.favorites);
 
+const isFav = favorites.some((f) => f.id === item.id);
+  
   const cardVariants = {
     hidden: { opacity: 0, y: 40 },
     visible: {
@@ -21,11 +26,40 @@ const ProductCard = ({ item, index, hero }) => {
     },
   };
 
-  const actionIcons = [
-    { icon: <ShoppingBag size={24} />, key: "bag" },
-    { icon: <Star size={24} />, key: "star" },
-    { icon: <Repeat size={24} />, key: "repeat" },
-  ];
+ const actionIcons = [
+  {
+    icon: (
+      <ShoppingBag
+        size={24}
+      />
+    ),
+    key: "bag",
+    action: () => {
+      addToCart(item);
+      toast.success("Added to cart 🛒");
+    },
+  },
+  {
+    icon: (
+      <Star
+        size={24}
+        className={isFav ? "text-pink-500 fill-pink-500" : ""}
+      />
+    ),
+    key: "star",
+    action: () => {
+      addToFavorites(item);
+      toast.success("Added to favorites ❤️");
+    },
+  },
+  {
+    icon: <Repeat size={24} />,
+    key: "repeat",
+    action: () => {
+      toast("Compare feature coming soon");
+    },
+  },
+];
 
   const iconVariants = {
     hidden: { opacity: 0, x: 20 },
@@ -68,8 +102,10 @@ const ProductCard = ({ item, index, hero }) => {
 
         <div className="absolute top-2 sm:top-3 right-2 sm:right-3 flex flex-col gap-1 sm:gap-2">
           {actionIcons.map((iconData, i) => (
-            <motion.div
+            <motion.button
               key={iconData.key}
+              onClick={iconData.action}
+              type="button"
               custom={i}
               variants={iconVariants}
               initial="hidden"
@@ -78,7 +114,7 @@ const ProductCard = ({ item, index, hero }) => {
               className="cursor-pointer text-black hover:text-green-900"
             >
               {iconData.icon}
-            </motion.div>
+            </motion.button>
           ))}
         </div>
 

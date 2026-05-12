@@ -107,15 +107,14 @@
     },
     {
       "id": 6,
-      "title": "Soothing Aloe Gel Cleanser",
-      "image": "./assets/images/product-06.jpg",
+      "title": "Ela De Pure",
+      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778574446/hmo1ybbgg4sgwzlzvgoo.jpg",
       "price": 26,
       "rating": 4,
       "reviews": 3120,
-      "details": "Gentle aloe cleanser for calming skin."
+      "details": "Facial cleanser for calming skin, hydrating formula, gentle and effective, natural extracts"
     }
   ],
-
   "under25Products": [
     {
       "id": 7,
@@ -235,6 +234,47 @@
     },
     "usefulLinks": ["New Products", "Best Sellers", "Bundle & Save", "Online Gift Card"],
     "informationLinks": ["Start a Return", "Contact Us", "Shipping FAQ", "Terms & Conditions", "Privacy Policy"]
+  },
+  "blogs": [
+  {
+    "id": 1,
+    "title": "5 Simple Steps for Clearer Skin",
+    "slug": "5-simple-steps-for-clearer-skin",
+    "image": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop",
+    "linkText": "Read Article",
+    "alt": "Skincare routine",
+    "category": "Skincare Tips",
+    "author": "ClearSkin Team",
+    "date": "May 12, 2026",
+    "description": "Discover a beginner-friendly skincare routine designed to help reduce breakouts, control oil, and improve your skin texture naturally.",
+    "content": "Healthy skin starts with consistency. Begin with a gentle cleanser to remove dirt and oil, follow with a hydrating serum, apply moisturizer to strengthen your skin barrier, and never skip sunscreen during the day. At night, use nourishing products that support skin repair while you sleep. Building a simple routine and staying consistent can significantly improve your skin over time."
+  },
+  {
+    "id": 2,
+    "title": "Why Vitamin C Belongs in Your Routine",
+    "slug": "why-vitamin-c-belongs-in-your-routine",
+    "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=1200&auto=format&fit=crop",
+    "linkText": "Discover More",
+    "alt": "Vitamin C serum",
+    "category": "Ingredients",
+    "author": "ClearSkin Team",
+    "date": "May 10, 2026",
+    "description": "Learn how Vitamin C helps brighten dull skin, reduce dark spots, and protect against environmental damage.",
+    "content": "Vitamin C is one of the most effective skincare ingredients for brightening and evening out skin tone. It works as a powerful antioxidant that protects the skin from pollution and sun damage while supporting collagen production. When used consistently, Vitamin C serums can improve radiance, fade acne marks, and give the skin a healthier glow."
+  },
+  {
+    "id": 3,
+    "title": "Night Routine for Glowing Skin",
+    "slug": "night-routine-for-glowing-skin",
+    "image": "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop",
+    "linkText": "Explore Tips",
+    "alt": "Night skincare routine",
+    "category": "Routine",
+    "author": "ClearSkin Team",
+    "date": "May 8, 2026",
+    "description": "Your nighttime skincare routine plays a huge role in hydration, repair, and overall skin health.",
+    "content": "Nighttime is when your skin naturally repairs itself, making it the perfect time to use nourishing skincare products. Start with cleansing away makeup and impurities, then apply treatment serums or masks before sealing everything in with a moisturizer. Ingredients like hyaluronic acid, niacinamide, and peptides work especially well overnight."
   }
+]
 }
 

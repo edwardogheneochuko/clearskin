@@ -56,15 +56,15 @@ const HeroSection = ({ hero = [] }) => {
             transition={{ duration: 0.7, ease: "easeInOut" }}
           >
             <h1
-              className="text-5xl font-semibold leading-tight text-white"
+              className="text-5xl font-semibold leading-tight text-neutral-900"
               dangerouslySetInnerHTML={{ __html: current.title }}
             />
 
-            <p className="text-gray-200 text-base md:text-lg mt-5">
+            <p className="text-gray-500 text-base md:text-lg mt-5">
               {current.text}
             </p>
 
-            <h3 className="mt-6 text-lg md:text-xl font-semibold text-white">
+            <h3 className="mt-6 text-lg md:text-xl font-semibold text-neutral-900">
               {current.price}
             </h3>
 

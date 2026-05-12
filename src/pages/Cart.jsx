@@ -12,7 +12,7 @@ const Cart = () => {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
-  
+
 
   return (
     <div className="min-h-screen px-4 md:px-10 py-10 mt-20 bg-gray-50">
@@ -23,8 +23,7 @@ const Cart = () => {
         {cart.length > 0 && (
           <button
             onClick={clearCart}
-            className="text-sm font-medium text-red-500 hover:text-red-600"
-          >
+            className="text-sm font-medium text-red-500 hover:text-red-60 cursor-pointer">
             Clear Cart
           </button>
         )}
@@ -77,7 +76,7 @@ const Cart = () => {
 
                       <button
                         onClick={() => decreaseQty(item.id)}
-                        className="w-8 h-8 border rounded-lg hover:bg-gray-100"
+                        className="w-8 h-8 border rounded-lg hover:bg-gray-100 cursor-pointer"
                       >
                         -
                       </button>
@@ -88,7 +87,7 @@ const Cart = () => {
 
                       <button
                         onClick={() => increaseQty(item.id)}
-                        className="w-8 h-8 border rounded-lg hover:bg-gray-100"
+                        className="w-8 h-8 border rounded-lg hover:bg-gray-100 cursor-pointer"
                       >
                         +
                       </button>
@@ -99,7 +98,7 @@ const Cart = () => {
 
                 <button
                   onClick={() => removeFromCart(item.id)}
-                  className="text-red-500 text-sm font-medium hover:text-red-600"
+                  className="text-red-500 cursor-pointer text-sm font-medium hover:text-red-600"
                 >
                   Remove
                 </button>
@@ -128,7 +127,8 @@ const Cart = () => {
               <span>${total.toFixed(2)}</span>
             </div>
 
-            <button className="w-full mt-6 bg-black text-white py-3 rounded-xl hover:opacity-90 transition">
+            <button className="w-full mt-6 bg-black text-white py-3 cursor-pointer
+             rounded-xl hover:opacity-90 transition">
               Proceed to Checkout
             </button>
           </div>

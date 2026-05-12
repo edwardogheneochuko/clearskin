@@ -19,11 +19,8 @@ const containerVariants = {
 const Explore = () => {
   const navigate = useNavigate();
 
-  // ✅ GLOBAL CART (NOT LOCAL STATE)
-  const addToCart = useCartStore((state) => state.addToCart);
 
   const sections = [
-    { title: "Essentials", data: content.essentials },
     { title: "Products", data: content.products },
     { title: "Under $25", data: content.under25Products },
   ];
@@ -31,7 +28,6 @@ const Explore = () => {
   return (
     <div className="px-4 md:px-10 py-22">
 
-      {/* HEADER */}
       <motion.h1
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -45,10 +41,8 @@ const Explore = () => {
         Homepage
       </motion.h1>
 
-      {/* SECTIONS */}
       {sections.map((section, i) => (
-        <div key={i} className="mb-14">
-
+        <div key={i} className="mb-14">  
           <h2 className="text-2xl font-semibold mb-5">
             {section.title}
           </h2>
@@ -66,7 +60,6 @@ const Explore = () => {
                 item={item}
                 index={idx}
                 hero={false}
-                addToCart={addToCart}
               />
             ))}
           </motion.div>

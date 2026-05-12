@@ -38,7 +38,7 @@ const Home = () => {
       </section>
 
       <section id="blog" className="w-full mt-8 sm:mt-10">
-        <BlogSection blogs={blogs} />
+        <BlogSection blogs={content.blogs} />
       </section>
 
     </div>

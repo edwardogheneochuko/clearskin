@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import content from "@/assets/data/content.json";
 import { allProducts } from "../../utils/product";
+import useCartStore from "@/store/cartStore";
 
 const MobileSidebar = ({
   isOpen,
@@ -16,8 +17,33 @@ const MobileSidebar = ({
   const navigate = useNavigate();
   const [activeIcon, setActiveIcon] = useState(null);
 
+  const cart = useCartStore((state) => state.cart);
+
+  const cartCount = cart.reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
+  
+  useEffect(() => {
+  const handleResize = () => {
+    if (window.innerWidth >= 768) {
+      setIsOpen(false);
+    }
+  };
+
+  window.addEventListener("resize", handleResize);
+
+  return () => {
+    window.removeEventListener("resize", handleResize);
+  };
+}, [setIsOpen]);
+
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "auto";
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [isOpen]);
 
   const filteredProducts = useMemo(() => {
@@ -35,33 +61,33 @@ const MobileSidebar = ({
   return (
     <>
       <div
-        className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+        className="fixed md:hidden inset-0 bg-black/40 backdrop-blur-sm z-40"
         onClick={() => setIsOpen(false)}
       />
 
       <motion.div
-        className="fixed top-0 left-0 w-3/4 h-full bg-white z-50 p-5 overflow-y-auto"
+        className="fixed md:hidden top-0 left-0 w-3/4 h-full bg-white z-50 p-5 overflow-y-auto"
         initial={{ x: "-100%" }}
         animate={{ x: 0 }}
         exit={{ x: "-100%" }}
-      >
+        transition={{ duration: 0.3 }}>
 
         <div className="flex justify-between items-center mb-5">
-          <h2 className="text-xl font-semibold">
+          <h2 className="text-3xl font-semibold">
             Clear<span className="text-pink-400">Skin</span>
           </h2>
 
-          <button onClick={() => setIsOpen(false)}>
+          <button className="cursor-pointer" onClick={() => setIsOpen(false)}>
             <X size={24} />
           </button>
         </div>
 
-        <div className="relative mb-5">
+        <div className="relative mt-10 mb-5">
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search products..."
-            className="w-full border rounded-full px-4 py-2 pr-10"
+            className="w-full border rounded-full px-4 py-2 pr-10 outline-none"
           />
 
           <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -81,10 +107,11 @@ const MobileSidebar = ({
                     setSearch("");
                     setIsOpen(false);
                   }}
-                  className="flex gap-3 p-3 hover:bg-pink-50 cursor-pointer"
+                  className="flex gap-3 p-3 hover:bg-pink-50 cursor-pointer transition"
                 >
                   <img
                     src={product.image}
+                    alt={product.title}
                     className="w-12 h-12 rounded object-cover"
                   />
 
@@ -92,6 +119,7 @@ const MobileSidebar = ({
                     <p className="text-sm font-medium line-clamp-1">
                       {product.title}
                     </p>
+
                     <p className="text-pink-400 text-sm">
                       ${product.price}
                     </p>
@@ -107,11 +135,11 @@ const MobileSidebar = ({
           </div>
         )}
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
 
           {content.icons.map((icon, idx) => (
             <div
-              key={idx}
+              key={icon.id || idx}
               className="border rounded-xl px-3 py-3 bg-white shadow-sm"
             >
 
@@ -126,17 +154,32 @@ const MobileSidebar = ({
                     }
                   }}
                 >
-                  <img src={icon.src} className="w-7 h-7" />
-                  <span className="font-medium capitalize">
-                    {icon.alt}
-                  </span>
+                  <img
+                    src={icon.src}
+                    alt={icon.alt}
+                    className="w-7 h-7"
+                  />
+
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium capitalize">
+                      {icon.alt}
+                    </span>
+
+                    {icon.alt === "cart" && cartCount > 0 && (
+                      <span className="bg-pink-500 text-white text-xs px-2 py-0.5 rounded-full">
+                        {cartCount}
+                      </span>
+                    )}
+                  </div>
                 </button>
 
                 <button
                   onClick={() =>
-                    setActiveIcon(activeIcon === idx ? null : idx)
+                    setActiveIcon(
+                      activeIcon === idx ? null : idx
+                    )
                   }
-                  className="text-lg font-bold"
+                  className="text-lg font-bold cursor-pointer"
                 >
                   {activeIcon === idx ? "−" : "+"}
                 </button>
@@ -150,7 +193,7 @@ const MobileSidebar = ({
                     <button
                       key={i}
                       onClick={() => handleItemClick(item)}
-                      className="text-left text-sm hover:text-pink-400 transition"
+                      className="text-left text-sm hover:text-pink-400 transition cursor-pointer"
                     >
                       {item.label}
                     </button>

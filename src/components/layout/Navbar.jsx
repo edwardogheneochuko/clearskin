@@ -17,6 +17,7 @@ const Navbar = () => {
 
   const navigate = useNavigate();
   const cart = useCartStore((state) => state.cart);
+  const addToFavorites = useCartStore((state) => state.addToFavorites);
 
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
@@ -37,7 +38,6 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 w-full bg-white shadow-sm z-[9999]">
       <div className="flex justify-between items-center px-4 md:px-8 py-4">
-
         <button onClick={() => setIsOpen(true)} className="md:hidden cursor-pointer">
           <Menu />
         </button>
@@ -96,7 +96,7 @@ const Navbar = () => {
               className="relative"
               onMouseEnter={() => setActiveDropdown(idx)}
               onMouseLeave={() => {
-                const id = setTimeout(() => setActiveDropdown(null), 200);
+                const id = setTimeout(() => setActiveDropdown(null), 300);
                 setTimeoutId(id);
               }}
             >
