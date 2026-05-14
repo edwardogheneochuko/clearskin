@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "../src/App.css";
 
 import Layout from "./components/layout/Layout";
@@ -18,30 +18,21 @@ import Favorite from "./pages/Favorite";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 export default function App() {
-  const location = useLocation();
-
   return (
-    <Routes location={location} key={location.pathname}>
+    <Routes>
       <Route element={<Layout />}>
-      <Route path="/" element={<Home />} />
-      <Route path="/explore" element={<Explore />} />
-      <Route path="/favorites" element={
-            <ProtectedRoute>
-              <Favorite />
-            </ProtectedRoute> } />
-      <Route path="/blog/:slug" element={<BlogDetails />} />
-      <Route path="/product/:slug" element={<ProductDetails />} />
-      <Route path="/cart"
-          element={
-            <ProtectedRoute>
-              <Cart />
-            </ProtectedRoute> }/>
-      <Route path="/cart/checkout"
-          element={
-            <ProtectedRoute>
-              <Checkout />
-            </ProtectedRoute> }/>
+        <Route path="/" element={<Home />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/blog/:slug" element={<BlogDetails />} />
+        <Route path="/product/:slug" element={<ProductDetails />} />
       </Route>
+
+      <Route element={<ProtectedRoute />}>
+        <Route path="/favorites" element={<Favorite />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/cart/checkout" element={<Checkout />} />
+      </Route>
+
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
     </Routes>

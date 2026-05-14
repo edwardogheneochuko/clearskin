@@ -1,10 +1,31 @@
 import { useParams } from "react-router-dom";
-import content from "@/assets/data/content.json";
+import { useMemo } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
+
+import {
+  getBlogBySlug,
+  getRelatedBlogs,
+} from "@/utils/blogUtils";
 
 const BlogDetails = () => {
   const { slug } = useParams();
 
-  const blog = content.blogs.find((item) => item.slug === slug);
+  const blog = getBlogBySlug(slug);
+
+  const relatedBlogs = useMemo(() => {
+    return getRelatedBlogs(blog, 3);
+  }, [blog]);
+
+  if (!slug) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-500">
+        Invalid blog URL
+      </div>
+    );
+  }
 
   if (!blog) {
     return (
@@ -15,39 +36,90 @@ const BlogDetails = () => {
   }
 
   return (
-    <div className="min-h-screen px-4 md:px-10 pt-25">
-      <div className="max-w-5xl mx-auto">
+    <>
+      <Helmet>
+        <title>{blog.title}</title>
+        <meta name="description" content={blog.excerpt || blog.title} />
+        <meta property="og:title" content={blog.title} />
+        <meta property="og:description" content={blog.excerpt || blog.title} />
+        <meta property="og:image" content={blog.image} />
+        <meta property="og:type" content="article" />
+      </Helmet>
 
-        <p className="text-sm text-pink-500 mb-2">
-          {blog.category}
-        </p>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35 }}
+        className="min-h-screen px-4 pt-24 md:px-10"
+      >
+        <div className="mx-auto max-w-5xl">
 
-        <h1 className="text-2xl md:text-4xl font-semibold mb-4 leading-tight">
-          {blog.title}
-        </h1>
+          <p className="mb-2 text-sm text-pink-500">
+            {blog.category}
+          </p>
 
-        <div className="text-sm text-gray-500 mb-6 flex gap-4 flex-wrap">
-          <span>By {blog.author}</span>
-          <span>•</span>
-          <span>{blog.date}</span>
-        </div>
+          <h1 className="mb-4 text-2xl font-semibold md:text-4xl">
+            {blog.title}
+          </h1>
 
-        <div className="flex flex-col md:flex-row gap-8 items-start">
+          <div className="mb-6 flex flex-wrap gap-3 text-sm text-gray-500">
+            <span>By {blog.author}</span>
+            <span>•</span>
+            <span>{blog.date}</span>
+          </div>
 
           <img
             src={blog.image}
             alt={blog.title}
-            className="w-full md:w-1/2 h-64  object-cover rounded-2xl"
+            className="mb-8 h-72 w-full rounded-2xl object-cover"
           />
 
-          <p className="text-gray-700 leading-relaxed text-base whitespace-pre-line md:w-1/2">
-            {blog.content}
-          </p>
+          <div className="prose prose-pink max-w-none">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {blog.content}
+            </ReactMarkdown>
+          </div>
 
+          {relatedBlogs.length > 0 && (
+            <div className="mt-16">
+              <h2 className="mb-6 text-xl font-semibold">
+                Related Articles
+              </h2>
+
+              <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
+                {relatedBlogs.map((item) => (
+                  <motion.div
+                    key={item.slug}
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <a
+                      href={`/blog/${item.slug}`}
+                      className="block overflow-hidden rounded-xl border bg-white shadow-sm transition hover:shadow-md"
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="h-40 w-full object-cover transition hover:scale-105"
+                      />
+
+                      <div className="p-4">
+                        <h3 className="line-clamp-2 text-sm font-medium hover:text-pink-500">
+                          {item.title}
+                        </h3>
+
+                        <p className="mt-2 text-xs text-gray-500">
+                          {item.date}
+                        </p>
+                      </div>
+                    </a>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-
-      </div>
-    </div>
+      </motion.div>
+    </>
   );
 };
 

@@ -1,79 +1,107 @@
 import { create } from "zustand";
 
 const useCartStore = create((set, get) => ({
-  cart: [],
-  favorites: [],
+  carts: {},
+  favorites: {},
 
-  addToCart: (product) => {
-    const cart = get().cart;
+  getCart: (userId) => {
+    return get().carts[userId] || [];
+  },
 
-    const existing = cart.find((item) => item.id === product.id);
+  getFavorites: (userId) => {
+    return get().favorites[userId] || [];
+  },
+
+  addToCart: (userId, product) => {
+    const carts = get().carts;
+    const userCart = carts[userId] || [];
+
+    const existing = userCart.find(
+      (item) => item.id === product.id
+    );
+
+    let updatedCart;
 
     if (existing) {
-      set({
-        cart: cart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        ),
-      });
-    } else {
-      set({
-        cart: [...cart, { ...product, quantity: 1 }],
-      });
-    }
-  },
-
-  removeFromCart: (id) => {
-    set({
-      cart: get().cart.filter((item) => item.id !== id),
-    });
-  },
-
-  increaseQty: (id) => {
-    set({
-      cart: get().cart.map((item) =>
-        item.id === id
-          ? { ...item, quantity: item.quantity + 1 }
+      updatedCart = userCart.map((item) =>
+        item.id === product.id
+          ? {
+              ...item,
+              quantity: item.quantity + 1,
+            }
           : item
-      ),
-    });
-  },
+      );
+    } else {
+      updatedCart = [
+        ...userCart,
+        {
+          ...product,
+          quantity: 1,
+        },
+      ];
+    }
 
-  decreaseQty: (id) => {
     set({
-      cart: get()
-        .cart
-        .map((item) =>
-          item.id === id
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
-        )
-        .filter((item) => item.quantity > 0),
+      carts: {
+        ...carts,
+        [userId]: updatedCart,
+      },
     });
   },
 
-  clearCart: () => set({ cart: [] }),
+  removeFromCart: (userId, productId) => {
+    const carts = get().carts;
+    const userCart = carts[userId] || [];
 
-  addToFavorites: (product) => {
+    set({
+      carts: {
+        ...carts,
+        [userId]: userCart.filter(
+          (item) => item.id !== productId
+        ),
+      },
+    });
+  },
+
+  addToFavorites: (userId, product) => {
     const favorites = get().favorites;
+    const userFavorites =
+      favorites[userId] || [];
 
-    const exists = favorites.some((item) => item.id === product.id);
+    const exists = userFavorites.some(
+      (item) => item.id === product.id
+    );
 
     if (exists) return;
 
     set({
-      favorites: [...favorites, product],
+      favorites: {
+        ...favorites,
+        [userId]: [
+          ...userFavorites,
+          product,
+        ],
+      },
     });
   },
 
-  removeFromFavorites: (id) => {
+  removeFromFavorites: (
+    userId,
+    productId
+  ) => {
+    const favorites = get().favorites;
+    const userFavorites =
+      favorites[userId] || [];
+
     set({
-      favorites: get().favorites.filter((item) => item.id !== id),
+      favorites: {
+        ...favorites,
+        [userId]: userFavorites.filter(
+          (item) => item.id !== productId
+        ),
+      },
     });
   },
-
-  clearFavorites: () => set({ favorites: [] }),
 }));
 
 export default useCartStore;

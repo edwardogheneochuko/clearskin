@@ -1,45 +1,120 @@
 import React from "react";
-import { Trash2, Heart } from "lucide-react";
+import {
+  Trash2,
+  Heart,
+} from "lucide-react";
 
 import useCartStore from "../store/cartStore";
+import useAuthStore from "../store/authStore";
 
 const Favorite = () => {
-  const favorites = useCartStore(
-    (state) => state.favorites
+  // USER
+  const user = useAuthStore(
+    (state) => state.user
   );
 
-  const removeFromFavorites = useCartStore(
-    (state) => state.removeFromFavorites
-  );
+  const userId =
+    user?.uid || "guest";
 
+  // FAVORITES
+  const favoritesMap =
+    useCartStore(
+      (state) => state.favorites
+    );
+
+  const favorites =
+    favoritesMap[userId] || [];
+
+  // ACTIONS
+  const removeFromFavorites =
+    useCartStore(
+      (state) =>
+        state.removeFromFavorites
+    );
+
+  // EMPTY STATE
   if (favorites.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center text-center px-4 py-10">
-
-        <div className="bg-pink-100 p-5 rounded-full mb-5">
+      <div
+        className="
+          min-h-screen
+          flex
+          flex-col
+          items-center
+          justify-center
+          px-4
+          py-10
+          text-center
+        "
+      >
+        <div
+          className="
+            mb-5
+            rounded-full
+            bg-pink-100
+            p-5
+          "
+        >
           <Heart
             size={45}
             className="text-pink-500"
           />
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-semibold">
+        <h1
+          className="
+            text-2xl
+            font-semibold
+            sm:text-3xl
+          "
+        >
           No Favorites Yet
         </h1>
 
-        <p className="text-gray-500 mt-3 text-sm sm:text-base max-w-md leading-relaxed">
-          Products you favorite will appear here.
+        <p
+          className="
+            mt-3
+            max-w-md
+            text-sm
+            leading-relaxed
+            text-gray-500
+            sm:text-base
+          "
+        >
+          Products you favorite
+          will appear here.
         </p>
-
       </div>
     );
   }
 
   return (
-    <div className="px-4 sm:px-6 md:px-10 py-20 md:py-24">
-
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">
+    <div
+      className="
+        px-4
+        py-20
+        sm:px-6
+        md:px-10
+        md:py-24
+      "
+    >
+      {/* HEADER */}
+      <div
+        className="
+          mb-8
+          flex
+          items-center
+          justify-between
+        "
+      >
+        <h1
+          className="
+            text-2xl
+            font-bold
+            sm:text-3xl
+            md:text-4xl
+          "
+        >
           My Favorites
         </h1>
 
@@ -48,83 +123,120 @@ const Favorite = () => {
         </p>
       </div>
 
+      {/* GRID */}
       <div
         className="
           grid
           grid-cols-1
+          gap-6
           sm:grid-cols-2
           lg:grid-cols-3
           xl:grid-cols-4
-          gap-6
         "
       >
-
         {favorites.map((item) => (
           <div
             key={item.id}
             className="
               group
-              border
-              rounded-3xl
               overflow-hidden
+              rounded-3xl
+              border
               bg-white
               shadow-sm
-              hover:shadow-xl
               transition
               duration-300
+              hover:shadow-xl
             "
           >
-
+            {/* IMAGE */}
             <div className="overflow-hidden">
               <img
                 src={item.image}
                 alt={item.title}
                 className="
-                  w-full
                   h-56
-                  sm:h-64
+                  w-full
                   object-cover
-                  group-hover:scale-105
                   transition
                   duration-500
+                  group-hover:scale-105
+                  sm:h-64
                 "
               />
             </div>
 
+            {/* CONTENT */}
             <div className="p-5">
-
-              <h2 className="text-lg sm:text-xl font-semibold line-clamp-1">
+              <h2
+                className="
+                  line-clamp-1
+                  text-lg
+                  font-semibold
+                  sm:text-xl
+                "
+              >
                 {item.title}
               </h2>
 
-              <p className="text-pink-500 font-bold mt-2 text-lg">
+              <p
+                className="
+                  mt-2
+                  text-lg
+                  font-bold
+                  text-pink-500
+                "
+              >
                 ${item.price}
               </p>
 
-              <p className="text-gray-500 text-sm mt-3 line-clamp-3 leading-relaxed">
+              <p
+                className="
+                  mt-3
+                  line-clamp-3
+                  text-sm
+                  leading-relaxed
+                  text-gray-500
+                "
+              >
                 {item.details}
               </p>
 
+              {/* REMOVE BUTTON */}
               <button
                 onClick={() =>
-                  removeFromFavorites(item.id)
+                  removeFromFavorites(
+                    userId,
+                    item.id
+                  )
                 }
                 className="
-                  mt-5 w-full flex items-center justify-center gap-2 bg-black text-white py-3 rounded-xl
-                  hover:bg-red-500 transition duration-300 cursor-pointer text-sm sm:text-base
+                  mt-5
+                  flex
+                  w-full
+                  cursor-pointer
+                  items-center
+                  justify-center
+                  gap-2
+                  rounded-xl
+                  bg-black
+                  py-3
+                  text-sm
+                  text-white
+                  transition
+                  duration-300
+                  hover:bg-red-500
+                  sm:text-base
                 "
               >
                 <Trash2 size={18} />
+
                 Remove Favorite
               </button>
-
             </div>
-
           </div>
         ))}
-
       </div>
-
     </div>
   );
 };
