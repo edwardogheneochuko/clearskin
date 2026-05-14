@@ -1,20 +1,33 @@
-"use client";
-
-import React from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
+import { motion } from "framer-motion";
+import { FcGoogle } from "react-icons/fc";
+import toast from "react-hot-toast";
 
+import { auth, googleProvider } from "../../utils/firebase";
+import useAuthStore from "../../store/authStore";
 
 const loginSchema = z.object({
   email: z.string().email("Enter a valid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-
 const Login = () => {
   const navigate = useNavigate();
+
+  const setUser = useAuthStore((state) => state.setUser);
+
+  const [error, setError] = useState("");
+  const [isSignup, setIsSignup] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -23,90 +36,160 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  const saveUserToStore = () => {
+    const user = auth.currentUser;
+
+    if (user) {
+      setUser({
+        uid: user.uid,
+        email: user.email,
+        name: user.displayName,
+      });
+    }
+  };
+
   const onSubmit = async (data) => {
-    console.log(data);
-    await new Promise((res) => setTimeout(res, 1000));
-    alert("Login successful");
+    setError("");
+
+    try {
+      if (isSignup) {
+        await createUserWithEmailAndPassword(
+          auth,
+          data.email.trim(),
+          data.password
+        );
+
+        toast.success("Account created successfully 🎉");
+      } else {
+        await signInWithEmailAndPassword(
+          auth,
+          data.email.trim(),
+          data.password
+        );
+
+        toast.success("Login successful 👋");
+      }
+
+      saveUserToStore();
+
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+
+      toast.error(
+        err.message.includes("invalid-credential")
+          ? "Invalid email or password"
+          : err.message.includes("user-not-found")
+          ? "User not found"
+          : err.message.includes("email-already-in-use")
+          ? "Email already exists"
+          : "Something went wrong"
+      );
+    }
+  };
+
+  const handleGoogleAuth = async () => {
+    setError("");
+
+    try {
+      await signInWithPopup(auth, googleProvider);
+
+      toast.success("Google login successful 🚀");
+
+      saveUserToStore();
+
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+      toast.error("Google authentication failed");
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
 
-      <section className="w-full max-w-sm bg-white p-6 rounded-2xl shadow-lg">
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-sm bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-gray-100"
+      >
 
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold">Sign In</h1>
-          <button onClick={() => navigate("/")}
-          className="text-gray-400 hover:text-black transition text-lg cursor-pointer">
-            ✕
-          </button>
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold">
+            {isSignup ? "Create Account" : "Sign In"}
+          </h1>
+
+          <p className="text-sm text-gray-500 mt-1">
+            {isSignup
+              ? "Create your account"
+              : "Welcome back, login to continue"}
+          </p>
         </div>
-
-        <p className="text-sm text-gray-500 mb-6">
-          Welcome back. Please enter your details.
-        </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
-          <div>
-            <input
-              type="email"
-              {...register("email")}
-              placeholder="Email address"
-              className="w-full rounded-lg px-4 py-3 bg-gray-100 focus:bg-white
-              focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
-            />
-            {errors.email && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
+          <input
+            type="email"
+            placeholder="Email"
+            {...register("email")}
+            className="w-full px-4 py-3 rounded-xl bg-gray-100 focus:ring-2 focus:ring-pink-400 outline-none"
+          />
+          {errors.email && (
+            <p className="text-red-500 text-xs">
+              {errors.email.message}
+            </p>
+          )}
 
-          <div>
-            <input
-              type="password"
-              {...register("password")}
-              placeholder="Password"
-              className="w-full rounded-lg px-4 py-3 bg-gray-100 focus:bg-white
-              focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
-            />
-            {errors.password && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.password.message}
-              </p>
-            )}
-          </div>
-
-          <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" className="accent-pink-400" />
-              Remember me
-            </label>
-            <a href="#" className="text-pink-400 hover:underline">
-              Forgot password?
-            </a>
-          </div>
+          <input
+            type="password"
+            placeholder="Password"
+            {...register("password")}
+            className="w-full px-4 py-3 rounded-xl bg-gray-100 focus:ring-2 focus:ring-pink-400 outline-none"
+          />
+          {errors.password && (
+            <p className="text-red-500 text-xs">
+              {errors.password.message}
+            </p>
+          )}
 
           <button
-            type="submit"
             disabled={isSubmitting}
-            className="w-full bg-pink-400 text-white py-3 rounded-lg cursor-pointer
-            hover:bg-pink-500 transition font-medium"
+            className="w-full bg-pink-400 text-white py-3 rounded-xl hover:bg-pink-500 transition"
           >
-            {isSubmitting ? "Logging in..." : "Sign In"}
+            {isSubmitting
+              ? "Processing..."
+              : isSignup
+              ? "Sign Up"
+              : "Login"}
           </button>
-
         </form>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
-          Don’t have an account?{" "}
-          <a href="/signup" className="text-pink-400 hover:underline">
-            Sign up
-          </a>
+        <button
+          onClick={handleGoogleAuth}
+          className="w-full mt-4 border py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50"
+        >
+          <FcGoogle className="text-xl" />
+          Continue with Google
+        </button>
+
+        <p className="text-center text-sm mt-6">
+          {isSignup ? "Already have an account?" : "New here?"}{" "}
+          <button
+            onClick={() => setIsSignup(!isSignup)}
+            className="text-pink-400 font-medium"
+          >
+            {isSignup ? "Login" : "Sign up"}
+          </button>
         </p>
 
-      </section>
+        {/* ERROR */}
+        {error && (
+          <p className="text-red-500 text-sm text-center mt-3">
+            {error}
+          </p>
+        )}
+
+      </motion.section>
     </div>
   );
 };

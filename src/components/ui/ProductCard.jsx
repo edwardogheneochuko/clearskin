@@ -36,7 +36,7 @@ const isFav = favorites.some((f) => f.id === item.id);
     key: "bag",
     action: () => {
       addToCart(item);
-      toast.success("Added to cart 🛒");
+      toast.success("Added to cart ");
     },
   },
   {
@@ -49,7 +49,7 @@ const isFav = favorites.some((f) => f.id === item.id);
     key: "star",
     action: () => {
       addToFavorites(item);
-      toast.success("Added to favorites ❤️");
+      toast.success("Added to favorites ");
     },
   },
   {
@@ -169,7 +169,10 @@ const isFav = favorites.some((f) => f.id === item.id);
           </div>
 
           <button
-            onClick={() => addToCart(item)}
+            onClick={() => {
+              addToCart(item)
+              toast.success('Added to cart')
+            }}
             className="mt-2 sm:mt-3 w-full py-2 text-xs sm:text-sm bg-black text-white rounded-lg cursor-pointer opacity-0 group-hover:opacity-100 transition hover:bg-green-900 duration-300"
           >
             Add to Cart

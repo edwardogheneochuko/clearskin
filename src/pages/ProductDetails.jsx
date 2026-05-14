@@ -4,6 +4,7 @@ import { Star } from "lucide-react";
 
 import { allProducts } from "../utils/product";
 import useCartStore from "../store/cartStore";
+import toast from "react-hot-toast";
 
 const ProductDetails = () => {
   const { slug } = useParams();
@@ -55,8 +56,12 @@ const ProductDetails = () => {
           </p>
 
           <button
-            onClick={() => addToCart(product)}
-            className="mt-8 bg-black text-white px-8 py-4 rounded-xl hover:bg-neutral-700 transition"
+            onClick={() => {
+              addToCart(product)
+              toast.success('Add to cart')
+            }}
+            className="mt-8 bg-black cursor-pointer text-white px-8 py-4 rounded-xl
+             hover:bg-neutral-700 transition"
           >
             Add to Cart
           </button>

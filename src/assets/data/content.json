@@ -201,8 +201,8 @@
       "alt": "user",
       "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200",
       "subItems": [
-        { "label": "Login", "link": "/login", "type": "action" },
-        { "label": "Signup", "link": "/signup", "type": "action" }
+        { "label": "Login", "link": "/login", "type": "login" },
+        { "label": "Signup", "link": "/signup", "type": "signup" }
       ]
     },
     {
@@ -212,8 +212,7 @@
       "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200",
       "subItems": [
         { "label": "Check Cart", "link": "/cart" },
-        { "label": "Check Favorite", "link": "/favorites" },
-        { "label": "Starred Items", "link": "/starred" }
+        { "label": "Check Favorite", "link": "/favorites" }
       ]
     },
     {

@@ -1,10 +1,17 @@
-"use client";
-
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signInWithPopup,
+} from "firebase/auth";
+import { motion } from "framer-motion";
+import { FcGoogle } from "react-icons/fc";
+
+import { auth, googleProvider } from "../../utils/firebase";
 
 const signupSchema = z
   .object({
@@ -23,6 +30,8 @@ const signupSchema = z
 const Signup = () => {
   const navigate = useNavigate();
 
+  const [error, setError] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -32,20 +41,59 @@ const Signup = () => {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
+    setError("");
 
-    await new Promise((res) => setTimeout(res, 1000));
+    try {
+      const userCredential =
+        await createUserWithEmailAndPassword(
+          auth,
+          data.email.trim(),
+          data.password
+        );
 
-    alert("Account created successfully");
-    navigate("/login");
+      await updateProfile(userCredential.user, {
+        displayName: data.name,
+      });
+
+      navigate("/login");
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleGoogleSignup = async () => {
+    setError("");
+
+    try {
+      await signInWithPopup(auth, googleProvider);
+
+      navigate("/001");
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <section className="w-full max-w-sm bg-white p-6 rounded-2xl shadow-lg">
-        
+
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-sm bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-gray-100"
+      >
+
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold">Sign Up</h1>
+
+          <div>
+            <h1 className="text-3xl font-bold text-black">
+              Create Account
+            </h1>
+
+            <p className="text-sm text-gray-500 mt-1">
+              Create your account to get started.
+            </p>
+          </div>
 
           <button
             onClick={() => navigate("/")}
@@ -53,21 +101,22 @@ const Signup = () => {
           >
             ✕
           </button>
+
         </div>
 
-        <p className="text-sm text-gray-500 mb-6">
-          Create your account to get started.
-        </p>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-4"
+        >
 
           <div>
             <input
               type="text"
               {...register("name")}
               placeholder="Full name"
-              className="w-full rounded-lg px-4 py-3 bg-gray-100 focus:bg-white
-              focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
+              className="w-full rounded-xl px-4 py-3 bg-gray-100
+              focus:bg-white focus:outline-none
+              focus:ring-2 focus:ring-pink-400 transition"
             />
 
             {errors.name && (
@@ -82,8 +131,9 @@ const Signup = () => {
               type="email"
               {...register("email")}
               placeholder="Email address"
-              className="w-full rounded-lg px-4 py-3 bg-gray-100 focus:bg-white
-              focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
+              className="w-full rounded-xl px-4 py-3 bg-gray-100
+              focus:bg-white focus:outline-none
+              focus:ring-2 focus:ring-pink-400 transition"
             />
 
             {errors.email && (
@@ -98,8 +148,9 @@ const Signup = () => {
               type="password"
               {...register("password")}
               placeholder="Password"
-              className="w-full rounded-lg px-4 py-3 bg-gray-100 focus:bg-white
-              focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
+              className="w-full rounded-xl px-4 py-3 bg-gray-100
+              focus:bg-white focus:outline-none
+              focus:ring-2 focus:ring-pink-400 transition"
             />
 
             {errors.password && (
@@ -114,8 +165,9 @@ const Signup = () => {
               type="password"
               {...register("confirmPassword")}
               placeholder="Confirm password"
-              className="w-full rounded-lg px-4 py-3 bg-gray-100 focus:bg-white
-              focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
+              className="w-full rounded-xl px-4 py-3 bg-gray-100
+              focus:bg-white focus:outline-none
+              focus:ring-2 focus:ring-pink-400 transition"
             />
 
             {errors.confirmPassword && (
@@ -125,25 +177,71 @@ const Signup = () => {
             )}
           </div>
 
-          <button
+          <motion.button
+            whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.01 }}
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-pink-400 text-white py-3 rounded-lg
-            hover:bg-pink-500 transition font-medium"
+            className="w-full bg-pink-400 text-white py-3 rounded-xl
+            hover:bg-pink-500 transition font-medium shadow-md cursor-pointer"
           >
-            {isSubmitting ? "Creating account..." : "Sign Up"}
-          </button>
+            {isSubmitting
+              ? "Creating account..."
+              : "Sign Up"}
+          </motion.button>
 
         </form>
 
+        <div className="relative my-6">
+
+          <div className="border-t border-gray-200" />
+
+          <span
+            className="absolute left-1/2 -translate-x-1/2 -top-3
+            bg-white px-3 text-sm text-gray-400"
+          >
+            OR
+          </span>
+
+        </div>
+
+        <motion.button
+          whileTap={{ scale: 0.97 }}
+          whileHover={{ scale: 1.01 }}
+          onClick={handleGoogleSignup}
+          className="w-full border border-gray-200 py-3 rounded-xl
+          flex items-center justify-center gap-3 hover:bg-gray-50
+          transition cursor-pointer font-medium"
+        >
+
+          <FcGoogle className="text-2xl" />
+
+          Sign up with Google
+
+        </motion.button>
+
+        {error && (
+          <p className="text-red-500 text-sm text-center mt-4">
+            {error}
+          </p>
+        )}
+
         <p className="text-center text-sm text-gray-500 mt-6">
+
           Already have an account?{" "}
-          <a href="/login" className="text-pink-400 hover:underline">
-            Sign in
-          </a>
+
+          <button
+            onClick={() => navigate("/login")}
+            className="text-pink-400 hover:underline
+            cursor-pointer font-medium"
+          >
+            Sign In
+          </button>
+
         </p>
 
-      </section>
+      </motion.section>
+
     </div>
   );
 };
