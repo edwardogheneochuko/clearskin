@@ -1,26 +1,65 @@
 import React from "react";
 import { ShoppingBag, Star, Repeat } from "lucide-react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import useCartStore from "../../store/cartStore";
 import useAuthStore from "../../store/authStore";
 
 const ProductCard = ({ item, index, hero }) => {
+  const navigate = useNavigate();
+
   // USER
   const user = useAuthStore((state) => state.user);
   const userId = user?.uid || "guest";
 
   // CART
+  const cartsMap = useCartStore((state) => state.carts);
+  const cart = cartsMap[userId] || [];
+  const isInCart = cart.some((c) => c.id === item.id);
+
   const addToCart = useCartStore((state) => state.addToCart);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
 
   // FAVORITES
   const favoritesMap = useCartStore((state) => state.favorites);
   const favorites = favoritesMap[userId] || [];
-
   const isFav = favorites.some((f) => f.id === item.id);
 
   const addToFavorites = useCartStore((state) => state.addToFavorites);
+  const removeFromFavorites = useCartStore((state) => state.removeFromFavorites);
+
+  // HANDLERS
+  const handleCartToggle = (e) => {
+    // ✅ Stop propagation so clicking the button doesn't also trigger image/card navigation
+    e.stopPropagation();
+    if (isInCart) {
+      removeFromCart(userId, item.id);
+      toast("Removed from cart");
+    } else {
+      addToCart(userId, item);
+      toast.success("Added to cart");
+    }
+  };
+
+  const handleFavToggle = (e) => {
+    e.stopPropagation();
+    if (isFav) {
+      removeFromFavorites(userId, item.id);
+      toast("Removed from favorites");
+    } else {
+      addToFavorites(userId, item);
+      toast.success("Added to favorites");
+    }
+  };
+
+  // ✅ Prefer slug, fall back to id — matches ProductDetails lookup
+  const handleNavigate = (e) => {
+    e.stopPropagation();
+    const identifier = item.slug?.trim() || String(item.id);
+    navigate(`/product/${identifier}`);
+  };
 
   const cardVariants = {
     hidden: { opacity: 0, y: 40 },
@@ -37,12 +76,14 @@ const ProductCard = ({ item, index, hero }) => {
 
   const actionIcons = [
     {
-      icon: <ShoppingBag size={22} />,
+      icon: (
+        <ShoppingBag
+          size={22}
+          className={isInCart ? "text-green-600" : ""}
+        />
+      ),
       key: "bag",
-      action: () => {
-        addToCart(userId, item);
-        toast.success("Added to cart");
-      },
+      action: handleCartToggle,
     },
     {
       icon: (
@@ -52,15 +93,13 @@ const ProductCard = ({ item, index, hero }) => {
         />
       ),
       key: "star",
-      action: () => {
-        addToFavorites(userId, item);
-        toast.success("Added to favorites");
-      },
+      action: handleFavToggle,
     },
     {
       icon: <Repeat size={22} />,
       key: "repeat",
-      action: () => {
+      action: (e) => {
+        e.stopPropagation();
         toast("Compare feature coming soon");
       },
     },
@@ -78,7 +117,8 @@ const ProductCard = ({ item, index, hero }) => {
         <img
           src={item.image}
           alt={item.title || "product"}
-          className="h-40 w-full rounded-xl object-cover transition duration-300 sm:h-44 md:h-64 group-hover:scale-105"
+          onClick={handleNavigate}
+          className="h-40 w-full rounded-xl object-cover transition duration-300 sm:h-44 md:h-64 group-hover:scale-105 cursor-pointer"
         />
 
         {item.badge && (
@@ -89,14 +129,13 @@ const ProductCard = ({ item, index, hero }) => {
 
         <div className="absolute inset-0 bg-black/0 transition group-hover:bg-black/20" />
 
-        <div
-          className="
-            absolute right-2 top-2 flex flex-col gap-2
-            opacity-0 translate-x-3
-            transition-all duration-300
-            group-hover:opacity-100 group-hover:translate-x-0
-          "
-        >
+        <div className="
+          absolute right-2 top-2 flex flex-col gap-2
+          opacity-100 translate-x-0
+          md:opacity-0 md:translate-x-3
+          transition-all duration-300
+          md:group-hover:opacity-100 md:group-hover:translate-x-0
+        ">
           {actionIcons.map((iconData) => (
             <button
               key={iconData.key}
@@ -121,28 +160,31 @@ const ProductCard = ({ item, index, hero }) => {
                 ${item.oldPrice}
               </span>
             )}
-
             <span className="text-base font-semibold sm:text-lg">
               ${item.price}
             </span>
           </div>
 
-          <h3 className="text-xs text-gray-800 transition group-hover:text-black sm:text-sm">
+          <h3
+            onClick={handleNavigate}
+            className="text-xs text-gray-800 transition group-hover:text-black sm:text-sm cursor-pointer hover:text-pink-400"
+          >
             {item.title}
           </h3>
 
           <button
-            onClick={() => {
-              addToCart(userId, item);
-              toast.success("Added to cart");
-            }}
-            className="
-              mt-2 w-full rounded-lg bg-black py-2 text-xs text-white
-              opacity-0 transition group-hover:opacity-100 cursor-pointer
-              hover:bg-green-900 sm:mt-3 sm:text-sm
-            "
+            onClick={handleCartToggle}
+            className={`
+              mt-2 w-full rounded-lg py-2 text-xs cursor-pointer
+              opacity-100 md:opacity-0 md:group-hover:opacity-100
+              transition sm:mt-3 sm:text-sm
+              ${isInCart
+                ? "bg-red-600 text-white hover:bg-red-700"
+                : "bg-black text-white hover:bg-green-900"
+              }
+            `}
           >
-            Add to Cart
+            {isInCart ? "Remove from Cart" : "Add to Cart"}
           </button>
         </div>
       )}

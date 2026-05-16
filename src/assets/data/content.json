@@ -56,143 +56,157 @@
   ],
 
   "products": [
-    {
-      "id": 1,
-      "title": "Gentle Foam Facial Cleanser",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253157/kpec10u3shxyiqfbdsiv.jpg",
-      "price": 32,
-      "oldPrice": 45,
-      "badge": "-25%",
-      "rating": 5,
-      "reviews": 6421,
-      "details": "A gentle daily cleanser that removes dirt, oil, and makeup without stripping your skin."
-    },
-    {
-      "id": 2,
-      "title": "Vitamin C Brightening Serum",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253158/y3jbqmyd3ttlsdwhad13.jpg",
-      "price": 35,
-      "rating": 4,
-      "reviews": 3890,
-      "details": "Brightens skin, evens tone, and reduces dark spots."
-    },
-    {
-      "id": 3,
-      "title": "Caffeine Repair Eye Cream",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253158/p8qvwvvjoup1klpa1kub.jpg",
-      "price": 28,
-      "rating": 5,
-      "reviews": 5170,
-      "details": "Reduces puffiness, dark circles, and tired eyes."
-    },
-    {
-      "id": 4,
-      "title": "Hydrating Daily Moisturizer",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253159/g4m4noluiezwat29nxk9.jpg",
-      "price": 30,
-      "rating": 4,
-      "reviews": 2745,
-      "details": "Deep hydration without greasiness."
-    },
-    {
-      "id": 5,
-      "title": "Overnight Renewal Face Mask",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253160/i6v8qmgnmeybutsumsyg.jpg",
-      "price": 38,
-      "oldPrice": 45,
-      "badge": "-16%",
-      "rating": 5,
-      "reviews": 1986,
-      "details": "Repairs skin overnight for a fresh glow."
-    },
-    {
-      "id": 6,
-      "title": "Ela De Pure",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778574446/hmo1ybbgg4sgwzlzvgoo.jpg",
-      "price": 26,
-      "rating": 4,
-      "reviews": 3120,
-      "details": "Facial cleanser for calming skin, hydrating formula, gentle and effective, natural extracts"
-    }
-  ],
-  "under25Products": [
-    {
-      "id": 7,
-      "title": "Daily Purifying Face Wash",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253161/jqmsqxuuzg2plevw6zub.jpg",
-      "price": 19,
-      "oldPrice": 26,
-      "badge": "-18%",
-      "rating": 4,
-      "reviews": 4210,
-      "details": "Removes oil and impurities while balancing skin."
-    },
-    {
-      "id": 8,
-      "title": "Mini Hydration Boost Serum",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253146/kmxxieyf70zafarvmpjb.jpg",
-      "price": 22,
-      "rating": 5,
-      "reviews": 1580,
-      "details": "Instant hydration boost for dry skin."
-    },
-    {
-      "id": 9,
-      "title": "Cooling Eye Roll-On",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253162/amtbdtiz4rkxrv3im9um.jpg",
-      "price": 24,
-      "rating": 4,
-      "reviews": 990,
-      "details": "Reduces puffiness and refreshes eyes."
-    },
-    {
-      "id": 10,
-      "title": "Balancing Toner Mist",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253140/omp4vi9pqr4w23ifppct.jpg",
-      "price": 21,
-      "rating": 4,
-      "reviews": 2043,
-      "details": "Balances skin pH and tightens pores."
-    },
-    {
-      "id": 11,
-      "title": "Lightweight Sunscreen SPF 30",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253140/bmk2ipd4hdtnsbwtcmfq.jpg",
-      "price": 23,
-      "oldPrice": 29,
-      "badge": "-20%",
-      "rating": 5,
-      "reviews": 3685,
-      "details": "Protects skin from UV damage."
-    },
-    {
-      "id": 12,
-      "title": "Gentle Exfoliating Scrub",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778173773/vxol6vqnlxmgb8imtgm1.jpg",
-      "price": 18,
-      "rating": 4,
-      "reviews": 1420,
-      "details": "Smooths skin and removes dead cells."
-    },
-    {
-      "id": 13,
-      "title": "Sheet Mask",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778173769/wd1pfmv9q2g6hm4sbw0l.jpg",
-      "price": 18,
-      "rating": 4,
-      "reviews": 1420,
-      "details": "Hydrating sheet mask for glow."
-    },
-    {
-      "id": 14,
-      "title": "Valeriia Miller Ordinary",
-      "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778173770/jllrgdusrukbshfemjmx.jpg",
-      "price": 18,
-      "rating": 4,
-      "reviews": 1420,
-      "details": "Simple everyday skincare formula."
-    }
-  ],
+  {
+    "id": 1,
+    "slug": "gentle-foam-facial-cleanser",
+    "title": "Gentle Foam Facial Cleanser",
+    "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253157/kpec10u3shxyiqfbdsiv.jpg",
+    "price": 32,
+    "oldPrice": 45,
+    "badge": "-25%",
+    "rating": 5,
+    "reviews": 6421,
+    "details": "A gentle daily cleanser that removes dirt, oil, and makeup without stripping your skin."
+  },
+  {
+    "id": 2,
+    "slug": "vitamin-c-brightening-serum",
+    "title": "Vitamin C Brightening Serum",
+    "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253158/y3jbqmyd3ttlsdwhad13.jpg",
+    "price": 35,
+    "rating": 4,
+    "reviews": 3890,
+    "details": "Brightens skin, evens tone, and reduces dark spots."
+  },
+  {
+    "id": 3,
+    "slug": "caffeine-repair-eye-cream",
+    "title": "Caffeine Repair Eye Cream",
+    "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253158/p8qvwvvjoup1klpa1kub.jpg",
+    "price": 28,
+    "rating": 5,
+    "reviews": 5170,
+    "details": "Reduces puffiness, dark circles, and tired eyes."
+  },
+  {
+    "id": 4,
+    "slug": "hydrating-daily-moisturizer",
+    "title": "Hydrating Daily Moisturizer",
+    "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253159/g4m4noluiezwat29nxk9.jpg",
+    "price": 30,
+    "rating": 4,
+    "reviews": 2745,
+    "details": "Deep hydration without greasiness."
+  },
+  {
+    "id": 5,
+    "slug": "overnight-renewal-face-mask",
+    "title": "Overnight Renewal Face Mask",
+    "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253160/i6v8qmgnmeybutsumsyg.jpg",
+    "price": 38,
+    "oldPrice": 45,
+    "badge": "-16%",
+    "rating": 5,
+    "reviews": 1986,
+    "details": "Repairs skin overnight for a fresh glow."
+  },
+  {
+    "id": 6,
+    "slug": "ela-de-pure",
+    "title": "Ela De Pure",
+    "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778574446/hmo1ybbgg4sgwzlzvgoo.jpg",
+    "price": 26,
+    "rating": 4,
+    "reviews": 3120,
+    "details": "Facial cleanser for calming skin, hydrating formula, gentle and effective, natural extracts"
+  }
+],
+"under25Products": [
+  {
+    "id": 7,
+    "slug": "daily-purifying-face-wash",
+    "title": "Daily Purifying Face Wash",
+    "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253161/jqmsqxuuzg2plevw6zub.jpg",
+    "price": 19,
+    "oldPrice": 26,
+    "badge": "-18%",
+    "rating": 4,
+    "reviews": 4210,
+    "details": "Removes oil and impurities while balancing skin."
+  },
+  {
+    "id": 8,
+    "slug": "mini-hydration-boost-serum",
+    "title": "Mini Hydration Boost Serum",
+    "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253146/kmxxieyf70zafarvmpjb.jpg",
+    "price": 22,
+    "rating": 5,
+    "reviews": 1580,
+    "details": "Instant hydration boost for dry skin."
+  },
+  {
+    "id": 9,
+    "slug": "cooling-eye-roll-on",
+    "title": "Cooling Eye Roll-On",
+    "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253162/amtbdtiz4rkxrv3im9um.jpg",
+    "price": 24,
+    "rating": 4,
+    "reviews": 990,
+    "details": "Reduces puffiness and refreshes eyes."
+  },
+  {
+    "id": 10,
+    "slug": "balancing-toner-mist",
+    "title": "Balancing Toner Mist",
+    "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253140/omp4vi9pqr4w23ifppct.jpg",
+    "price": 21,
+    "rating": 4,
+    "reviews": 2043,
+    "details": "Balances skin pH and tightens pores."
+  },
+  {
+    "id": 11,
+    "slug": "lightweight-sunscreen-spf-30",
+    "title": "Lightweight Sunscreen SPF 30",
+    "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1775253140/bmk2ipd4hdtnsbwtcmfq.jpg",
+    "price": 23,
+    "oldPrice": 29,
+    "badge": "-20%",
+    "rating": 5,
+    "reviews": 3685,
+    "details": "Protects skin from UV damage."
+  },
+  {
+    "id": 12,
+    "slug": "gentle-exfoliating-scrub",
+    "title": "Gentle Exfoliating Scrub",
+    "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778173773/vxol6vqnlxmgb8imtgm1.jpg",
+    "price": 18,
+    "rating": 4,
+    "reviews": 1420,
+    "details": "Smooths skin and removes dead cells."
+  },
+  {
+    "id": 13,
+    "slug": "sheet-mask",
+    "title": "Sheet Mask",
+    "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778173769/wd1pfmv9q2g6hm4sbw0l.jpg",
+    "price": 18,
+    "rating": 4,
+    "reviews": 1420,
+    "details": "Hydrating sheet mask for glow."
+  },
+  {
+    "id": 14,
+    "slug": "valeriia-miller-ordinary",
+    "title": "Valeriia Miller Ordinary",
+    "image": "https://res.cloudinary.com/direjlzc6/image/upload/v1778173770/jllrgdusrukbshfemjmx.jpg",
+    "price": 18,
+    "rating": 4,
+    "reviews": 1420,
+    "details": "Simple everyday skincare formula."
+  }
+],
 
   "icons": [
     {

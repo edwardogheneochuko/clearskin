@@ -1,21 +1,20 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 
-import {
-  getBlogBySlug,
-  getRelatedBlogs,
-} from "@/utils/blogUtils";
+import { getBlogBySlug, getRelatedBlogs } from "@/utils/blogUtils";
 
 const BlogDetails = () => {
   const { slug } = useParams();
 
   const blog = getBlogBySlug(slug);
 
+  // ✅ Guard blog before passing to getRelatedBlogs
   const relatedBlogs = useMemo(() => {
+    if (!blog) return [];
     return getRelatedBlogs(blog, 3);
   }, [blog]);
 
@@ -53,10 +52,7 @@ const BlogDetails = () => {
         className="min-h-screen px-4 pt-24 md:px-10"
       >
         <div className="mx-auto max-w-5xl">
-
-          <p className="mb-2 text-sm text-pink-500">
-            {blog.category}
-          </p>
+          <p className="mb-2 text-sm text-pink-500">{blog.category}</p>
 
           <h1 className="mb-4 text-2xl font-semibold md:text-4xl">
             {blog.title}
@@ -82,18 +78,14 @@ const BlogDetails = () => {
 
           {relatedBlogs.length > 0 && (
             <div className="mt-16">
-              <h2 className="mb-6 text-xl font-semibold">
-                Related Articles
-              </h2>
+              <h2 className="mb-6 text-xl font-semibold">Related Articles</h2>
 
               <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
                 {relatedBlogs.map((item) => (
-                  <motion.div
-                    key={item.slug}
-                    whileHover={{ scale: 1.02 }}
-                  >
-                    <a
-                      href={`/blog/${item.slug}`}
+                  <motion.div key={item.slug} whileHover={{ scale: 1.02 }}>
+                    {/* ✅ Link instead of <a> — no full page reload */}
+                    <Link
+                      to={`/blog/${item.slug}`}
                       className="block overflow-hidden rounded-xl border bg-white shadow-sm transition hover:shadow-md"
                     >
                       <img
@@ -106,12 +98,9 @@ const BlogDetails = () => {
                         <h3 className="line-clamp-2 text-sm font-medium hover:text-pink-500">
                           {item.title}
                         </h3>
-
-                        <p className="mt-2 text-xs text-gray-500">
-                          {item.date}
-                        </p>
+                        <p className="mt-2 text-xs text-gray-500">{item.date}</p>
                       </div>
-                    </a>
+                    </Link>
                   </motion.div>
                 ))}
               </div>

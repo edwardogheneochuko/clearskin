@@ -1,31 +1,41 @@
 import React, { useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { Heart, Star } from "lucide-react";
+import { Heart, Star, ShoppingBag } from "lucide-react";
 
 import { allProducts } from "../utils/product";
 import useCartStore from "../store/cartStore";
+import useAuthStore from "../store/authStore";
 import toast from "react-hot-toast";
 
 const ProductDetails = () => {
   const { slug } = useParams();
 
+  const user = useAuthStore((state) => state.user);
+  const userId = user?.uid || "guest";
+
+  // CART
+  const cartsMap = useCartStore((state) => state.carts);
+  const cart = cartsMap[userId] || [];
   const addToCart = useCartStore((state) => state.addToCart);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
 
-  const addToFavorites = useCartStore(
-    (state) => state.addToFavorites
-  );
+  // FAVORITES
+  const favoritesMap = useCartStore((state) => state.favorites);
+  const favorites = favoritesMap[userId] || [];
+  const addToFavorites = useCartStore((state) => state.addToFavorites);
+  const removeFromFavorites = useCartStore((state) => state.removeFromFavorites);
 
-  const favorites = useCartStore(
-    (state) => state.getFavorites?.() || state.favorites
-  );
-
+  // ✅ Match on slug first, fall back to id so both navigation paths work
   const product = useMemo(() => {
-    return allProducts.find((p) => p.slug === slug);
+    return allProducts.find(
+      (p) =>
+        p.slug?.trim().toLowerCase() === slug?.trim().toLowerCase() ||
+        String(p.id) === String(slug)
+    );
   }, [slug]);
 
-  const isFavorite = favorites.some(
-    (item) => item.id === product?.id
-  );
+  const isFavorite = favorites.some((item) => item.id === product?.id);
+  const isInCart = cart.some((item) => item.id === product?.id);
 
   if (!product) {
     return (
@@ -34,6 +44,26 @@ const ProductDetails = () => {
       </div>
     );
   }
+
+  const handleFavToggle = () => {
+    if (isFavorite) {
+      removeFromFavorites(userId, product.id);
+      toast("Removed from favorites");
+    } else {
+      addToFavorites(userId, product);
+      toast.success("Added to favorites");
+    }
+  };
+
+  const handleCartToggle = () => {
+    if (isInCart) {
+      removeFromCart(userId, product.id);
+      toast("Removed from cart");
+    } else {
+      addToCart(userId, product);
+      toast.success("Added to cart");
+    }
+  };
 
   return (
     <div className="px-4 md:px-10 py-10 mt-20">
@@ -48,33 +78,23 @@ const ProductDetails = () => {
         </div>
 
         <div className="md:mt-30">
-
           <div className="flex items-start justify-between gap-3 flex-wrap">
-
             <h1 className="text-3xl md:text-4xl font-bold flex-1 min-w-0">
               {product.title}
             </h1>
 
             <button
-              onClick={() => {
-                addToFavorites(product);
-                toast.success("Added to favorites");
-              }}
+              onClick={handleFavToggle}
               className={`
                 shrink-0 p-3 rounded-full border transition cursor-pointer
-                ${
-                  isFavorite
-                    ? "bg-pink-500 border-pink-500 text-white"
-                    : "hover:bg-pink-50"
+                ${isFavorite
+                  ? "bg-pink-500 border-pink-500 text-white"
+                  : "hover:bg-pink-50"
                 }
               `}
             >
-              <Heart
-                size={20}
-                fill={isFavorite ? "currentColor" : "none"}
-              />
+              <Heart size={20} fill={isFavorite ? "currentColor" : "none"} />
             </button>
-
           </div>
 
           <div className="flex items-center gap-2 mt-4 text-yellow-500">
@@ -87,30 +107,26 @@ const ProductDetails = () => {
             ))}
           </div>
 
-          <p className="text-3xl font-bold mt-6">
-            ${product.price}
-          </p>
+          <p className="text-3xl font-bold mt-6">${product.price}</p>
 
-          <p className="mt-6 text-gray-600">
-            {product.details}
-          </p>
+          <p className="mt-6 text-gray-600">{product.details}</p>
 
           <button
-            onClick={() => {
-              addToCart(product);
-              toast.success("Add to cart");
-            }}
-            className="
-              mt-8 bg-black cursor-pointer text-white
-              px-8 py-4 rounded-xl
-              hover:bg-neutral-700 transition
-            "
+            onClick={handleCartToggle}
+            className={`
+              mt-8 cursor-pointer text-white
+              px-8 py-4 rounded-xl transition
+              flex items-center gap-3
+              ${isInCart
+                ? "bg-red-600 hover:bg-red-700"
+                : "bg-black hover:bg-neutral-700"
+              }
+            `}
           >
-            Add to Cart
+            <ShoppingBag size={18} />
+            {isInCart ? "Remove from Cart" : "Add to Cart"}
           </button>
-
         </div>
-
       </div>
     </div>
   );
