@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
+import { X } from "lucide-react";
 import toast from "react-hot-toast";
 
 import { auth, googleProvider } from "../../utils/firebase";
@@ -20,7 +21,6 @@ const loginSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-// ✅ Stricter schema for signup
 const signupSchema = z.object({
   email: z.string().email("Enter a valid email"),
   password: z
@@ -43,11 +43,9 @@ const Login = () => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm({
-    // ✅ Schema swaps based on current mode
     resolver: zodResolver(isSignup ? signupSchema : loginSchema),
   });
 
-  // ✅ Accepts the user object directly from the credential result
   const saveUserToStore = (user) => {
     if (user) {
       setUser({
@@ -65,7 +63,6 @@ const Login = () => {
       let credential;
 
       if (isSignup) {
-        // ✅ Read user from returned credential, not auth.currentUser
         credential = await createUserWithEmailAndPassword(
           auth,
           data.email.trim(),
@@ -78,7 +75,7 @@ const Login = () => {
           data.email.trim(),
           data.password
         );
-        toast.success("Login successful 👋");
+        toast.success("Login successful");
       }
 
       saveUserToStore(credential.user);
@@ -103,9 +100,8 @@ const Login = () => {
     setError("");
 
     try {
-      // ✅ Read user from credential result
       const credential = await signInWithPopup(auth, googleProvider);
-      toast.success("Google login successful 🚀");
+      toast.success("Google login successful ");
       saveUserToStore(credential.user);
       navigate("/");
     } catch (err) {
@@ -116,7 +112,6 @@ const Login = () => {
 
   const handleToggleMode = () => {
     setIsSignup(!isSignup);
-    // ✅ Reset form so previous validation errors don't bleed into the other mode
     reset();
     setError("");
   };
@@ -128,15 +123,24 @@ const Login = () => {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-sm bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-gray-100"
       >
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold">
-            {isSignup ? "Create Account" : "Sign In"}
-          </h1>
-          <p className="text-sm text-gray-500 mt-1">
-            {isSignup
-              ? "Create your account"
-              : "Welcome back, login to continue"}
-          </p>
+        <div className="flex items-start justify-between mb-6">
+          <div>
+            <h1 className="text-3xl font-bold">
+              {isSignup ? "Create Account" : "Sign In"}
+            </h1>
+            <p className="text-sm text-gray-500 mt-1">
+              {isSignup
+                ? "Create your account"
+                : "Welcome back, login to continue"}
+            </p>
+          </div>
+
+          <button
+            onClick={() => navigate("/")}
+            className="text-gray-400 hover:text-black transition cursor-pointer mt-1"
+          >
+            <X size={20} />
+          </button>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -164,6 +168,18 @@ const Login = () => {
             )}
           </div>
 
+          {!isSignup && (
+            <div className="text-right">
+              <button
+                type="button"
+                onClick={() => navigate("/forgot-password")}
+                className="text-xs text-pink-400 hover:underline cursor-pointer"
+              >
+                Forgot password?
+              </button>
+            </div>
+          )}
+
           <button
             type="submit"
             disabled={isSubmitting}
@@ -175,7 +191,7 @@ const Login = () => {
 
         <button
           onClick={handleGoogleAuth}
-          className="w-full mt-4 border py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50"
+          className="w-full mt-4 border py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 cursor-pointer"
         >
           <FcGoogle className="text-xl" />
           Continue with Google
@@ -185,7 +201,7 @@ const Login = () => {
           {isSignup ? "Already have an account?" : "New here?"}{" "}
           <button
             onClick={handleToggleMode}
-            className="text-pink-400 font-medium"
+            className="text-pink-400 font-medium cursor-pointer"
           >
             {isSignup ? "Login" : "Sign up"}
           </button>

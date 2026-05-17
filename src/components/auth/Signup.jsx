@@ -30,7 +30,6 @@ const signupSchema = z
 const Signup = () => {
   const navigate = useNavigate();
 
-  // ✅ Pull setUser so the store stays in sync after signup
   const setUser = useAuthStore((state) => state.setUser);
 
   const [error, setError] = useState("");
@@ -57,7 +56,6 @@ const Signup = () => {
         displayName: data.name,
       });
 
-      // ✅ Sync user into store after profile is updated
       setUser({
         uid: userCredential.user.uid,
         email: userCredential.user.email,
@@ -84,7 +82,6 @@ const Signup = () => {
     try {
       const credential = await signInWithPopup(auth, googleProvider);
 
-      // ✅ Sync Google user into store
       setUser({
         uid: credential.user.uid,
         email: credential.user.email,
@@ -92,7 +89,7 @@ const Signup = () => {
       });
 
       toast.success("Google signup successful 🚀");
-      navigate("/"); // ✅ Was "/001" — typo fixed
+      navigate("/"); 
     } catch (err) {
       setError(err.message);
       toast.error("Google authentication failed");

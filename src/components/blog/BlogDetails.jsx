@@ -1,22 +1,31 @@
 import { useParams, Link } from "react-router-dom";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import { BlogDetailsSkeleton } from "../ui/Skeleton";
 
 import { getBlogBySlug, getRelatedBlogs } from "@/utils/blogUtils";
 
 const BlogDetails = () => {
   const { slug } = useParams();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, [slug]); // ✅ Re-triggers skeleton on slug change (related article click)
 
   const blog = getBlogBySlug(slug);
 
-  // ✅ Guard blog before passing to getRelatedBlogs
   const relatedBlogs = useMemo(() => {
     if (!blog) return [];
     return getRelatedBlogs(blog, 3);
   }, [blog]);
+
+  // ✅ Skeleton shows while loading
+  if (loading) return <BlogDetailsSkeleton />;
 
   if (!slug) {
     return (
@@ -83,7 +92,6 @@ const BlogDetails = () => {
               <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
                 {relatedBlogs.map((item) => (
                   <motion.div key={item.slug} whileHover={{ scale: 1.02 }}>
-                    {/* ✅ Link instead of <a> — no full page reload */}
                     <Link
                       to={`/blog/${item.slug}`}
                       className="block overflow-hidden rounded-xl border bg-white shadow-sm transition hover:shadow-md"
@@ -93,7 +101,6 @@ const BlogDetails = () => {
                         alt={item.title}
                         className="h-40 w-full object-cover transition hover:scale-105"
                       />
-
                       <div className="p-4">
                         <h3 className="line-clamp-2 text-sm font-medium hover:text-pink-500">
                           {item.title}
