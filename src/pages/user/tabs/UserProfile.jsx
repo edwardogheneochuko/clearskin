@@ -22,8 +22,8 @@ const UserProfile = () => {
   const user    = useAuthStore((s) => s.user);
   const setUser = useAuthStore((s) => s.setUser);
 
-  const [active, setActive]                 = useState("profile");
-  const [avatarUrl, setAvatarUrl]           = useState(user?.photoURL || null);
+  const [active, setActive]               = useState("profile");
+  const [avatarUrl, setAvatarUrl]         = useState(user?.photoURL || null);
   const [uploadProgress, setUploadProgress] = useState(null);
   const fileInputRef = useRef(null);
 

@@ -8,6 +8,7 @@ import useCartStore from "@/store/cartStore";
 import useAuthStore from "@/store/authStore";
 import MobileSidebar from "./MobileNav";
 import { allProducts } from "@/utils/product";
+import { isAdmin } from "@/utils/adminConfig";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,133 +16,89 @@ const Navbar = () => {
   const [search, setSearch] = useState("");
   const [showSearchResults, setShowSearchResults] = useState(false);
 
-  // Dropdown timeout ref
   const timeoutRef = useRef(null);
-
-  // Search wrapper ref
   const searchRef = useRef(null);
 
   const navigate = useNavigate();
 
-  // AUTH
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
 
-  // CART
   const carts = useCartStore((state) => state.carts);
   const cart = carts[user?.uid || "guest"] || [];
+  const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
-  const cartCount = cart.reduce(
-    (acc, item) => acc + item.quantity,
-    0
-  );
-
-  // Close search results on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (
-        searchRef.current &&
-        !searchRef.current.contains(e.target)
-      ) {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
         setShowSearchResults(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener(
-        "mousedown",
-        handleClickOutside
-      );
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Cleanup timeout
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
-
-  // Filter products
   const filteredProducts = useMemo(() => {
     if (!search.trim()) return [];
-
     return allProducts.filter((product) =>
-      product.title
-        .toLowerCase()
-        .includes(search.toLowerCase())
+      product.title.toLowerCase().includes(search.toLowerCase())
     );
   }, [search]);
 
-  // Handle nav item click
   const handleItemClick = (item) => {
     if (item?.link) navigate(item.link);
-
     setIsOpen(false);
     setActiveDropdown(null);
     setShowSearchResults(false);
   };
 
-  // Handle actions
   const handleAction = (item) => {
     if (item.type === "logout") {
       logout();
       navigate("/");
       return;
     }
-
     handleItemClick(item);
   };
 
-  // Dropdown open
   const handleMouseEnterDropdown = (idx) => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setActiveDropdown(idx);
   };
 
-  // Dropdown close
   const handleMouseLeaveDropdown = () => {
-    timeoutRef.current = setTimeout(() => {
-      setActiveDropdown(null);
-    }, 300);
+    timeoutRef.current = setTimeout(() => setActiveDropdown(null), 300);
   };
 
-  // Dynamic user icon menu
   const icons = content.icons.map((icon) => {
     if (icon.alt === "user") {
       return {
         ...icon,
         subItems: user
-          ? [
-              {
-                label: user.name || user.email,
-                type: "info",
-                disabled: true,
-              },
-              {
-                label: "Logout",
-                type: "logout",
-                link: "/",
-              },
-            ]
-          : icon.subItems,
+          ? isAdmin(user.email)
+            ? [
+                { label: user.name || user.email, type: "info", disabled: true },
+                { label: "Admin Panel", link: "/admin", type: "admin" },
+                { label: "Logout", link: "/", type: "logout" },
+              ]
+            : [
+                { label: user.name || user.email, type: "info", disabled: true },
+                { label: "My Profile", link: "/profile", type: "profile" },
+                { label: "My Orders", link: "/cart", type: "orders" },
+                { label: "Logout", link: "/", type: "logout" },
+              ]
+          : [
+              { label: "Login", link: "/login", type: "login" },
+              { label: "Signup", link: "/signup", type: "signup" },
+            ],
       };
     }
-
     return icon;
   });
 
   return (
     <nav className="fixed top-0 left-0 z-[9999] w-full bg-white shadow-sm">
       <div className="flex items-center justify-between px-4 py-4 md:px-8">
-        {/* Mobile menu button */}
         <button
           onClick={() => setIsOpen(true)}
           className="cursor-pointer md:hidden"
@@ -149,7 +106,6 @@ const Navbar = () => {
           <Menu />
         </button>
 
-        {/* Logo */}
         <h1
           onClick={() => navigate("/")}
           className="cursor-pointer text-3xl font-semibold"
@@ -157,7 +113,6 @@ const Navbar = () => {
           Clear<span className="text-pink-400">Skin</span>
         </h1>
 
-        {/* Desktop navigation */}
         <div className="hidden gap-8 md:flex">
           {content.navItems.map((item, i) => (
             <a
@@ -170,9 +125,7 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Right section */}
         <div className="hidden items-center gap-4 md:flex">
-          {/* Search */}
           <div className="relative" ref={searchRef}>
             <input
               value={search}
@@ -181,13 +134,11 @@ const Navbar = () => {
               placeholder="Search products..."
               className="w-64 rounded-full border px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-pink-400"
             />
-
             <Search
               size={18}
               className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
             />
 
-            {/* Search results */}
             {showSearchResults && search.trim() && (
               <div className="absolute top-full mt-3 max-h-96 w-full overflow-y-auto rounded-xl bg-white shadow-xl">
                 {filteredProducts.length > 0 ? (
@@ -195,12 +146,7 @@ const Navbar = () => {
                     <div
                       key={product.id}
                       onClick={() => {
-                        navigate(
-                          `/product/${
-                            product.slug || product.id
-                          }`
-                        );
-
+                        navigate(`/product/${product.slug || product.id}`);
                         setSearch("");
                         setShowSearchResults(false);
                       }}
@@ -211,15 +157,9 @@ const Navbar = () => {
                         alt={product.title}
                         className="h-12 w-12 rounded object-cover"
                       />
-
                       <div>
-                        <p className="text-sm">
-                          {product.title}
-                        </p>
-
-                        <p className="text-pink-400">
-                          ${product.price}
-                        </p>
+                        <p className="text-sm">{product.title}</p>
+                        <p className="text-pink-400">${product.price}</p>
                       </div>
                     </div>
                   ))
@@ -232,76 +172,75 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Icons */}
           {icons.map((icon, idx) => (
             <div
               key={idx}
               className="relative"
-              onMouseEnter={() =>
-                handleMouseEnterDropdown(idx)
-              }
+              onMouseEnter={() => handleMouseEnterDropdown(idx)}
               onMouseLeave={handleMouseLeaveDropdown}
             >
               <button
-                onClick={() =>
-                  navigate(icon.subItems?.[0]?.link || "/")
-                }
+                onClick={() => {
+                  if (icon.alt === "user" && user) {
+                    navigate("/profile");
+                  } else {
+                    navigate(icon.subItems?.[0]?.link || "/");
+                  }
+                }}
                 className={icon.class}
-                onMouseEnter={() =>
-                  handleMouseEnterDropdown(idx)
-                }
               >
-                <img
-                  src={icon.src}
-                  alt={icon.alt}
-                  className="h-7 w-7"
-                />
+                {icon.alt === "user" && user?.photoURL ? (
+                  <img
+                    src={user.photoURL}
+                    className="h-7 w-7 rounded-full object-cover ring-2 ring-pink-300"
+                    alt="avatar"
+                  />
+                ) : (
+                  <img src={icon.src} alt={icon.alt} className="h-7 w-7" />
+                )}
               </button>
 
-              {/* Cart badge */}
               {icon.alt === "cart" && cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-pink-500 text-xs text-white">
                   {cartCount}
                 </span>
               )}
 
-              {/* Dropdown */}
-              {activeDropdown === idx &&
-                icon.subItems && (
-                  <div className="absolute right-0 top-full z-50 mt-2 min-w-[180px] rounded-xl bg-white p-2 shadow-xl">
-                    {icon.subItems.map((item, i) => {
-                      const isLogout =
-                        item.type === "logout";
+              {activeDropdown === idx && icon.subItems && (
+                <div className="absolute right-0 top-full z-50 mt-2 min-w-[180px] rounded-xl bg-white p-2 shadow-xl">
+                  {icon.subItems.map((item, i) => {
+                    const isLogout = item.type === "logout";
+                    const isDisabled = item.disabled;
+                    const isProfile = item.type === "profile";
+                    const isAdmin_ = item.type === "admin";
 
-                      const isDisabled =
-                        item.disabled;
-
-                      return (
-                        <button
-                          key={i}
-                          disabled={isDisabled}
-                          onClick={() =>
-                            handleAction(item)
-                          }
-                          className={`block w-full rounded-md px-4 py-2 text-left text-sm transition ${
-                            isDisabled
-                              ? "cursor-default text-gray-400"
-                              : isLogout
-                              ? "text-red-600 hover:bg-red-50"
-                              : "hover:bg-pink-50"
-                          }`}
-                        >
-                          {item.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
+                    return (
+                      <button
+                        key={i}
+                        disabled={isDisabled}
+                        onClick={() => handleAction(item)}
+                        className={`block w-full rounded-md px-4 py-2 text-left text-sm transition ${
+                          isDisabled
+                            ? "cursor-default text-gray-400 text-xs"
+                            : isLogout
+                            ? "text-red-600 hover:bg-red-50"
+                            : isProfile || isAdmin_
+                            ? "font-medium hover:bg-pink-50 hover:text-pink-500"
+                            : "hover:bg-pink-50"
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           ))}
         </div>
       </div>
 
+      <AnimatePresence>
         <MobileSidebar
           isOpen={isOpen}
           setIsOpen={setIsOpen}
@@ -311,6 +250,7 @@ const Navbar = () => {
           user={user}
           logout={logout}
         />
+      </AnimatePresence>
     </nav>
   );
 };

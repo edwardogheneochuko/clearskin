@@ -4,17 +4,15 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-import useCartStore from "../../store/cartStore";
-import useAuthStore from "../../store/authStore";
+import useCartStore from "@/store/cartStore";
+import useAuthStore from "@/store/authStore";
 
 const ProductCard = ({ item, index, hero }) => {
   const navigate = useNavigate();
 
-  // USER
   const user = useAuthStore((state) => state.user);
   const userId = user?.uid || "guest";
 
-  // CART
   const cartsMap = useCartStore((state) => state.carts);
   const cart = cartsMap[userId] || [];
   const isInCart = cart.some((c) => c.id === item.id);
@@ -22,7 +20,6 @@ const ProductCard = ({ item, index, hero }) => {
   const addToCart = useCartStore((state) => state.addToCart);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
 
-  // FAVORITES
   const favoritesMap = useCartStore((state) => state.favorites);
   const favorites = favoritesMap[userId] || [];
   const isFav = favorites.some((f) => f.id === item.id);
@@ -30,9 +27,7 @@ const ProductCard = ({ item, index, hero }) => {
   const addToFavorites = useCartStore((state) => state.addToFavorites);
   const removeFromFavorites = useCartStore((state) => state.removeFromFavorites);
 
-  // HANDLERS
   const handleCartToggle = (e) => {
-    // ✅ Stop propagation so clicking the button doesn't also trigger image/card navigation
     e.stopPropagation();
     if (isInCart) {
       removeFromCart(userId, item.id);
@@ -54,7 +49,6 @@ const ProductCard = ({ item, index, hero }) => {
     }
   };
 
-  // ✅ Prefer slug, fall back to id — matches ProductDetails lookup
   const handleNavigate = (e) => {
     e.stopPropagation();
     const identifier = item.slug?.trim() || String(item.id);
@@ -154,6 +148,7 @@ const ProductCard = ({ item, index, hero }) => {
 
       {!hero && (
         <div className="mt-2 space-y-1 sm:mt-3">
+
           <div className="flex items-center gap-2">
             {item.oldPrice && (
               <span className="text-xs text-gray-400 line-through sm:text-sm">
@@ -171,6 +166,24 @@ const ProductCard = ({ item, index, hero }) => {
           >
             {item.title}
           </h3>
+
+          {/* ✅ Stars + review count */}
+          <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  size={11}
+                  className={i < item.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-200 fill-gray-200"}
+                />
+              ))}
+            </div>
+            {item.reviews && (
+              <span className="text-[10px] text-gray-400">
+                ({item.reviews.toLocaleString()})
+              </span>
+            )}
+          </div>
 
           <button
             onClick={handleCartToggle}

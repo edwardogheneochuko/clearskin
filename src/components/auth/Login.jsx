@@ -81,8 +81,7 @@ const Login = () => {
 
       saveUserToStore(credential.user);
 
-      // ✅ Redirect admin to /admin, everyone else to /
-      const destination = isAdmin(credential.user.email) ? "/admin" : "/";
+      const destination = isAdmin(credential.user.email) ? "/admin" : "/profile";
       navigate(destination);
     } catch (err) {
       const msg = err.message;
@@ -108,8 +107,7 @@ const Login = () => {
       toast.success("Google login successful");
       saveUserToStore(credential.user);
 
-      // ✅ Redirect admin to /admin, everyone else to /
-      const destination = isAdmin(credential.user.email) ? "/admin" : "/";
+      const destination = isAdmin(credential.user.email) ? "/admin" : "/profile";
       navigate(destination);
     } catch (err) {
       setError(err.message);

@@ -216,7 +216,8 @@
       "class": "p-2 rounded-full hover:bg-gray-100 transition duration-200",
       "subItems": [
         { "label": "Login", "link": "/login", "type": "login" },
-        { "label": "Signup", "link": "/signup", "type": "signup" }
+        { "label": "Signup", "link": "/signup", "type": "signup" },
+        { "label": "Profile", "link": "/profile", "type": "profile" }
       ]
     },
     {
