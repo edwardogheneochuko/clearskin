@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import useCartStore from "../store/cartStore";
-import useAuthStore from "../store/authStore";
-import { CartSkeleton } from "../components/ui/Skeleton";
+import { Link } from "react-router-dom"; // ✅
+import useCartStore from "@/store/cartStore";
+import useAuthStore from "@/store/authStore";
+import { CartSkeleton } from "@/components/ui/Skeleton";
 
 const Cart = () => {
   const [loading, setLoading] = useState(true);
@@ -24,7 +25,6 @@ const Cart = () => {
 
   const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-  // ✅ Show skeleton while loading
   if (loading) return <CartSkeleton />;
 
   return (
@@ -113,9 +113,12 @@ const Cart = () => {
               <span>${total.toFixed(2)}</span>
             </div>
 
-            <button className="mt-6 w-full cursor-pointer rounded-xl bg-black py-3 text-white transition hover:opacity-90">
+            <Link
+              to="/cart/checkout"
+              className="mt-6 flex items-center justify-center w-full cursor-pointer rounded-xl bg-black py-3 text-white transition hover:opacity-90"
+            >
               Proceed to Checkout
-            </button>
+            </Link>
           </div>
         </div>
       )}

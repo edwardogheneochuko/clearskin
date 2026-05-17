@@ -13,8 +13,9 @@ import { FcGoogle } from "react-icons/fc";
 import { X } from "lucide-react";
 import toast from "react-hot-toast";
 
-import { auth, googleProvider } from "../../utils/firebase";
-import useAuthStore from "../../store/authStore";
+import { auth, googleProvider } from "@/utils/firebase";
+import useAuthStore from "@/store/authStore";
+import { isAdmin } from "@/utils/adminConfig"; // ✅
 
 const loginSchema = z.object({
   email: z.string().email("Enter a valid email"),
@@ -79,7 +80,10 @@ const Login = () => {
       }
 
       saveUserToStore(credential.user);
-      navigate("/");
+
+      // ✅ Redirect admin to /admin, everyone else to /
+      const destination = isAdmin(credential.user.email) ? "/admin" : "/";
+      navigate(destination);
     } catch (err) {
       const msg = err.message;
       setError(msg);
@@ -101,9 +105,12 @@ const Login = () => {
 
     try {
       const credential = await signInWithPopup(auth, googleProvider);
-      toast.success("Google login successful ");
+      toast.success("Google login successful");
       saveUserToStore(credential.user);
-      navigate("/");
+
+      // ✅ Redirect admin to /admin, everyone else to /
+      const destination = isAdmin(credential.user.email) ? "/admin" : "/";
+      navigate(destination);
     } catch (err) {
       setError(err.message);
       toast.error("Google authentication failed");

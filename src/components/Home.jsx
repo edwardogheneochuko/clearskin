@@ -1,4 +1,4 @@
-import content from "../assets/data/content.json";
+import content from "@/assets/data/content.json";
 import HeroSection from "./home/HeroSection";
 import EssentialsSection from "./home/EssentialsSection";
 import ProductSection from "./home/ProductSection";

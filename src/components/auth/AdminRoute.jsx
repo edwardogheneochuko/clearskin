@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
 import useAuthStore from "@/store/authStore";
-import { isAdmin } from "@/utils/adminConfig";
+import {isAdmin} from "@/utils/adminConfig"
 
-const ProtectedRoute = () => {
+const AdminRoute = () => {
   const user = useAuthStore((state) => state.user);
   const loading = useAuthStore((state) => state.loading);
 
@@ -16,10 +16,9 @@ const ProtectedRoute = () => {
 
   if (!user) return <Navigate to="/login" replace />;
 
-  // ✅ Admin trying to access user routes gets sent to /admin
-  if (isAdmin(user.email)) return <Navigate to="/admin" replace />;
+  if (!isAdmin(user.email)) return <Navigate to="/" replace />;
 
   return <Outlet />;
 };
 
-export default ProtectedRoute;
+export default AdminRoute;
