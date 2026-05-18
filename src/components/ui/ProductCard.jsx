@@ -27,26 +27,38 @@ const ProductCard = ({ item, index, hero }) => {
   const addToFavorites = useCartStore((state) => state.addToFavorites);
   const removeFromFavorites = useCartStore((state) => state.removeFromFavorites);
 
-  const handleCartToggle = (e) => {
+  const requireAuth = (e, action) => {
     e.stopPropagation();
-    if (isInCart) {
-      removeFromCart(userId, item.id);
-      toast("Removed from cart");
-    } else {
-      addToCart(userId, item);
-      toast.success("Added to cart");
+    if (!user) {
+      toast.error("Please login to continue");
+      navigate("/login");
+      return;
     }
+    action();
+  };
+
+  const handleCartToggle = (e) => {
+    requireAuth(e, () => {
+      if (isInCart) {
+        removeFromCart(userId, item.id);
+        toast("Removed from cart");
+      } else {
+        addToCart(userId, item);
+        toast.success("Added to cart");
+      }
+    });
   };
 
   const handleFavToggle = (e) => {
-    e.stopPropagation();
-    if (isFav) {
-      removeFromFavorites(userId, item.id);
-      toast("Removed from favorites");
-    } else {
-      addToFavorites(userId, item);
-      toast.success("Added to favorites");
-    }
+    requireAuth(e, () => {
+      if (isFav) {
+        removeFromFavorites(userId, item.id);
+        toast("Removed from favorites");
+      } else {
+        addToFavorites(userId, item);
+        toast.success("Added to favorites");
+      }
+    });
   };
 
   const handleNavigate = (e) => {
@@ -112,6 +124,7 @@ const ProductCard = ({ item, index, hero }) => {
           src={item.image}
           alt={item.title || "product"}
           onClick={handleNavigate}
+          loading="lazy"
           className="h-40 w-full rounded-xl object-cover transition duration-300 sm:h-44 md:h-64 group-hover:scale-105 cursor-pointer"
         />
 
@@ -148,7 +161,6 @@ const ProductCard = ({ item, index, hero }) => {
 
       {!hero && (
         <div className="mt-2 space-y-1 sm:mt-3">
-
           <div className="flex items-center gap-2">
             {item.oldPrice && (
               <span className="text-xs text-gray-400 line-through sm:text-sm">
@@ -167,7 +179,6 @@ const ProductCard = ({ item, index, hero }) => {
             {item.title}
           </h3>
 
-          {/* ✅ Stars + review count */}
           <div className="flex items-center gap-1.5">
             <div className="flex items-center gap-0.5">
               {[...Array(5)].map((_, i) => (

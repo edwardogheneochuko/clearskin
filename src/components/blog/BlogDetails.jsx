@@ -15,7 +15,7 @@ const BlogDetails = () => {
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800);
     return () => clearTimeout(timer);
-  }, [slug]); // ✅ Re-triggers skeleton on slug change (related article click)
+  }, [slug]);
 
   const blog = getBlogBySlug(slug);
 
@@ -24,7 +24,6 @@ const BlogDetails = () => {
     return getRelatedBlogs(blog, 3);
   }, [blog]);
 
-  // ✅ Skeleton shows while loading
   if (loading) return <BlogDetailsSkeleton />;
 
   if (!slug) {
@@ -76,6 +75,7 @@ const BlogDetails = () => {
           <img
             src={blog.image}
             alt={blog.title}
+            loading="lazy"
             className="mb-8 h-72 w-full rounded-2xl object-cover"
           />
 
@@ -99,6 +99,7 @@ const BlogDetails = () => {
                       <img
                         src={item.image}
                         alt={item.title}
+                        loading="lazy"
                         className="h-40 w-full object-cover transition hover:scale-105"
                       />
                       <div className="p-4">

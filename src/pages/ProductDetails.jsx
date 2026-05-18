@@ -1,20 +1,19 @@
-import { useState, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useMemo, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Heart, Star, ShoppingBag, ZoomIn } from "lucide-react";
-import { motion } from "framer-motion";
 
 import { allProducts } from "@/utils/product";
 import useCartStore from "@/store/cartStore";
 import useAuthStore from "@/store/authStore";
 import toast from "react-hot-toast";
 import { ProductDetailsSkeleton } from "@/components/ui/Skeleton";
-import ImageZoom from "@/components/ui/ImageZoom"; 
-import { useEffect } from "react";
+import ImageZoom from "@/components/ui/ImageZoom";
 
 const ProductDetails = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [zoomed, setZoomed] = useState(false); 
+  const [zoomed, setZoomed] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800);
@@ -45,6 +44,15 @@ const ProductDetails = () => {
   const isFavorite = favorites.some((item) => item.id === product?.id);
   const isInCart = cart.some((item) => item.id === product?.id);
 
+  const requireAuth = (action) => {
+    if (!user) {
+      toast.error("Please login to continue");
+      navigate("/login");
+      return;
+    }
+    action();
+  };
+
   if (loading) return <ProductDetailsSkeleton />;
 
   if (!product) {
@@ -56,28 +64,31 @@ const ProductDetails = () => {
   }
 
   const handleFavToggle = () => {
-    if (isFavorite) {
-      removeFromFavorites(userId, product.id);
-      toast("Removed from favorites");
-    } else {
-      addToFavorites(userId, product);
-      toast.success("Added to favorites");
-    }
+    requireAuth(() => {
+      if (isFavorite) {
+        removeFromFavorites(userId, product.id);
+        toast("Removed from favorites");
+      } else {
+        addToFavorites(userId, product);
+        toast.success("Added to favorites");
+      }
+    });
   };
 
   const handleCartToggle = () => {
-    if (isInCart) {
-      removeFromCart(userId, product.id);
-      toast("Removed from cart");
-    } else {
-      addToCart(userId, product);
-      toast.success("Added to cart");
-    }
+    requireAuth(() => {
+      if (isInCart) {
+        removeFromCart(userId, product.id);
+        toast("Removed from cart");
+      } else {
+        addToCart(userId, product);
+        toast.success("Added to cart");
+      }
+    });
   };
 
   return (
     <>
-      {/* ✅ Lightbox */}
       <ImageZoom
         src={product.image}
         alt={product.title}
@@ -88,7 +99,6 @@ const ProductDetails = () => {
       <div className="px-4 md:px-10 py-10 mt-20">
         <div className="grid md:grid-cols-2 gap-10">
 
-          {/* ✅ Image with zoom trigger */}
           <div
             className="relative bg-gray-100 rounded-2xl overflow-hidden group cursor-zoom-in"
             onClick={() => setZoomed(true)}
@@ -97,9 +107,9 @@ const ProductDetails = () => {
               src={product.image}
               className="w-full h-[400px] md:h-[600px] object-cover transition duration-300 group-hover:scale-105"
               alt={product.title}
+              loading="lazy"
             />
 
-            {/* Zoom hint overlay */}
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition duration-300 flex items-center justify-center">
               <div className="opacity-0 group-hover:opacity-100 transition duration-300 bg-white/90 rounded-full px-4 py-2 flex items-center gap-2 text-sm font-medium shadow">
                 <ZoomIn size={16} />
@@ -128,7 +138,6 @@ const ProductDetails = () => {
               </button>
             </div>
 
-            {/* Stars + review count */}
             <div className="flex items-center gap-2 mt-4">
               <div className="flex items-center gap-1 text-yellow-500">
                 {[...Array(5)].map((_, i) => (
@@ -172,7 +181,6 @@ const ProductDetails = () => {
                 {isInCart ? "Remove from Cart" : "Add to Cart"}
               </button>
 
-              {/* ✅ Back button */}
               <button
                 onClick={() => window.history.back()}
                 className="px-6 py-4 rounded-xl border text-sm font-medium hover:bg-gray-50 transition cursor-pointer"

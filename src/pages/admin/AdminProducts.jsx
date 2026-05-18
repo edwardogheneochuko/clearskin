@@ -66,7 +66,8 @@ const AdminProducts = () => {
                 <tr key={p.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <img src={p.image} className="w-10 h-10 rounded-lg object-cover bg-gray-100" />
+                      <img src={p.image} loading="lazy"
+                      className="w-10 h-10 rounded-lg object-cover bg-gray-100" />
                       <span className="font-medium line-clamp-1">{p.title}</span>
                     </div>
                   </td>

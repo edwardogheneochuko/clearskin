@@ -20,7 +20,6 @@ const Favorite = () => {
 
   const removeFromFavorites = useCartStore((state) => state.removeFromFavorites);
 
-  // ✅ Show skeleton while loading
   if (loading) return <FavoriteSkeleton />;
 
   if (favorites.length === 0) {
@@ -33,6 +32,12 @@ const Favorite = () => {
         <p className="mt-3 max-w-md text-sm leading-relaxed text-gray-500 sm:text-base">
           Products you favorite will appear here.
         </p>
+        <Link
+          to="/explore"
+          className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-black text-white text-sm font-medium hover:bg-neutral-800 transition"
+        >
+          Start Shopping
+        </Link>
       </div>
     );
   }
@@ -55,8 +60,10 @@ const Favorite = () => {
             <div className="overflow-hidden">
               <img
                 src={item.image}
-                alt={item.title}
-                className="h-56 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-64"
+                alt={item.title || "product"}
+                onClick={handleNavigate}
+                loading="lazy"
+                className="h-40 w-full rounded-xl object-cover transition duration-300 sm:h-44 md:h-64 group-hover:scale-105 cursor-pointer"
               />
             </div>
 

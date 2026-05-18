@@ -35,7 +35,8 @@ const AdminOrders = () => {
               <div className="flex gap-3 flex-wrap">
                 {order.items.map((item) => (
                   <div key={item.id} className="flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-2">
-                    <img src={item.image} className="w-8 h-8 rounded-lg object-cover" />
+                    <img src={item.image} loading="lazy"
+                    className="w-8 h-8 rounded-lg object-cover" />
                     <div>
                       <p className="text-xs font-medium line-clamp-1">{item.title}</p>
                       <p className="text-xs text-gray-400">x{item.quantity} · ${item.price}</p>

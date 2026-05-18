@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom"; // ✅
+import { Link } from "react-router-dom";
 import useCartStore from "@/store/cartStore";
 import useAuthStore from "@/store/authStore";
 import { CartSkeleton } from "@/components/ui/Skeleton";
+import { ShoppingBag } from "lucide-react";
 
 const Cart = () => {
   const [loading, setLoading] = useState(true);
@@ -44,10 +45,17 @@ const Cart = () => {
 
       {cart.length === 0 ? (
         <div className="rounded-2xl bg-white p-10 text-center shadow-sm">
+          <ShoppingBag size={48} className="mx-auto text-gray-200 mb-4" />
           <h2 className="mb-2 text-2xl font-semibold">Your cart is empty</h2>
-          <p className="text-gray-500">
+          <p className="text-gray-400 mb-6">
             Add products to your cart to see them here.
           </p>
+          <Link
+            to="/explore"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-black text-white text-sm font-medium hover:bg-neutral-800 transition"
+          >
+            Start Shopping
+          </Link>
         </div>
       ) : (
         <div className="grid gap-8 lg:grid-cols-[1fr_350px]">
@@ -60,6 +68,7 @@ const Cart = () => {
                 <div className="flex items-center gap-4">
                   <img
                     src={item.image}
+                    loading="lazy"
                     className="h-24 w-24 rounded-xl object-cover"
                   />
 

@@ -26,7 +26,6 @@ const Explore = () => {
     { title: "Under $25", data: content.under25Products },
   ];
 
-  // ✅ Skeleton shows while loading
   if (loading) return <ExploreSkeleton />;
 
   return (

@@ -95,7 +95,8 @@ const UserProfile = () => {
                   <span className="text-white text-[10px] mt-1">{uploadProgress}%</span>
                 </div>
               ) : avatarUrl ? (
-                <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                <img src={avatarUrl} alt="Avatar" loading="lazy"
+                 className="w-full h-full object-cover" />
               ) : (
                 user?.name?.[0] || user?.email?.[0]?.toUpperCase()
               )}
