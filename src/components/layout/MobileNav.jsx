@@ -9,10 +9,8 @@ import useCartStore from "@/store/cartStore";
 import { isAdmin } from "@/utils/adminConfig";
 
 const MobileSidebar = ({
-  isOpen,
-  setIsOpen,
-  search,
-  setSearch,
+  isOpen, setIsOpen,
+  search, setSearch,
   handleItemClick,
   user,
   logout,
@@ -31,7 +29,8 @@ const MobileSidebar = ({
 
   useEffect(() => {
     setIsOpen(false);
-  }, [location.pathname, setIsOpen]);
+    setSearch("");
+  }, [location.pathname, setIsOpen, setSearch]);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "unset";
@@ -39,6 +38,10 @@ const MobileSidebar = ({
       document.body.style.overflow = "unset";
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) setSearch("");
+  }, [isOpen, setSearch]);
 
   const filteredProducts = useMemo(() => {
     if (!search.trim()) return [];
@@ -77,10 +80,15 @@ const MobileSidebar = ({
     if (item.type === "logout") {
       logout?.();
       navigate("/");
-      setIsOpen(false);
+      handleClose();
       return;
     }
     handleItemClick(item);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setSearch("");
   };
 
   return (
@@ -94,7 +102,7 @@ const MobileSidebar = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setIsOpen(false)}
+              onClick={handleClose}
             />
 
             <motion.aside
@@ -107,12 +115,12 @@ const MobileSidebar = ({
             >
               <div className="mb-6 flex items-center justify-between">
                 <h2
-                  onClick={() => { navigate("/"); setIsOpen(false); }}
+                  onClick={() => { navigate("/"); handleClose(); }}
                   className="cursor-pointer text-2xl font-semibold"
                 >
                   Clear<span className="text-pink-400">Skin</span>
                 </h2>
-                <button className="cursor-pointer" onClick={() => setIsOpen(false)}>
+                <button className="cursor-pointer" onClick={handleClose}>
                   <X size={22} />
                 </button>
               </div>
@@ -138,14 +146,14 @@ const MobileSidebar = ({
                         key={product.id}
                         onClick={() => {
                           navigate(`/product/${product.slug || product.id}`);
-                          setSearch("");
-                          setIsOpen(false);
+                          handleClose();
                         }}
                         className="flex w-full gap-3 p-3 text-left transition hover:bg-pink-50"
                       >
                         <img
                           src={product.image}
                           alt={product.title}
+                          loading="lazy"
                           className="h-12 w-12 rounded object-cover"
                         />
                         <div>
@@ -168,12 +176,12 @@ const MobileSidebar = ({
                         onClick={() => {
                           if (icon.alt === "user" && user) {
                             navigate("/profile");
-                            setIsOpen(false);
+                            handleClose();
                             return;
                           }
                           if (icon.subItems?.[0]?.link) {
                             navigate(icon.subItems[0].link);
-                            setIsOpen(false);
+                            handleClose();
                           }
                         }}
                         className="flex w-full items-center gap-3"

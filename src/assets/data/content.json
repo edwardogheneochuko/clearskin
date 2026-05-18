@@ -27,7 +27,6 @@
       "price": "Save more with curated bundles"
     }
   ],
-
   "hero": [
     {
       "id": 1,
@@ -240,6 +239,7 @@
       ]
     }
   ],
+  
   "footer": {
     "company": {
       "title": "Company",

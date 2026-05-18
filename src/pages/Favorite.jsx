@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Trash2, Heart } from "lucide-react";
-import { FavoriteSkeleton } from "../components/ui/Skeleton";
-import useCartStore from "../store/cartStore";
-import useAuthStore from "../store/authStore";
+import { Link, useNavigate } from "react-router-dom";
+import { FavoriteSkeleton } from "@/components/ui/Skeleton";
+import useCartStore from "@/store/cartStore";
+import useAuthStore from "@/store/authStore";
 
 const Favorite = () => {
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800);
@@ -19,6 +21,11 @@ const Favorite = () => {
   const favorites = favoritesMap[userId] || [];
 
   const removeFromFavorites = useCartStore((state) => state.removeFromFavorites);
+
+  const handleNavigate = (item) => {
+    const identifier = item.slug?.trim() || String(item.id);
+    navigate(`/product/${identifier}`);
+  };
 
   if (loading) return <FavoriteSkeleton />;
 
@@ -61,14 +68,17 @@ const Favorite = () => {
               <img
                 src={item.image}
                 alt={item.title || "product"}
-                onClick={handleNavigate}
+                onClick={() => handleNavigate(item)}
                 loading="lazy"
-                className="h-40 w-full rounded-xl object-cover transition duration-300 sm:h-44 md:h-64 group-hover:scale-105 cursor-pointer"
+                className="h-56 w-full object-cover transition duration-500 group-hover:scale-105 cursor-pointer sm:h-64"
               />
             </div>
 
             <div className="p-5">
-              <h2 className="line-clamp-1 text-lg font-semibold sm:text-xl">
+              <h2
+                onClick={() => handleNavigate(item)}
+                className="line-clamp-1 text-lg font-semibold sm:text-xl cursor-pointer hover:text-pink-400 transition"
+              >
                 {item.title}
               </h2>
               <p className="mt-2 text-lg font-bold text-pink-500">
