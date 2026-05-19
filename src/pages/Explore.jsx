@@ -68,17 +68,6 @@ const Explore = () => {
   return (
     <div className="px-4 md:px-10 py-22">
 
-      <motion.button
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        onClick={() => navigate("/")}
-        className="flex items-center gap-x-2 mb-10 text-2xl font-bold cursor-pointer hover:text-gray-400 transition duration-200"
-      >
-        <ArrowLeft size={20} />
-        Back to Home
-      </motion.button>
-
-      {/* ── Mobile filter trigger ─────────────────────────────── */}
       <div className="flex items-center justify-between mb-6 md:hidden">
         <p className="text-sm text-gray-500">{filtered.length} products</p>
         <button
@@ -90,7 +79,6 @@ const Explore = () => {
         </button>
       </div>
 
-      {/* ── Layout ───────────────────────────────────────────── */}
       <div className="flex gap-8">
 
         <FilterPanel

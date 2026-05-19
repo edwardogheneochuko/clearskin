@@ -1,20 +1,23 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import content from "../../assets/data/content.json";
+import PageTransition from "./PageTransition";
 
 const Layout = () => {
-  const footer = content?.footer;
+  const location = useLocation();
 
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-
       <main className="flex-1">
-        <Outlet />
+        <AnimatePresence mode="wait">
+          <PageTransition key={location.pathname}>
+            <Outlet />
+          </PageTransition>
+        </AnimatePresence>
       </main>
-
-      <Footer footer={footer} />
+      <Footer />
     </div>
   );
 };
