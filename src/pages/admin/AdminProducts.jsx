@@ -1,28 +1,31 @@
-import { useState } from "react";
-import { Pencil, Trash2, Plus, X } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Pencil, Trash2, Plus, X, Search } from "lucide-react";
 import useAdminStore from "@/store/adminStore";
 import toast from "react-hot-toast";
 
-const EMPTY = { title: "", price: "", oldPrice: "", badge: "", image: "", details: "", rating: 5, category: "products" };
+const EMPTY = {
+  title: "", price: "", oldPrice: "", badge: "",
+  image: "", details: "", rating: 5, category: "products",
+};
 
 const AdminProducts = () => {
-  const products = useAdminStore((s) => s.products);
-  const addProduct = useAdminStore((s) => s.addProduct);
+  const products      = useAdminStore((s) => s.products);
+  const addProduct    = useAdminStore((s) => s.addProduct);
   const updateProduct = useAdminStore((s) => s.updateProduct);
   const deleteProduct = useAdminStore((s) => s.deleteProduct);
 
-  const [modal, setModal] = useState(false);
-  const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState(EMPTY);
+  const [modal, setModal]       = useState(false);
+  const [editing, setEditing]   = useState(null);
+  const [form, setForm]         = useState(EMPTY);
+  const [search, setSearch]     = useState("");
+  const [category, setCategory] = useState("all");
+  const [confirmId, setConfirmId] = useState(null);
 
-  const openAdd = () => { setEditing(null); setForm(EMPTY); setModal(true); };
+  const openAdd  = () => { setEditing(null); setForm(EMPTY); setModal(true); };
   const openEdit = (p) => { setEditing(p.id); setForm({ ...p }); setModal(true); };
 
   const handleSave = () => {
-    if (!form.title || !form.price) {
-      toast.error("Title and price are required");
-      return;
-    }
+    if (!form.title || !form.price) { toast.error("Title and price are required"); return; }
     if (editing !== null) {
       updateProduct(editing, { ...form, price: Number(form.price), oldPrice: Number(form.oldPrice) || undefined });
       toast.success("Product updated");
@@ -35,63 +38,157 @@ const AdminProducts = () => {
 
   const handleDelete = (id) => {
     deleteProduct(id);
+    setConfirmId(null);
     toast.success("Product deleted");
   };
 
+  // ✅ Filter and search
+  const filtered = useMemo(() => {
+    let result = [...products];
+    if (category !== "all") {
+      result = result.filter((p) => p.category === category);
+    }
+    if (search.trim()) {
+      result = result.filter((p) =>
+        p.title.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+    return result;
+  }, [products, search, category]);
+
   return (
     <div className="space-y-5">
-      <div className="flex justify-end">
+
+      {/* ✅ Search and filter bar */}
+      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+        <div className="flex gap-3 flex-1 w-full">
+          <div className="relative flex-1">
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search products..."
+              className="w-full pl-9 pr-4 py-2 rounded-xl bg-white border text-sm outline-none focus:ring-2 focus:ring-pink-400"
+            />
+            {search && (
+              <button
+                onClick={() => setSearch("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black cursor-pointer"
+              >
+                <X size={14} />
+              </button>
+            )}
+          </div>
+
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="px-3 py-2 rounded-xl bg-white border text-sm outline-none focus:ring-2 focus:ring-pink-400 cursor-pointer"
+          >
+            <option value="all">All</option>
+            <option value="products">Full Size</option>
+            <option value="under25">Under $25</option>
+          </select>
+        </div>
+
         <button
           onClick={openAdd}
-          className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-neutral-800 transition cursor-pointer"
+          className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-neutral-800 transition cursor-pointer shrink-0"
         >
           <Plus size={16} /> Add Product
         </button>
       </div>
 
+      {/* ✅ Results count */}
+      <p className="text-xs text-gray-400">
+        {filtered.length} product{filtered.length !== 1 ? "s" : ""} found
+      </p>
+
       <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-gray-500 text-left">
-              <tr>
-                <th className="px-6 py-3 font-medium">Product</th>
-                <th className="px-6 py-3 font-medium">Price</th>
-                <th className="px-6 py-3 font-medium">Category</th>
-                <th className="px-6 py-3 font-medium">Rating</th>
-                <th className="px-6 py-3 font-medium">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {products.map((p) => (
-                <tr key={p.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
-                      <img src={p.image} loading="lazy"
-                      className="w-10 h-10 rounded-lg object-cover bg-gray-100" />
-                      <span className="font-medium line-clamp-1">{p.title}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">${p.price}</td>
-                  <td className="px-6 py-4 capitalize">{p.category}</td>
-                  <td className="px-6 py-4">{p.rating}/5</td>
-                  <td className="px-6 py-4">
-                    <div className="flex gap-2">
-                      <button onClick={() => openEdit(p)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 cursor-pointer transition">
-                        <Pencil size={15} />
-                      </button>
-                      <button onClick={() => handleDelete(p.id)} className="p-2 rounded-lg hover:bg-red-50 text-red-400 cursor-pointer transition">
-                        <Trash2 size={15} />
-                      </button>
-                    </div>
-                  </td>
+        {filtered.length === 0 ? (
+          <p className="text-center text-gray-400 text-sm py-16">No products match your search</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50 text-gray-500 text-left">
+                <tr>
+                  <th className="px-6 py-3 font-medium">Product</th>
+                  <th className="px-6 py-3 font-medium">Price</th>
+                  <th className="px-6 py-3 font-medium">Category</th>
+                  <th className="px-6 py-3 font-medium">Rating</th>
+                  <th className="px-6 py-3 font-medium">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y">
+                {filtered.map((p) => (
+                  <tr key={p.id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <img src={p.image} loading="lazy" className="w-10 h-10 rounded-lg object-cover bg-gray-100" />
+                        <span className="font-medium line-clamp-1">{p.title}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2">
+                        <span>${p.price}</span>
+                        {p.oldPrice && (
+                          <span className="text-xs text-gray-400 line-through">${p.oldPrice}</span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 capitalize">{p.category}</td>
+                    <td className="px-6 py-4">{p.rating}/5</td>
+                    <td className="px-6 py-4">
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => openEdit(p)}
+                          className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 cursor-pointer transition"
+                        >
+                          <Pencil size={15} />
+                        </button>
+                        <button
+                          onClick={() => setConfirmId(p.id)}
+                          className="p-2 rounded-lg hover:bg-red-50 text-red-400 cursor-pointer transition"
+                        >
+                          <Trash2 size={15} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
-      {/* Modal */}
+      {/* ✅ Confirm delete modal */}
+      {confirmId !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl">
+            <h3 className="text-lg font-semibold mb-2">Delete Product</h3>
+            <p className="text-sm text-gray-500 mb-6">
+              Are you sure you want to delete this product? This cannot be undone.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setConfirmId(null)}
+                className="flex-1 py-2 rounded-xl border text-sm font-medium hover:bg-gray-50 transition cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleDelete(confirmId)}
+                className="flex-1 py-2 rounded-xl bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition cursor-pointer"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add / Edit modal */}
       {modal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl max-h-[90vh] overflow-y-auto">
@@ -102,14 +199,27 @@ const AdminProducts = () => {
               </button>
             </div>
 
+            {/* ✅ Live image preview */}
+            {form.image && (
+              <div className="mb-4 overflow-hidden rounded-xl bg-gray-100">
+                <img
+                  src={form.image}
+                  alt="Preview"
+                  loading="lazy"
+                  onError={(e) => e.target.style.display = "none"}
+                  className="w-full h-40 object-cover"
+                />
+              </div>
+            )}
+
             <div className="space-y-3">
               {[
-                { label: "Title",       key: "title",    type: "text"   },
-                { label: "Price",       key: "price",    type: "number" },
-                { label: "Old Price",   key: "oldPrice", type: "number" },
-                { label: "Badge",       key: "badge",    type: "text"   },
-                { label: "Image URL",   key: "image",    type: "text"   },
-                { label: "Details",     key: "details",  type: "text"   },
+                { label: "Title",     key: "title",    type: "text"   },
+                { label: "Price",     key: "price",    type: "number" },
+                { label: "Old Price", key: "oldPrice", type: "number" },
+                { label: "Badge",     key: "badge",    type: "text"   },
+                { label: "Image URL", key: "image",    type: "text"   },
+                { label: "Details",   key: "details",  type: "text"   },
               ].map((field) => (
                 <div key={field.key}>
                   <label className="text-xs font-medium text-gray-500 mb-1 block">{field.label}</label>
@@ -129,7 +239,7 @@ const AdminProducts = () => {
                   onChange={(e) => setForm({ ...form, category: e.target.value })}
                   className="w-full px-3 py-2 rounded-xl bg-gray-100 text-sm outline-none focus:ring-2 focus:ring-pink-400"
                 >
-                  <option value="products">Products</option>
+                  <option value="products">Full Size</option>
                   <option value="under25">Under $25</option>
                 </select>
               </div>

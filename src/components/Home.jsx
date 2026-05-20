@@ -6,43 +6,47 @@ import PromoSection from "./home/PromoSection";
 import FeaturesSection from "./home/FeaturesSection";
 import OfferSection from "./home/OfferSection";
 import BlogSection from "./home/BlogSection";
-
+import RecentlyViewed from "@/components/ui/RecentlyViewed";
 
 const Home = () => {
   const { hero, essentials, products, under25Products, features, blogs, footer } = content;
 
   return (
-  <>
-    <div className="px-3 sm:px-5 md:px-5 overflow-x-hidden">
+    <>
+      <div className="px-3 sm:px-5 md:px-5 overflow-x-hidden">
 
-      <section id="collection" className="w-full">
-        <HeroSection hero={hero} />
-        <EssentialsSection essentials={essentials} />
-      </section>
+        <section id="collection" className="w-full">
+          <HeroSection hero={hero} />
+          <EssentialsSection essentials={essentials} />
+        </section>
 
-      <section id="shop" className="w-full mt-8 sm:mt-10">
-        <ProductSection title="Our Bestsellers" products={products} />
-        <ProductSection title="Under $25" products={under25Products} />
-      </section>
+        <section id="shop" className="w-full mt-8 sm:mt-10">
+          <ProductSection title="Our Bestsellers" products={products} />
+          <ProductSection title="Under $25" products={under25Products} />
+        </section>
 
-      <div className="w-full mt-8 sm:mt-10">
-        <PromoSection />
+        <div className="w-full mt-8 sm:mt-10">
+          <PromoSection />
+        </div>
+
+        <section className="w-full mt-8 sm:mt-10">
+          <FeaturesSection features={features} />
+        </section>
+
+        <section id="offer" className="w-full mt-8 sm:mt-10">
+          <OfferSection />
+        </section>
+
+        <section id="blog" className="w-full mt-8 sm:mt-10">
+          <BlogSection blogs={content.blogs} />
+        </section>
+
+        <section className="w-full mt-8 sm:mt-10">
+          <RecentlyViewed />
+        </section>
+
       </div>
-
-      <section className="w-full mt-8 sm:mt-10">
-        <FeaturesSection features={features} />
-      </section>
-
-      <section id="offer" className="w-full mt-8 sm:mt-10">
-        <OfferSection />
-      </section>
-
-      <section id="blog" className="w-full mt-8 sm:mt-10">
-        <BlogSection blogs={content.blogs} />
-      </section>
-
-    </div>
-  </>
+    </>
   );
 };
 

@@ -1,15 +1,32 @@
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase";
-import useAuthStore from "../store/authStore";
+import useAuthStore from "@/store/authStore";
+import { saveUserToFirestore } from "./saveUserToFirestore";
 
 export const initAuthListener = () => {
-  const setUser = useAuthStore.getState().setUser;
-  const setLoading = useAuthStore.getState().setLoading;
+  onAuthStateChanged(auth, async (firebaseUser) => {
+    const setUser    = useAuthStore.getState().setUser;
+    const setLoading = useAuthStore.getState().setLoading;
 
-  setLoading(true);
+    if (firebaseUser) {
+      const userData = {
+        uid:      firebaseUser.uid,
+        email:    firebaseUser.email,
+        name:     firebaseUser.displayName,
+        photoURL: firebaseUser.photoURL,
+      };
 
-  onAuthStateChanged(auth, (user) => {
-    setUser(user || null);
+      setUser(userData);
+
+      await saveUserToFirestore(firebaseUser);
+    } else {
+      setUser(null);
+    }
+
     setLoading(false);
+  });
+
+  window.addEventListener("beforeunload", () => {
+    signOut(auth);
   });
 };
