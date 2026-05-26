@@ -1,7 +1,8 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
 import "../src/App.css";
+
+import useThemeStore from "./store/themeStore";
 
 import PageTransition from "./components/layout/PageTransition";
 
@@ -24,7 +25,7 @@ const Funds          = lazy(() => import("./pages/Funds"));
 const Checkout       = lazy(() => import("./pages/checkout/Checkout"));
 
 const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center">
+  <div className="min-h-screen flex items-center justify-center dark:bg-black">
     <div className="w-8 h-8 rounded-full border-4 border-pink-400 border-t-transparent animate-spin" />
   </div>
 );
@@ -32,37 +33,71 @@ const PageLoader = () => (
 export default function App() {
   const location = useLocation();
 
+  const initTheme = useThemeStore((s) => s.initTheme);
+
+  useEffect(() => {
+    initTheme();
+  }, []);
+
   return (
     <Suspense fallback={<PageLoader />}>
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
+      <Routes location={location} key={location.pathname}>
 
-          <Route element={<Layout />}>
-            <Route path="/"              element={<Home />}           />
-            <Route path="/explore"       element={<Explore />}        />
-            <Route path="/blog/:slug"    element={<BlogDetails />}    />
-            <Route path="/product/:slug" element={<ProductDetails />} />
+        <Route element={<Layout />}>
+          <Route path="/"              element={<Home />}           />
+          <Route path="/explore"       element={<Explore />}        />
+          <Route path="/blog/:slug"    element={<BlogDetails />}    />
+          <Route path="/product/:slug" element={<ProductDetails />} />
 
-            <Route element={<ProtectedRoute />}>
-              <Route path="/favorites"     element={<Favorite />}     />
-              <Route path="/cart"          element={<Cart />}         />
-              <Route path="/cart/checkout" element={<Checkout />}     />
-              <Route path="/profile"       element={<UserProfile />}  />
-              <Route path="/funds"         element={<Funds />}        />
-            </Route>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/favorites"     element={<Favorite />}     />
+            <Route path="/cart"          element={<Cart />}         />
+            <Route path="/cart/checkout" element={<Checkout />}     />
+            <Route path="/profile"       element={<UserProfile />}  />
+            <Route path="/funds"         element={<Funds />}        />
           </Route>
+        </Route>
 
-          <Route element={<AdminRoute />}>
-            <Route path="/admin" element={<AdminDashboard />} />
-          </Route>
+        <Route element={<AdminRoute />}>
+          <Route path="/admin" element={<AdminDashboard />} />
+        </Route>
 
-          <Route path="/login"           element={<PageTransition><Login /></PageTransition>}          />
-          <Route path="/signup"          element={<PageTransition><Signup /></PageTransition>}         />
-          <Route path="/forgot-password" element={<PageTransition><ForgotPassword /></PageTransition>} />
-          <Route path="*"                element={<PageTransition><NotFound /></PageTransition>}       />
+        <Route
+          path="/login"
+          element={
+            <PageTransition>
+              <Login />
+            </PageTransition>
+          }
+        />
 
-        </Routes>
-      </AnimatePresence>
+        <Route
+          path="/signup"
+          element={
+            <PageTransition>
+              <Signup />
+            </PageTransition>
+          }
+        />
+
+        <Route
+          path="/forgot-password"
+          element={
+            <PageTransition>
+              <ForgotPassword />
+            </PageTransition>
+          }
+        />
+
+        <Route
+          path="*"
+          element={
+            <PageTransition>
+              <NotFound />
+            </PageTransition>
+          }
+        />
+      </Routes>
     </Suspense>
   );
 }

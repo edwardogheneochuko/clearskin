@@ -2,13 +2,15 @@ import { useMemo, useState, useRef, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Menu, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import content from "@/assets/data/content.json";
 import useCartStore from "@/store/cartStore";
 import useAuthStore from "@/store/authStore";
-import MobileSidebar from "./MobileNav";
+import MobileSidebar from "./MobileNav"
 import { allProducts } from "@/utils/product";
 import { isAdmin } from "@/utils/adminConfig";
+import ThemeToggle from "../ui/ThemeToggle";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +20,6 @@ const Navbar = () => {
 
   const timeoutRef = useRef(null);
   const searchRef = useRef(null);
-
   const navigate = useNavigate();
 
   const user = useAuthStore((state) => state.user);
@@ -70,6 +71,22 @@ const Navbar = () => {
     timeoutRef.current = setTimeout(() => setActiveDropdown(null), 300);
   };
 
+  const handleIconClick = (icon) => {
+    if (icon.alt === "cart") {
+      if (cartCount === 0) {
+        toast("Your cart is empty 🛒");
+        return;
+      }
+      navigate("/cart");
+      return;
+    }
+    if (icon.alt === "user" && user) {
+      navigate("/profile");
+      return;
+    }
+    navigate(icon.subItems?.[0]?.link || "/");
+  };
+
   const icons = content.icons.map((icon) => {
     if (icon.alt === "user") {
       return {
@@ -97,18 +114,27 @@ const Navbar = () => {
   });
 
   return (
-    <nav className="fixed top-0 left-0 z-[9999] w-full bg-white shadow-sm">
+    <nav
+      className="fixed top-0 left-0 z-[9999] w-full
+                 bg-white/90 dark:bg-gray-950/90
+                 backdrop-blur-md
+                 border-b border-gray-100 dark:border-gray-800
+                 shadow-sm transition-colors duration-300"
+    >
       <div className="flex items-center justify-between px-4 py-4 md:px-8">
         <button
           onClick={() => setIsOpen(true)}
-          className="cursor-pointer md:hidden"
+          className="cursor-pointer md:hidden
+                     text-gray-700 dark:text-gray-200
+                     hover:text-pink-400 dark:hover:text-pink-400 transition"
         >
           <Menu />
         </button>
 
         <h1
           onClick={() => navigate("/")}
-          className="cursor-pointer text-3xl font-semibold"
+          className="cursor-pointer text-3xl font-semibold
+                     text-gray-900 dark:text-white transition"
         >
           Clear<span className="text-pink-400">Skin</span>
         </h1>
@@ -118,53 +144,79 @@ const Navbar = () => {
             <a
               key={i}
               href={`#${item.target}`}
-              className="transition hover:text-pink-400"
+              className="text-sm font-medium
+                         text-gray-600 dark:text-gray-300
+                         hover:text-pink-400 dark:hover:text-pink-400
+                         transition"
             >
               {item.title}
             </a>
           ))}
         </div>
 
-        <div className="hidden items-center gap-4 md:flex">
+        <div className="hidden items-center gap-3 md:flex">
+          <ThemeToggle />
+
           <div className="relative" ref={searchRef}>
             <input
               value={search}
               onFocus={() => setShowSearchResults(true)}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search products..."
-              className="w-64 rounded-full border px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-pink-400"
+              className="w-56 lg:w-64 rounded-full
+                         border border-gray-200 dark:border-gray-700
+                         bg-gray-50 dark:bg-gray-900
+                         text-gray-900 dark:text-gray-100
+                         placeholder-gray-400 dark:placeholder-gray-500
+                         px-4 py-2 text-sm outline-none
+                         focus:ring-2 focus:ring-pink-400
+                         transition-all duration-200"
             />
+
             <Search
-              size={18}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
+              size={15}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"
             />
 
             {showSearchResults && search.trim() && (
-              <div className="absolute top-full mt-3 max-h-96 w-full overflow-y-auto rounded-xl bg-white shadow-xl">
+              <div
+                className="absolute top-full mt-3 max-h-96 w-full overflow-y-auto
+                           rounded-2xl
+                           bg-white dark:bg-gray-900
+                           border border-gray-100 dark:border-gray-800
+                           shadow-xl dark:shadow-gray-950 z-50"
+              >
                 {filteredProducts.length > 0 ? (
                   filteredProducts.map((product) => (
                     <div
                       key={product.id}
                       onClick={() => {
-                        navigate(`/product/${product.slug || product.id}`);
+                        navigate(
+                          `/product/${product.slug || product.id}`
+                        );
                         setSearch("");
                         setShowSearchResults(false);
                       }}
-                      className="flex cursor-pointer gap-3 p-3 transition hover:bg-pink-50"
+                      className="flex cursor-pointer gap-3 p-3 transition
+                                 hover:bg-pink-50 dark:hover:bg-gray-800"
                     >
                       <img
                         src={product.image}
                         alt={product.title}
-                        className="h-12 w-12 rounded object-cover"
+                        className="h-12 w-12 rounded-xl object-cover"
                       />
                       <div>
-                        <p className="text-sm">{product.title}</p>
-                        <p className="text-pink-400">${product.price}</p>
+                        <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
+                          {product.title}
+                        </p>
+                        <p className="text-xs text-pink-400">
+                          ${product.price}
+                        </p>
                       </div>
                     </div>
                   ))
                 ) : (
-                  <p className="p-4 text-center text-sm text-gray-500">
+                  <p className="p-4 text-center text-sm text-gray-400 dark:text-gray-500">
                     No products found
                   </p>
                 )}
@@ -180,14 +232,10 @@ const Navbar = () => {
               onMouseLeave={handleMouseLeaveDropdown}
             >
               <button
-                onClick={() => {
-                  if (icon.alt === "user" && user) {
-                    navigate("/profile");
-                  } else {
-                    navigate(icon.subItems?.[0]?.link || "/");
-                  }
-                }}
-                className={icon.class}
+                onClick={() => handleIconClick(icon)}
+                className="p-2 rounded-full
+                           hover:bg-gray-100 dark:hover:bg-gray-800
+                           transition duration-200 cursor-pointer"
               >
                 {icon.alt === "user" && user?.photoURL ? (
                   <img
@@ -196,37 +244,47 @@ const Navbar = () => {
                     alt="avatar"
                   />
                 ) : (
-                  <img src={icon.src} alt={icon.alt} className="h-7 w-7" />
+                  <img
+                    src={icon.src}
+                    alt={icon.alt}
+                    className="h-7 w-7 dark:invert dark:opacity-80"
+                  />
                 )}
               </button>
 
               {icon.alt === "cart" && cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-pink-500 text-xs text-white">
+                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-pink-500 text-xs text-white font-medium">
                   {cartCount}
                 </span>
               )}
 
               {activeDropdown === idx && icon.subItems && (
-                <div className="absolute right-0 top-full z-50 mt-2 min-w-[180px] rounded-xl bg-white p-2 shadow-xl">
+                <div
+                  className="absolute right-0 top-full z-50 mt-2 min-w-[190px]
+                             rounded-2xl
+                             bg-white dark:bg-gray-900
+                             border border-gray-100 dark:border-gray-800
+                             p-2 shadow-xl dark:shadow-gray-950"
+                >
                   {icon.subItems.map((item, i) => {
                     const isLogout = item.type === "logout";
                     const isDisabled = item.disabled;
                     const isProfile = item.type === "profile";
-                    const isAdmin_ = item.type === "admin";
+                    const isAdminType = item.type === "admin";
 
                     return (
                       <button
                         key={i}
                         disabled={isDisabled}
                         onClick={() => handleAction(item)}
-                        className={`block w-full rounded-md px-4 py-2 text-left text-sm transition ${
+                        className={`block w-full rounded-xl px-4 py-2.5 text-left text-sm transition ${
                           isDisabled
-                            ? "cursor-default text-gray-400 text-xs"
+                            ? "cursor-default text-gray-400 dark:text-gray-600 text-xs"
                             : isLogout
-                            ? "text-red-600 hover:bg-red-50"
-                            : isProfile || isAdmin_
-                            ? "font-medium hover:bg-pink-50 hover:text-pink-500"
-                            : "hover:bg-pink-50"
+                            ? "text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40"
+                            : isProfile || isAdminType
+                            ? "font-medium text-gray-700 dark:text-gray-200 hover:bg-pink-50 dark:hover:bg-pink-950/30 hover:text-pink-500"
+                            : "text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800"
                         }`}
                       >
                         {item.label}

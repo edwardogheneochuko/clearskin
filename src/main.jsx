@@ -6,8 +6,11 @@ import { Toaster } from 'react-hot-toast';
 import { initAuthListener } from "./utils/authListener";
 import { toastConfig } from './assets/data/toastConfig.jsx';
 import { HelmetProvider } from 'react-helmet-async';
+import useThemeStore from "./store/themeStore.jsx";
 
 initAuthListener()
+useThemeStore.getState().initTheme();
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
