@@ -4,9 +4,7 @@ import { motion } from "framer-motion";
 const containerVariants = {
   hidden: {},
   visible: {
-    transition: {
-      staggerChildren: 0.15,
-    },
+    transition: { staggerChildren: 0.15 },
   },
 };
 
@@ -33,21 +31,23 @@ const EssentialsSection = ({ essentials }) => {
           key={index}
           variants={cardVariants}
           whileHover={{ scale: 1.03 }}
-          className="relative overflow-hidden rounded-md group"
+          className="relative overflow-hidden rounded-xl group shadow-sm dark:shadow-black/30"
         >
           <img
             src={item.image}
             alt={item.text || `essential-${index}`}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
 
-          <div className="absolute top-10 left-10 p-2 text-black">
-            <h1 className="font-semibold text-xl md:text-2xl">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent dark:from-black/60 dark:to-black/20 transition-all duration-300" />
+
+          <div className="absolute top-10 left-10 p-2 z-10">
+            <h1 className="font-semibold text-xl md:text-2xl text-black dark:text-white">
               {item.text}
             </h1>
 
             {item.price && (
-              <p className="mt-3 text-lg font-semibold text-gray-600">
+              <p className="mt-3 text-lg font-semibold text-gray-700 dark:text-gray-300">
                 {item.price}
               </p>
             )}

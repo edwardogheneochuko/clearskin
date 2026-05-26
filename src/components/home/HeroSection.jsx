@@ -7,9 +7,7 @@ const HeroSection = ({ hero = [] }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (index >= hero.length) {
-      setIndex(0);
-    }
+    if (index >= hero.length) setIndex(0);
   }, [hero.length]);
 
   useEffect(() => {
@@ -23,14 +21,11 @@ const HeroSection = ({ hero = [] }) => {
   }, [hero.length]);
 
   const current = hero[index];
-
   if (!current) return null;
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
-
+    <div className="relative w-full h-screen overflow-hidden rounded-2xl">
       <AnimatePresence mode="wait">
-
         <motion.div
           key={index}
           className="absolute inset-0"
@@ -39,14 +34,13 @@ const HeroSection = ({ hero = [] }) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8 }}
         >
-
           <img
             src={current.image}
             alt="hero"
             className="absolute inset-0 w-full h-full object-cover"
           />
 
-          <div className="absolute inset-0 bg-black/20" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/35 via-black/20 to-transparent dark:from-black/80 dark:via-black/60 dark:to-black/20" />
 
           <motion.div
             className="absolute z-10 left-5 md:left-20 top-1/2 -translate-y-1/2 max-w-md"
@@ -56,15 +50,15 @@ const HeroSection = ({ hero = [] }) => {
             transition={{ duration: 0.7, ease: "easeInOut" }}
           >
             <h1
-              className="text-5xl font-semibold leading-tight text-neutral-900"
+              className="text-4xl md:text-5xl font-semibold leading-tight text-neutral-900 dark:text-white"
               dangerouslySetInnerHTML={{ __html: current.title }}
             />
 
-            <p className="text-gray-500 text-base md:text-lg mt-5">
+            <p className="text-gray-600 dark:text-gray-300 text-base md:text-lg mt-5 leading-relaxed">
               {current.text}
             </p>
 
-            <h3 className="mt-6 text-lg md:text-xl font-semibold text-neutral-900">
+            <h3 className="mt-6 text-lg md:text-xl font-semibold text-neutral-900 dark:text-gray-100">
               {current.price}
             </h3>
 
@@ -72,16 +66,34 @@ const HeroSection = ({ hero = [] }) => {
               onClick={() => navigate("/explore")}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="mt-8 px-7 py-3 tracking-wide bg-black text-white rounded-sm hover:bg-green-900 duration-200 cursor-pointer"
+              className="mt-8 px-7 py-3 tracking-wide rounded-md font-medium shadow-lg
+              bg-black text-white
+              hover:bg-green-900
+              dark:bg-white dark:text-black
+              dark:hover:bg-gray-200
+              transition-all duration-300 cursor-pointer"
             >
               {current.buttonText}
             </motion.button>
           </motion.div>
-
         </motion.div>
-
       </AnimatePresence>
 
+      {hero.length > 1 && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          {hero.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIndex(i)}
+              className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                i === index
+                  ? "w-6 bg-white dark:bg-gray-100"
+                  : "w-1.5 bg-white/50 dark:bg-white/30 hover:bg-white/80"
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

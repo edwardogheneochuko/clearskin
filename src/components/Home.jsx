@@ -9,44 +9,104 @@ import BlogSection from "./home/BlogSection";
 import RecentlyViewed from "@/components/ui/RecentlyViewed";
 
 const Home = () => {
-  const { hero, essentials, products, under25Products, features, blogs, footer } = content;
+  const {
+    hero, essentials, products, under25Products,features,blogs, } = content;
 
   return (
-    <>
-      <div className="px-3 sm:px-5 md:px-5 overflow-x-hidden">
-
-        <section id="collection" className="w-full">
+    <div
+      className="
+        min-h-screen bg-white dark:bg-gradient-to-b
+        dark:from-black dark:via-gray-950 dark:to-gray-900 transition-all duration-300
+      ">
+      <div className=" max-w-7xl  mx-auto
+          px-4
+          sm:px-6
+          lg:px-8
+          overflow-x-hidden
+        "
+      >
+        {/* Hero + Essentials */}
+        <section
+          id="collection"
+          className="w-full space-y-12 md:space-y-16"
+        >
           <HeroSection hero={hero} />
           <EssentialsSection essentials={essentials} />
         </section>
 
-        <section id="shop" className="w-full mt-8 sm:mt-10">
-          <ProductSection title="Our Bestsellers" products={products} />
-          <ProductSection title="Under $25" products={under25Products} />
+        {/* Products */}
+        <section
+          id="shop"
+          className="
+            w-full
+            mt-16 md:mt-24
+            space-y-14
+          "
+        >
+          <ProductSection
+            title="Our Bestsellers"
+            products={products}
+          />
+
+          <ProductSection
+            title="Under $25"
+            products={under25Products}
+          />
         </section>
 
-        <div className="w-full mt-8 sm:mt-10">
+        {/* Promo */}
+        <section
+          className="
+            w-full
+            mt-16 md:mt-24
+          "
+        >
           <PromoSection />
-        </div>
+        </section>
 
-        <section className="w-full mt-8 sm:mt-10">
+        {/* Features */}
+        <section
+          className="
+            w-full
+            mt-20 md:mt-24
+          "
+        >
           <FeaturesSection features={features} />
         </section>
 
-        <section id="offer" className="w-full mt-8 sm:mt-10">
+        {/* Offer */}
+        <section
+          id="offer"
+          className="
+            w-full
+            mt-20 md:mt-24
+          "
+        >
           <OfferSection />
         </section>
 
-        <section id="blog" className="w-full mt-8 sm:mt-10">
-          <BlogSection blogs={content.blogs} />
+        {/* Blog */}
+        <section
+          id="blog"
+          className="
+            w-full
+            mt-20 md:mt-24
+          "
+        >
+          <BlogSection blogs={blogs} />
         </section>
 
-        <section className="w-full mt-8 sm:mt-10">
+        <section
+          className="
+            w-full
+            mt-20 md:mt-24
+            pb-20
+          "
+        >
           <RecentlyViewed />
         </section>
-
       </div>
-    </>
+    </div>
   );
 };
 

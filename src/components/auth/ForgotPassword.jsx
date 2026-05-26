@@ -6,11 +6,9 @@ import toast from "react-hot-toast";
 
 import { auth } from "../../utils/firebase";
 
-// ✅ Simple email format regex
 const isValidEmail = (value) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
 
-// ✅ Human-readable Firebase error messages
 const getFriendlyError = (code) => {
   switch (code) {
     case "auth/user-not-found":
@@ -30,90 +28,116 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const bgImage =
+    "https://res.cloudinary.com/direjlzc6/image/upload/v1779797933/mqp3kbhsgaceledvltrs.jpg";
+
   const handleResetPassword = async (e) => {
     e.preventDefault();
 
-    // ✅ Validate format before calling Firebase
-    if (!email.trim()) {
-      toast.error("Please enter your email");
-      return;
-    }
-
-    if (!isValidEmail(email)) {
-      toast.error("Please enter a valid email address");
-      return;
-    }
+    if (!email.trim()) return toast.error("Please enter your email");
+    if (!isValidEmail(email)) return toast.error("Invalid email format");
 
     try {
       setLoading(true);
 
       await sendPasswordResetEmail(auth, email.trim());
 
-      toast.success("Password reset email sent — check your inbox");
+      toast.success("Reset link sent — check your email");
       setEmail("");
     } catch (err) {
-      // ✅ Parse the error code, fall back to generic message
-      const code = err.code || "";
-      toast.error(getFriendlyError(code));
+      toast.error(getFriendlyError(err.code));
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="relative min-h-screen flex items-center justify-center">
+
+      {/* BACKGROUND IMAGE */}
+      <img
+        src={bgImage}
+        alt="bg"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+
+      {/* DARK OVERLAY */}
+      <div className="absolute inset-0 bg-black/60 dark:bg-black/80" />
+
+      {/* CARD */}
       <motion.section
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="w-full max-w-sm bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-gray-100"
+        className="
+          relative z-10
+          w-full max-w-md
+          backdrop-blur-xl
+          bg-white/10 dark:bg-black/40
+          border border-white/20 dark:border-white/10
+          rounded-3xl p-8
+          shadow-2xl
+        "
       >
-        <div className="flex items-center justify-between mb-6">
+        {/* HEADER */}
+        <div className="flex justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-black">Forgot Password</h1>
-            <p className="text-sm text-gray-500 mt-1">
-              Enter your email to reset your password.
+            <h1 className="text-3xl font-bold text-white">
+              Forgot Password
+            </h1>
+            <p className="text-sm text-gray-300 mt-1">
+              Enter your email to reset your password
             </p>
           </div>
 
           <button
             onClick={() => navigate("/login")}
-            className="text-gray-400 hover:text-black transition text-lg cursor-pointer"
+            className="text-gray-300 hover:text-pink-400 text-lg"
           >
             ✕
           </button>
         </div>
 
+        {/* FORM */}
         <form onSubmit={handleResetPassword} className="space-y-4">
-          <div>
-            <input
-              type="email"
-              placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-xl px-4 py-3 bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
-            />
-          </div>
+
+          <input
+            type="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="
+              w-full p-3 rounded-xl
+              bg-white/10 text-white
+              placeholder-gray-300
+              outline-none focus:ring-2 focus:ring-pink-400
+            "
+          />
 
           <motion.button
             whileTap={{ scale: 0.97 }}
             whileHover={{ scale: 1.01 }}
             type="submit"
             disabled={loading}
-            className="w-full bg-pink-400 text-white py-3 rounded-xl hover:bg-pink-500 transition font-medium shadow-md cursor-pointer disabled:opacity-60"
+            className="
+              w-full py-3 rounded-xl
+              bg-pink-500 hover:bg-pink-600
+              text-white font-medium
+              transition
+            "
           >
-            {loading ? "Sending reset link..." : "Send Reset Link"}
+            {loading ? "Sending..." : "Send Reset Link"}
           </motion.button>
         </form>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
+        {/* BACK TO LOGIN */}
+        <p className="text-center text-sm text-gray-300 mt-6">
           Remember your password?{" "}
-          <button
+          <span
             onClick={() => navigate("/login")}
-            className="text-pink-400 hover:underline cursor-pointer font-medium"
+            className="text-pink-400 cursor-pointer"
           >
-            Sign In
-          </button>
+            Sign in
+          </span>
         </p>
       </motion.section>
     </div>

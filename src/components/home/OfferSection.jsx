@@ -21,8 +21,11 @@ const rightVariants = {
 
 const OfferSection = () => {
   return (
-    <div className="mt-16 grid md:grid-cols-4 gap-10 items-center overflow-x-hidden">
-
+    <div
+      className="mt-16 grid md:grid-cols-4 gap-10 items-center
+      overflow-x-hidden rounded-3xl p-6 md:p-10
+      bg-gray-50 dark:bg-gradient-to-r dark:from-gray-950 dark:to-gray-900"
+    >
       <motion.div
         className="md:col-span-2 grid grid-cols-2 gap-4 overflow-hidden"
         variants={leftVariants}
@@ -31,17 +34,17 @@ const OfferSection = () => {
         viewport={{ once: true, amount: 0.3 }}
       >
         <motion.img
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.3 }}
+          whileHover={{ scale: 1.04 }}
           src="https://res.cloudinary.com/direjlzc6/image/upload/v1775253154/k91n0e6vhqxvbbh1sk13.jpg"
-          className="mt-8 w-5/6 h-5/6 max-w-full object-cover mx-auto"
+          alt="Bath oil"
+          className="mt-8 w-5/6 h-5/6 object-cover mx-auto rounded-2xl shadow-lg"
         />
 
         <motion.img
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.3 }}
+          whileHover={{ scale: 1.04 }}
           src="https://res.cloudinary.com/direjlzc6/image/upload/v1775253155/kypyu4pvew6fvstohrnh.jpg"
-          className="w-full h-full max-w-full object-cover"
+          alt="Product"
+          className="w-full h-full object-cover rounded-2xl shadow-lg"
         />
       </motion.div>
 
@@ -52,36 +55,36 @@ const OfferSection = () => {
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
       >
-        <h4 className="text-sm tracking-widest text-black font-semibold">
-          SPECIAL OFFER{" "}
-          <span className="bg-green-900 text-white px-4 py-1 font-display ml-1 rounded opacity-80">
+        <h4 className="text-sm tracking-[4px] font-semibold text-gray-700 dark:text-pink-400">
+          SPECIAL OFFER
+          <span className="ml-2 bg-pink-600 text-white px-4 py-1 rounded-full text-xs">
             -20%
           </span>
         </h4>
 
-        <h2 className="text-4xl md:text-5xl font-semibold mt-2">
+        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-pink-300">
           Mountain Pine Bath Oil
         </h2>
 
-        <p className="text-gray-500 text-lg mt-2 font-medium">
-          Made using clean ingredients, non-toxic ingredients, our products are designed for everyone.
+        <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-300 max-w-md mx-auto">
+          Made using clean, non-toxic ingredients designed for comfort,
+          wellness, and everyday self-care.
         </p>
 
-        <div className="mt-5">
-          <Countdown />
-        </div>
+        <Countdown />
 
-        <div className="overflow-hidden inline-block">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="mt-8 px-7 py-3 tracking-wide bg-black text-white rounded-sm hover:bg-green-900 duration-200 cursor-pointer"
-          >
-            Get Only $39.00
-          </motion.button>
-        </div>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="mt-6 px-8 py-3 rounded-xl
+          bg-black dark:bg-pink-500
+          text-white font-medium
+          hover:bg-pink-600
+          shadow-lg transition-all"
+        >
+          Get Only $39.00
+        </motion.button>
       </motion.div>
-
     </div>
   );
 };
