@@ -6,23 +6,23 @@ import useThemeStore from "./store/themeStore";
 
 import PageTransition from "./components/layout/PageTransition";
 
-const Layout         = lazy(() => import("./components/layout/Layout"));
-const Home           = lazy(() => import("./components/Home"));
-const Explore        = lazy(() => import("./pages/Explore"));
-const BlogDetails    = lazy(() => import("./components/blog/BlogDetails"));
+const Layout = lazy(() => import("./components/layout/Layout"));
+const Home = lazy(() => import("./components/Home"));
+const Explore = lazy(() => import("./pages/Explore"));
+const BlogDetails = lazy(() => import("./components/blog/BlogDetails"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
-const AdminRoute     = lazy(() => import("./components/auth/AdminRoute"));
-const UserProfile    = lazy(() => import("./pages/user/UserProfile"));
-const Login          = lazy(() => import("./components/auth/Login"));
-const Signup         = lazy(() => import("./components/auth/Signup"));
+const AdminRoute = lazy(() => import("./components/auth/AdminRoute"));
+const UserProfile = lazy(() => import("./pages/user/UserProfile"));
+const Login = lazy(() => import("./components/auth/Login"));
+const Signup = lazy(() => import("./components/auth/Signup"));
 const ProtectedRoute = lazy(() => import("./components/auth/ProtectedRoute"));
 const ForgotPassword = lazy(() => import("./components/auth/ForgotPassword"));
-const Favorite       = lazy(() => import("./pages/Favorite"));
+const Favorite = lazy(() => import("./pages/Favorite"));
 const ProductDetails = lazy(() => import("./pages/ProductDetails"));
-const Cart           = lazy(() => import("./pages/Cart"));
-const NotFound       = lazy(() => import("./components/layout/NotFound"));
-const Funds          = lazy(() => import("./pages/Funds"));
-const Checkout       = lazy(() => import("./pages/checkout/Checkout"));
+const Cart = lazy(() => import("./pages/Cart"));
+const NotFound = lazy(() => import("./components/layout/NotFound"));
+const Funds = lazy(() => import("./pages/Funds"));
+const Checkout = lazy(() => import("./pages/checkout/Checkout"));
 
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center dark:bg-black">
@@ -44,17 +44,17 @@ export default function App() {
       <Routes location={location} key={location.pathname}>
 
         <Route element={<Layout />}>
-          <Route path="/"              element={<Home />}           />
-          <Route path="/explore"       element={<Explore />}        />
-          <Route path="/blog/:slug"    element={<BlogDetails />}    />
+          <Route path="/" element={<Home />} />
+          <Route path="/explore" element={<Explore />} />
+          <Route path="/blog/:slug" element={<BlogDetails />} />
           <Route path="/product/:slug" element={<ProductDetails />} />
 
           <Route element={<ProtectedRoute />}>
-            <Route path="/favorites"     element={<Favorite />}     />
-            <Route path="/cart"          element={<Cart />}         />
-            <Route path="/cart/checkout" element={<Checkout />}     />
-            <Route path="/profile"       element={<UserProfile />}  />
-            <Route path="/funds"         element={<Funds />}        />
+            <Route path="/favorites" element={<Favorite />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/cart/checkout" element={<Checkout />} />
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/funds" element={<Funds />} />
           </Route>
         </Route>
 
@@ -64,16 +64,13 @@ export default function App() {
 
         <Route
           path="/login"
-          element={
-            <PageTransition>
-              <Login />
-            </PageTransition>
-          }
-        />
+          element={<PageTransition>
+            <Login />
+          </PageTransition>
+          } />
 
         <Route
-          path="/signup"
-          element={
+          path="/signup" element={
             <PageTransition>
               <Signup />
             </PageTransition>

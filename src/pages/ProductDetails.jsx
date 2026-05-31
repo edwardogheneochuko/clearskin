@@ -95,7 +95,6 @@ const ProductDetails = () => {
     });
   };
 
-  // ✅ Uses native share sheet on mobile, clipboard fallback on desktop
   const handleShare = async () => {
     const url = window.location.href;
 
@@ -107,7 +106,6 @@ const ProductDetails = () => {
           url,
         });
       } catch {
-        // user cancelled — do nothing
       }
     } else {
       await navigator.clipboard.writeText(url);

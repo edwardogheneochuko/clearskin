@@ -129,7 +129,6 @@ const ForgotPassword = () => {
           </motion.button>
         </form>
 
-        {/* BACK TO LOGIN */}
         <p className="text-center text-sm text-gray-300 mt-6">
           Remember your password?{" "}
           <span

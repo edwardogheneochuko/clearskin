@@ -1,10 +1,19 @@
 const Bone = ({ className = "" }) => (
-  <div className={`animate-pulse bg-gray-200 rounded-xl ${className}`} />
+  <div
+    className={`
+      relative overflow-hidden
+      bg-gray-200 dark:bg-zinc-800
+      rounded-xl
+      ${className}
+    `}
+  >
+    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/40 dark:via-white/10 to-transparent" />
+  </div>
 );
 
 // ─── ProductCard skeleton ────────────────────────────────────────────
 export const ProductCardSkeleton = () => (
-  <div className="rounded-2xl border bg-white p-3 sm:p-4">
+  <div className="rounded-2xl border bg-white dark:bg-zinc-900 dark:border-zinc-800 p-3 sm:p-4">
     <Bone className="h-40 sm:h-44 md:h-64 w-full" />
     <div className="mt-3 space-y-2">
       <Bone className="h-4 w-1/3" />
@@ -74,7 +83,10 @@ export const BlogDetailsSkeleton = () => (
         <Bone className="h-7 w-48 mb-6" />
         <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="rounded-xl border overflow-hidden">
+            <div
+              key={i}
+              className="rounded-xl border bg-white dark:bg-zinc-900 dark:border-zinc-800 overflow-hidden"
+            >
               <Bone className="h-40 w-full rounded-none" />
               <div className="p-4 space-y-2">
                 <Bone className="h-4 w-full" />
@@ -90,14 +102,18 @@ export const BlogDetailsSkeleton = () => (
 
 // ─── Cart skeleton ───────────────────────────────────────────────────
 export const CartSkeleton = () => (
-  <div className="min-h-screen px-4 md:px-10 py-10 mt-20 bg-gray-50">
+  <div className="min-h-screen px-4 md:px-10 py-10 mt-20 bg-gray-50 dark:bg-zinc-950">
     <div className="flex items-center justify-between mb-8">
       <Bone className="h-9 w-48" />
     </div>
+
     <div className="grid gap-8 lg:grid-cols-[1fr_350px]">
       <div className="space-y-5">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="flex gap-5 rounded-2xl bg-white p-4 shadow-sm">
+          <div
+            key={i}
+            className="flex gap-5 rounded-2xl bg-white dark:bg-zinc-900 p-4 shadow-sm dark:shadow-black/30"
+          >
             <Bone className="h-24 w-24 shrink-0" />
             <div className="flex-1 space-y-3">
               <Bone className="h-5 w-2/3" />
@@ -112,7 +128,8 @@ export const CartSkeleton = () => (
           </div>
         ))}
       </div>
-      <div className="rounded-2xl bg-white p-6 shadow-sm space-y-4 h-fit">
+
+      <div className="rounded-2xl bg-white dark:bg-zinc-900 p-6 shadow-sm dark:shadow-black/30 space-y-4 h-fit">
         <Bone className="h-6 w-40" />
         <Bone className="h-4 w-full" />
         <Bone className="h-4 w-full" />
@@ -129,9 +146,13 @@ export const FavoriteSkeleton = () => (
       <Bone className="h-9 w-48" />
       <Bone className="h-4 w-16" />
     </div>
+
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {[...Array(4)].map((_, i) => (
-        <div key={i} className="rounded-3xl border bg-white overflow-hidden">
+        <div
+          key={i}
+          className="rounded-3xl border bg-white dark:bg-zinc-900 dark:border-zinc-800 overflow-hidden"
+        >
           <Bone className="h-56 sm:h-64 w-full rounded-none" />
           <div className="p-5 space-y-3">
             <Bone className="h-5 w-3/4" />

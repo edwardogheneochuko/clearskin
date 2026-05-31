@@ -123,7 +123,7 @@ const ProductCard = ({ item, index, hero }) => {
       viewport={{ once: true }}
       className="group relative overflow-hidden rounded-2xl
       border border-gray-200 dark:border-gray-800
-      bg-white dark:bg-gray-950
+      bg-white dark:bg-zinc-900
       p-3 sm:p-4
       shadow-sm
       transition-all duration-300
@@ -171,7 +171,7 @@ const ProductCard = ({ item, index, hero }) => {
               key={iconData.key}
               onClick={iconData.action}
               className="rounded-full
-              bg-white/95 dark:bg-gray-900
+              bg-white/95 dark:bg-zinc-900
               backdrop-blur-md
               p-2 shadow-md
               text-black dark:text-white
@@ -242,7 +242,7 @@ const ProductCard = ({ item, index, hero }) => {
             ${
               isInCart
                 ? "bg-red-600 text-white hover:bg-red-700"
-                : "bg-black dark:bg-white text-white dark:text-black hover:bg-green-900 dark:hover:bg-gray-200"
+                : "bg-black dark:bg-white text-white dark:text-black hover:bg-green-900 dark:hover:bg-pink-700"
             }`}
           >
             {isInCart ? "Remove from Cart" : "Add to Cart"}

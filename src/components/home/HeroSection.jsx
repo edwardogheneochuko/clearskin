@@ -50,7 +50,7 @@ const HeroSection = ({ hero = [] }) => {
             transition={{ duration: 0.7, ease: "easeInOut" }}
           >
             <h1
-              className="text-4xl md:text-5xl font-semibold leading-tight text-neutral-900 dark:text-white"
+              className="text-4xl md:text-5xl font-semibold leading-tight text-neutral-900 dark:text-pink-300"
               dangerouslySetInnerHTML={{ __html: current.title }}
             />
 
@@ -69,8 +69,8 @@ const HeroSection = ({ hero = [] }) => {
               className="mt-8 px-7 py-3 tracking-wide rounded-md font-medium shadow-lg
               bg-black text-white
               hover:bg-green-900
-              dark:bg-white dark:text-black
-              dark:hover:bg-gray-200
+              dark:bg-gray-400 dark:text-black
+              dark:hover:bg-pink-900
               transition-all duration-300 cursor-pointer"
             >
               {current.buttonText}

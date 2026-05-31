@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, PackageX, SlidersHorizontal } from "lucide-react";
+import { PackageX, SlidersHorizontal } from "lucide-react";
 
 import content from "@/assets/data/content.json";
 import ProductCard from "@/components/ui/ProductCard";
@@ -15,16 +15,17 @@ const containerVariants = {
 };
 
 const allProductsCombined = [
-  ...content.products.map((p)        => ({ ...p, category: "products" })),
-  ...content.under25Products.map((p) => ({ ...p, category: "under25"  })),
+  ...content.products.map((p) => ({ ...p, category: "products" })),
+  ...content.under25Products.map((p) => ({ ...p, category: "under25" })),
 ];
 
 const Explore = () => {
   const navigate = useNavigate();
-  const [loading, setLoading]         = useState(true);
-  const [filterOpen, setFilterOpen]   = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [filterOpen, setFilterOpen] = useState(false);
 
-  const { search, category, sortBy, minPrice, maxPrice, minRating } = useFilterStore();
+  const { search, category, sortBy, minPrice, maxPrice, minRating } =
+    useFilterStore();
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800);
@@ -45,7 +46,9 @@ const Explore = () => {
     }
 
     result = result.filter(
-      (p) => p.price >= minPrice && p.price <= (maxPrice >= 100 ? Infinity : maxPrice)
+      (p) =>
+        p.price >= minPrice &&
+        p.price <= (maxPrice >= 100 ? Infinity : maxPrice)
     );
 
     if (minRating > 0) {
@@ -53,11 +56,20 @@ const Explore = () => {
     }
 
     switch (sortBy) {
-      case "price-asc":    result.sort((a, b) => a.price   - b.price);   break;
-      case "price-desc":   result.sort((a, b) => b.price   - a.price);   break;
-      case "rating-desc":  result.sort((a, b) => b.rating  - a.rating);  break;
-      case "reviews-desc": result.sort((a, b) => b.reviews - a.reviews); break;
-      default: break;
+      case "price-asc":
+        result.sort((a, b) => a.price - b.price);
+        break;
+      case "price-desc":
+        result.sort((a, b) => b.price - a.price);
+        break;
+      case "rating-desc":
+        result.sort((a, b) => b.rating - a.rating);
+        break;
+      case "reviews-desc":
+        result.sort((a, b) => b.reviews - a.reviews);
+        break;
+      default:
+        break;
     }
 
     return result;
@@ -66,21 +78,27 @@ const Explore = () => {
   if (loading) return <ExploreSkeleton />;
 
   return (
-    <div className="px-4 md:px-10 py-22">
-
+    <div className="px-4 md:px-10 py-22 bg-white dark:bg-zinc-950 min-h-screen">
       <div className="flex items-center justify-between mb-6 md:hidden">
-        <p className="text-sm text-gray-500">{filtered.length} products</p>
+        <p className="text-sm text-black dark:text-zinc-300">
+          {filtered.length} products
+        </p>
+
         <button
           onClick={() => setFilterOpen(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl border bg-white text-sm font-medium hover:bg-gray-50 transition cursor-pointer shadow-sm"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl border
+          bg-white dark:bg-zinc-900
+          text-sm font-medium
+          hover:bg-gray-50 dark:hover:bg-zinc-800
+          transition cursor-pointer shadow-sm
+          border-gray-200 dark:border-zinc-800"
         >
           <SlidersHorizontal size={15} className="text-pink-400" />
-          Filters
+          <span className="dark:text-white">Filters</span>
         </button>
       </div>
 
       <div className="flex gap-8">
-
         <FilterPanel
           total={filtered.length}
           isOpen={filterOpen}
@@ -88,16 +106,21 @@ const Explore = () => {
         />
 
         <div className="flex-1 min-w-0">
-          {/* Desktop product count */}
-          <p className="hidden md:block text-sm text-gray-400 mb-5">
+          <p className="hidden md:block text-sm text-gray-400 dark:text-zinc-500 mb-5">
             {filtered.length} product{filtered.length !== 1 ? "s" : ""} found
           </p>
 
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
-              <PackageX size={48} className="text-gray-200 mb-4" />
-              <h2 className="text-lg font-semibold text-gray-600">No products found</h2>
-              <p className="text-sm text-gray-400 mt-1">Try adjusting your filters</p>
+              <PackageX size={48} className="text-gray-300 dark:text-zinc-700 mb-4" />
+
+              <h2 className="text-lg font-semibold text-gray-600 dark:text-zinc-300">
+                No products found
+              </h2>
+
+              <p className="text-sm text-gray-400 dark:text-zinc-500 mt-1">
+                Try adjusting your filters
+              </p>
             </div>
           ) : (
             <motion.div
@@ -118,7 +141,6 @@ const Explore = () => {
             </motion.div>
           )}
         </div>
-
       </div>
     </div>
   );
