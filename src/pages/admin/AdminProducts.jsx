@@ -14,11 +14,11 @@ const AdminProducts = () => {
   const updateProduct = useAdminStore((s) => s.updateProduct);
   const deleteProduct = useAdminStore((s) => s.deleteProduct);
 
-  const [modal, setModal]       = useState(false);
-  const [editing, setEditing]   = useState(null);
-  const [form, setForm]         = useState(EMPTY);
-  const [search, setSearch]     = useState("");
-  const [category, setCategory] = useState("all");
+  const [modal, setModal]         = useState(false);
+  const [editing, setEditing]     = useState(null);
+  const [form, setForm]           = useState(EMPTY);
+  const [search, setSearch]       = useState("");
+  const [category, setCategory]   = useState("all");
   const [confirmId, setConfirmId] = useState(null);
 
   const openAdd  = () => { setEditing(null); setForm(EMPTY); setModal(true); };
@@ -42,24 +42,19 @@ const AdminProducts = () => {
     toast.success("Product deleted");
   };
 
-  // ✅ Filter and search
   const filtered = useMemo(() => {
     let result = [...products];
-    if (category !== "all") {
-      result = result.filter((p) => p.category === category);
-    }
-    if (search.trim()) {
-      result = result.filter((p) =>
-        p.title.toLowerCase().includes(search.toLowerCase())
-      );
-    }
+    if (category !== "all") result = result.filter((p) => p.category === category);
+    if (search.trim()) result = result.filter((p) => p.title.toLowerCase().includes(search.toLowerCase()));
     return result;
   }, [products, search, category]);
+
+  const inputClass = "w-full px-3 py-2 rounded-xl text-sm outline-none focus:ring-2 focus:ring-pink-400 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white border border-transparent dark:border-gray-700";
 
   return (
     <div className="space-y-5">
 
-      {/* ✅ Search and filter bar */}
+      {/* Search and filter bar */}
       <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
         <div className="flex gap-3 flex-1 w-full">
           <div className="relative flex-1">
@@ -68,12 +63,16 @@ const AdminProducts = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search products..."
-              className="w-full pl-9 pr-4 py-2 rounded-xl bg-white border text-sm outline-none focus:ring-2 focus:ring-pink-400"
+              className="w-full pl-9 pr-4 py-2 rounded-xl text-sm outline-none focus:ring-2 focus:ring-pink-400
+                         bg-white dark:bg-gray-800
+                         border border-gray-200 dark:border-gray-700
+                         text-gray-900 dark:text-white
+                         placeholder-gray-400 dark:placeholder-gray-500"
             />
             {search && (
               <button
                 onClick={() => setSearch("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black dark:hover:text-white cursor-pointer"
               >
                 <X size={14} />
               </button>
@@ -83,7 +82,10 @@ const AdminProducts = () => {
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="px-3 py-2 rounded-xl bg-white border text-sm outline-none focus:ring-2 focus:ring-pink-400 cursor-pointer"
+            className="px-3 py-2 rounded-xl text-sm outline-none focus:ring-2 focus:ring-pink-400 cursor-pointer
+                       bg-white dark:bg-gray-800
+                       border border-gray-200 dark:border-gray-700
+                       text-gray-900 dark:text-white"
           >
             <option value="all">All</option>
             <option value="products">Full Size</option>
@@ -93,24 +95,26 @@ const AdminProducts = () => {
 
         <button
           onClick={openAdd}
-          className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-neutral-800 transition cursor-pointer shrink-0"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium cursor-pointer shrink-0 transition
+                     bg-black dark:bg-white text-white dark:text-black
+                     hover:bg-neutral-800 dark:hover:bg-gray-200"
         >
           <Plus size={16} /> Add Product
         </button>
       </div>
 
-      {/* ✅ Results count */}
-      <p className="text-xs text-gray-400">
+      <p className="text-xs text-gray-400 dark:text-gray-500">
         {filtered.length} product{filtered.length !== 1 ? "s" : ""} found
       </p>
 
-      <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
+      {/* Table */}
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
         {filtered.length === 0 ? (
-          <p className="text-center text-gray-400 text-sm py-16">No products match your search</p>
+          <p className="text-center text-gray-400 dark:text-gray-500 text-sm py-16">No products match your search</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50 text-gray-500 text-left">
+              <thead className="bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-left">
                 <tr>
                   <th className="px-6 py-3 font-medium">Product</th>
                   <th className="px-6 py-3 font-medium">Price</th>
@@ -119,37 +123,29 @@ const AdminProducts = () => {
                   <th className="px-6 py-3 font-medium">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y">
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                 {filtered.map((p) => (
-                  <tr key={p.id} className="hover:bg-gray-50">
+                  <tr key={p.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <img src={p.image} loading="lazy" className="w-10 h-10 rounded-lg object-cover bg-gray-100" />
-                        <span className="font-medium line-clamp-1">{p.title}</span>
+                        <img src={p.image} loading="lazy" className="w-10 h-10 rounded-lg object-cover bg-gray-100 dark:bg-gray-800" />
+                        <span className="font-medium line-clamp-1 text-gray-900 dark:text-white">{p.title}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
                       <div className="flex items-center gap-2">
                         <span>${p.price}</span>
-                        {p.oldPrice && (
-                          <span className="text-xs text-gray-400 line-through">${p.oldPrice}</span>
-                        )}
+                        {p.oldPrice && <span className="text-xs text-gray-400 line-through">${p.oldPrice}</span>}
                       </div>
                     </td>
-                    <td className="px-6 py-4 capitalize">{p.category}</td>
-                    <td className="px-6 py-4">{p.rating}/5</td>
+                    <td className="px-6 py-4 capitalize text-gray-700 dark:text-gray-300">{p.category}</td>
+                    <td className="px-6 py-4 text-gray-700 dark:text-gray-300">{p.rating}/5</td>
                     <td className="px-6 py-4">
                       <div className="flex gap-2">
-                        <button
-                          onClick={() => openEdit(p)}
-                          className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 cursor-pointer transition"
-                        >
+                        <button onClick={() => openEdit(p)} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-pointer transition">
                           <Pencil size={15} />
                         </button>
-                        <button
-                          onClick={() => setConfirmId(p.id)}
-                          className="p-2 rounded-lg hover:bg-red-50 text-red-400 cursor-pointer transition"
-                        >
+                        <button onClick={() => setConfirmId(p.id)} className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30 text-red-400 cursor-pointer transition">
                           <Trash2 size={15} />
                         </button>
                       </div>
@@ -162,25 +158,19 @@ const AdminProducts = () => {
         )}
       </div>
 
-      {/* ✅ Confirm delete modal */}
+      {/* Confirm delete modal */}
       {confirmId !== null && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl">
-            <h3 className="text-lg font-semibold mb-2">Delete Product</h3>
-            <p className="text-sm text-gray-500 mb-6">
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 w-full max-w-sm shadow-xl">
+            <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Delete Product</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
               Are you sure you want to delete this product? This cannot be undone.
             </p>
             <div className="flex gap-3">
-              <button
-                onClick={() => setConfirmId(null)}
-                className="flex-1 py-2 rounded-xl border text-sm font-medium hover:bg-gray-50 transition cursor-pointer"
-              >
+              <button onClick={() => setConfirmId(null)} className="flex-1 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition cursor-pointer">
                 Cancel
               </button>
-              <button
-                onClick={() => handleDelete(confirmId)}
-                className="flex-1 py-2 rounded-xl bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition cursor-pointer"
-              >
+              <button onClick={() => handleDelete(confirmId)} className="flex-1 py-2 rounded-xl bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition cursor-pointer">
                 Delete
               </button>
             </div>
@@ -191,24 +181,17 @@ const AdminProducts = () => {
       {/* Add / Edit modal */}
       {modal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 w-full max-w-md shadow-xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-5">
-              <h3 className="text-lg font-semibold">{editing ? "Edit Product" : "Add Product"}</h3>
-              <button onClick={() => setModal(false)} className="cursor-pointer text-gray-400 hover:text-black">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{editing ? "Edit Product" : "Add Product"}</h3>
+              <button onClick={() => setModal(false)} className="cursor-pointer text-gray-400 hover:text-black dark:hover:text-white transition">
                 <X size={20} />
               </button>
             </div>
 
-            {/* ✅ Live image preview */}
             {form.image && (
-              <div className="mb-4 overflow-hidden rounded-xl bg-gray-100">
-                <img
-                  src={form.image}
-                  alt="Preview"
-                  loading="lazy"
-                  onError={(e) => e.target.style.display = "none"}
-                  className="w-full h-40 object-cover"
-                />
+              <div className="mb-4 overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800">
+                <img src={form.image} alt="Preview" loading="lazy" onError={(e) => e.target.style.display = "none"} className="w-full h-40 object-cover" />
               </div>
             )}
 
@@ -222,51 +205,30 @@ const AdminProducts = () => {
                 { label: "Details",   key: "details",  type: "text"   },
               ].map((field) => (
                 <div key={field.key}>
-                  <label className="text-xs font-medium text-gray-500 mb-1 block">{field.label}</label>
-                  <input
-                    type={field.type}
-                    value={form[field.key]}
-                    onChange={(e) => setForm({ ...form, [field.key]: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl bg-gray-100 text-sm outline-none focus:ring-2 focus:ring-pink-400"
-                  />
+                  <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block">{field.label}</label>
+                  <input type={field.type} value={form[field.key]} onChange={(e) => setForm({ ...form, [field.key]: e.target.value })} className={inputClass} />
                 </div>
               ))}
 
               <div>
-                <label className="text-xs font-medium text-gray-500 mb-1 block">Category</label>
-                <select
-                  value={form.category}
-                  onChange={(e) => setForm({ ...form, category: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl bg-gray-100 text-sm outline-none focus:ring-2 focus:ring-pink-400"
-                >
+                <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block">Category</label>
+                <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className={inputClass}>
                   <option value="products">Full Size</option>
                   <option value="under25">Under $25</option>
                 </select>
               </div>
 
               <div>
-                <label className="text-xs font-medium text-gray-500 mb-1 block">Rating (1–5)</label>
-                <input
-                  type="number"
-                  min={1} max={5}
-                  value={form.rating}
-                  onChange={(e) => setForm({ ...form, rating: Number(e.target.value) })}
-                  className="w-full px-3 py-2 rounded-xl bg-gray-100 text-sm outline-none focus:ring-2 focus:ring-pink-400"
-                />
+                <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block">Rating (1–5)</label>
+                <input type="number" min={1} max={5} value={form.rating} onChange={(e) => setForm({ ...form, rating: Number(e.target.value) })} className={inputClass} />
               </div>
             </div>
 
             <div className="flex gap-3 mt-6">
-              <button
-                onClick={() => setModal(false)}
-                className="flex-1 py-2 rounded-xl border text-sm font-medium hover:bg-gray-50 transition cursor-pointer"
-              >
+              <button onClick={() => setModal(false)} className="flex-1 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition cursor-pointer">
                 Cancel
               </button>
-              <button
-                onClick={handleSave}
-                className="flex-1 py-2 rounded-xl bg-black text-white text-sm font-medium hover:bg-neutral-800 transition cursor-pointer"
-              >
+              <button onClick={handleSave} className="flex-1 py-2 rounded-xl text-sm font-medium transition cursor-pointer bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-gray-200">
                 {editing ? "Save Changes" : "Add Product"}
               </button>
             </div>
