@@ -114,8 +114,7 @@ const Navbar = () => {
   });
 
   return (
-    <nav
-      className="fixed top-0 left-0 z-[9999] w-full
+    <nav className="fixed top-0 left-0 z-[9999] w-full
                  bg-white/90 dark:bg-gray-950/90
                  backdrop-blur-md
                  border-b border-gray-100 dark:border-gray-800

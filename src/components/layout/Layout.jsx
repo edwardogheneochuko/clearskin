@@ -3,6 +3,7 @@ import { AnimatePresence } from "framer-motion";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import PageTransition from "./PageTransition";
+import CompareDrawer from "@/components/ui/CompareDrawer"
 
 const Layout = () => {
   const location = useLocation();
@@ -18,8 +19,8 @@ const Layout = () => {
           </PageTransition>
         </AnimatePresence>
       </main>
-
       <Footer />
+      <CompareDrawer />
     </div>
   );
 };

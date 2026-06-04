@@ -28,8 +28,7 @@ const ProductSection = ({ title, products }) => {
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-      >
+        viewport={{ once: true }}>
         <Text title={title} subtitle="Shop All Products" />
       </motion.div>
 
@@ -38,8 +37,7 @@ const ProductSection = ({ title, products }) => {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-      >
+        viewport={{ once: true, amount: 0.2 }}>
         {visibleProducts.map((item, index) => (
           <motion.div
             key={item.id || index}

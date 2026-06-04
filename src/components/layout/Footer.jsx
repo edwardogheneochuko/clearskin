@@ -1,18 +1,14 @@
 import React from "react";
+import content from "@/assets/data/content.json"
 
-const Footer = ({ footer = {} }) => {
+const Footer = () => {
+  const footer = content.footer
+  
   return (
-    <footer
-      className="
-        bg-white dark:bg-gray-950
+    <footer className=" bg-white dark:bg-gray-950
         border-t border-gray-200 dark:border-gray-800
-        mt-16 pt-14 pb-10 px-5 md:px-10
-        transition-colors duration-300
-      "
-    >
+         pt-14 pb-10 px-5 md:px-10 transition-colors duration-300 ">
       <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-10">
-
-        {/* Company Info */}
         <div>
           <h3 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-pink-400">
             {footer.company?.title || "Company"}
@@ -33,7 +29,6 @@ const Footer = ({ footer = {} }) => {
           </p>
         </div>
 
-        {/* Useful Links */}
         <div>
           <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-pink-400">
             Useful Links
@@ -41,21 +36,14 @@ const Footer = ({ footer = {} }) => {
 
           <ul className="space-y-2 text-sm text-gray-500 dark:text-gray-400">
             {(footer.usefulLinks || []).map((link, index) => (
-              <li
-                key={index}
-                className="
-                  cursor-pointer
-                  hover:text-black dark:hover:text-pink-300
-                  transition-colors duration-200
-                "
-              >
+              <li key={index} className="cursor-pointer hover:text-pink-400
+                  transition-colors duration-200 ">
                 {link}
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Information */}
         <div>
           <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-pink-400">
             Information
@@ -65,19 +53,14 @@ const Footer = ({ footer = {} }) => {
             {(footer.informationLinks || []).map((link, index) => (
               <li
                 key={index}
-                className="
-                  cursor-pointer
-                  hover:text-black dark:hover:text-pink-300
-                  transition-colors duration-200
-                "
-              >
+                className="cursor-pointer hover:text-pink-400
+                  transition-colors duration-200 ">
                 {link}
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Payments */}
         <div>
           <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-pink-400">
             Secure Payments
@@ -98,8 +81,7 @@ const Footer = ({ footer = {} }) => {
                 className="
                   w-10 h-10 object-contain
                   hover:scale-110 transition-transform duration-300
-                "
-              />
+                "/>
             ))}
           </div>
 
@@ -109,14 +91,11 @@ const Footer = ({ footer = {} }) => {
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div
-        className="
+      <div className="
           border-t border-gray-200 dark:border-gray-800
           mt-12 pt-6 text-center text-sm
           text-gray-500 dark:text-gray-400
-        "
-      >
+        ">
         © {new Date().getFullYear()} Clear Skin. All rights reserved.
       </div>
     </footer>
