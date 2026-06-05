@@ -5,8 +5,10 @@ import { BrowserRouter } from "react-router-dom";
 import { initAuthListener } from "./utils/authListener";
 import { HelmetProvider } from "react-helmet-async";
 import ToasterWithTheme from "./store/ToasterWithTheme.jsx";
+import { registerServiceWorker } from "./utils/registerSW.jsx";
 
 initAuthListener();
+registerServiceWorker();
 
 try {
   const stored   = localStorage.getItem("theme-storage");
