@@ -121,11 +121,11 @@ const ProductDetails = () => {
         onClose={() => setZoomed(false)}
       />
 
-      <div className="px-4 md:px-10 py-10 mt-20 bg-white dark:bg-black text-gray-900 dark:text-gray-100">
+      <div className="px-4 md:px-10 py-10 mt-20 bg-skin-base dark:bg-skin-bg text-skin-text">
         <div className="grid md:grid-cols-2 gap-10">
           
           <div
-            className="relative bg-gray-100 dark:bg-zinc-900 rounded-2xl overflow-hidden group cursor-zoom-in"
+            className="relative skin-panel overflow-hidden group cursor-zoom-in"
             onClick={() => setZoomed(true)}
           >
             <img

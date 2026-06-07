@@ -97,7 +97,7 @@ const BlogSection = ({ blogs = [] }) => {
             key={item.id}
             onClick={() => navigate(`/blog/${item.slug}`)}
             className="cursor-pointer group rounded-3xl overflow-hidden
-            bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-950
+            bg-white dark:bg-linear-to-b dark:from-gray-900 dark:to-gray-950
             shadow-sm hover:shadow-xl
             border border-gray-100 dark:border-gray-800
             transition-all duration-300 hover:-translate-y-1"
@@ -145,7 +145,7 @@ const BlogSection = ({ blogs = [] }) => {
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
         className="max-w-3xl mx-auto border-2 border-dashed rounded-3xl p-8
-        text-center bg-gray-50 dark:bg-gradient-to-br dark:from-gray-900 dark:to-gray-950
+        text-center bg-gray-50 dark:bg-linear-to-br dark:from-gray-900 dark:to-gray-950
         border-gray-300 dark:border-gray-700
         shadow-sm hover:shadow-lg transition-all"
       >

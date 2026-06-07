@@ -31,7 +31,7 @@ const Favorite = () => {
 
   if (favorites.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-4 py-10 text-center">
+      <div className="min-h-screen flex flex-col items-center justify-center px-4 py-10 text-center bg-skin-base dark:bg-skin-bg text-skin-text">
         <div className="mb-5 rounded-full bg-pink-100 p-5">
           <Heart size={45} className="text-pink-500" />
         </div>
@@ -50,7 +50,7 @@ const Favorite = () => {
   }
 
   return (
-    <div className="px-4 py-20 sm:px-6 md:px-10 md:py-24">
+    <div className="px-4 py-20 sm:px-6 md:px-10 md:py-24 bg-skin-base dark:bg-skin-bg text-skin-text">
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-2xl font-bold sm:text-3xl md:text-4xl">
           My Favorites
@@ -62,7 +62,7 @@ const Favorite = () => {
         {favorites.map((item) => (
           <div
             key={item.id}
-            className="group overflow-hidden rounded-3xl border bg-white shadow-sm transition duration-300 hover:shadow-xl"
+            className="group overflow-hidden rounded-3xl skin-panel transition duration-300 hover:shadow-xl"
           >
             <div className="overflow-hidden">
               <img

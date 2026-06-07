@@ -13,7 +13,7 @@ const Home = () => {
 
   return (
     <div
-      className="min-h-screen bg-white dark:bg-gradient-to-b
+      className="min-h-screen bg-white dark:bg-linear-to-b
         dark:from-black dark:via-gray-950 dark:to-gray-900 transition-all duration-300">
         <section id="collection"
           className="w-full space-y-12 md:space-y-16">

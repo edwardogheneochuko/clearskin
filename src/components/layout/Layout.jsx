@@ -10,7 +10,7 @@ const Layout = () => {
   const location = useLocation();
 
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-zinc-950 text-gray-900 dark:text-white transition-colors duration-300">
+    <div className="flex flex-col min-h-screen skin-page transition-colors duration-300">
       <Navbar />
       <InstallPrompt />
       <main className="flex-1">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = ({ hero = [] }) => {
   const [index, setIndex] = useState(0);
@@ -40,7 +40,7 @@ const HeroSection = ({ hero = [] }) => {
             className="absolute inset-0 w-full h-full object-cover"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-r from-black/35 via-black/20 to-transparent dark:from-black/80 dark:via-black/60 dark:to-black/20" />
+          <div className="absolute inset-0 bg-linear-to-r from-black/35 via-black/20 to-transparent dark:from-black/80 dark:via-black/60 dark:to-black/20" />
 
           <motion.div
             className="absolute z-10 left-5 md:left-20 top-1/2 -translate-y-1/2 max-w-md"

@@ -114,10 +114,10 @@ const Navbar = () => {
   });
 
   return (
-    <nav className="fixed top-0 left-0 z-[9999] w-full
-                 bg-white/90 dark:bg-gray-950/90
+    <nav className="fixed top-0 left-0 z-9999 w-full
+                 bg-skin-surface/95 dark:bg-skin-surface/95
                  backdrop-blur-md
-                 border-b border-gray-100 dark:border-gray-800
+                 border-b border-skin-border
                  shadow-sm transition-colors duration-300"
     >
       <div className="flex items-center justify-between px-4 py-4 md:px-8">
@@ -133,9 +133,9 @@ const Navbar = () => {
         <h1
           onClick={() => navigate("/")}
           className="cursor-pointer text-3xl font-semibold
-                     text-gray-900 dark:text-white transition"
+                     text-skin-accent-strong transition"
         >
-          Clear<span className="text-pink-400">Skin</span>
+          Clear<span className="text-skin-accent">Skin</span>
         </h1>
 
         <div className="hidden gap-8 md:flex">
@@ -259,7 +259,7 @@ const Navbar = () => {
 
               {activeDropdown === idx && icon.subItems && (
                 <div
-                  className="absolute right-0 top-full z-50 mt-2 min-w-[190px]
+                  className="absolute right-0 top-full z-50 mt-2 min-w-47.5
                              rounded-2xl
                              bg-white dark:bg-gray-900
                              border border-gray-100 dark:border-gray-800

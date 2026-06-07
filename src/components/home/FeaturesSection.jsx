@@ -44,7 +44,7 @@ const FeaturesSection = ({ features = [] }) => {
             whileHover={{ scale: 1.03, y: -4 }}
             transition={{ type: "spring", stiffness: 180 }}
             className="text-center p-5 sm:p-6 rounded-3xl
-            bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-gray-800
+            bg-white dark:bg-linear-to-br dark:from-gray-900 dark:to-gray-800
             shadow-md hover:shadow-xl
             border border-gray-100 dark:border-gray-800
             transition-all duration-300"

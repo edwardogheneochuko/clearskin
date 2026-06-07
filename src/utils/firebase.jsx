@@ -20,4 +20,6 @@ export const googleProvider = new GoogleAuthProvider();
 export const db           = getFirestore(app);
 export const storage      = getStorage(app);
 
-setPersistence(auth, browserSessionPersistence);
+setPersistence(auth, browserSessionPersistence).catch((error) => {
+  console.error("Failed to set Firebase auth persistence:", error);
+});

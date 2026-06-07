@@ -14,7 +14,9 @@ import { X, Sparkles } from "lucide-react";
 import toast from "react-hot-toast";
 
 import { auth, googleProvider } from "@/utils/firebase";
+import { createOrUpdateUser } from "@/utils/firebaseUser";
 import useAuthStore from "@/store/authStore";
+import { isAdmin } from "@/utils/adminConfig";
 
 const signupSchema = z
   .object({
@@ -51,6 +53,14 @@ const Signup = () => {
     formState: { errors, isSubmitting },
   } = useForm({ resolver: zodResolver(signupSchema) });
 
+  const redirectAfterAuth = (email) => {
+    if (isAdmin(email)) {
+      navigate("/admin");
+    } else {
+      navigate("/explore");
+    }
+  };
+
   const onSubmit = async (data) => {
     setError("");
     try {
@@ -67,7 +77,13 @@ const Signup = () => {
       });
 
       toast.success("Account created successfully 🎉");
-      navigate("/profile");
+      redirectAfterAuth(userCredential.user.email);
+      createOrUpdateUser({
+        ...userCredential.user,
+        displayName: data.name,
+      }).catch((error) => {
+        console.error("Failed to create/update Firestore user after signup:", error);
+      });
     } catch (err) {
       const msg = err.message;
       setError(msg);
@@ -90,7 +106,10 @@ const Signup = () => {
         photoURL: credential.user.photoURL,
       });
       toast.success("Google signup successful 🚀");
-      navigate("/profile");
+      redirectAfterAuth(credential.user.email);
+      createOrUpdateUser(credential.user).catch((error) => {
+        console.error("Failed to create/update Firestore user after Google signup:", error);
+      });
     } catch (err) {
       setError(err.message);
       toast.error("Google authentication failed");
@@ -100,7 +119,6 @@ const Signup = () => {
   return (
     <div className="relative min-h-screen flex items-center justify-center px-4">
 
-      {/* Background */}
       <img
         src={urlImage}
         alt="background"
@@ -108,14 +126,12 @@ const Signup = () => {
       />
       <div className="absolute inset-0 bg-black/55 dark:bg-black/75" />
 
-      {/* Card */}
       <motion.section
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: "easeOut" }}
         className="relative z-10 w-full max-w-sm"
       >
-        {/* Brand mark */}
         <div className="flex items-center justify-center gap-2 mb-8">
           <Sparkles size={16} className="text-pink-400" />
           <span className="text-white/80 text-sm font-medium tracking-widest uppercase">
@@ -128,7 +144,6 @@ const Signup = () => {
                         border border-white/20 dark:border-white/10
                         rounded-3xl p-8 shadow-2xl">
 
-          {/* Header */}
           <div className="flex items-start justify-between mb-7">
             <div>
               <h1 className="text-2xl font-bold text-white">Create Account</h1>
@@ -144,7 +159,6 @@ const Signup = () => {
             </button>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
             <div>
               <input
@@ -208,14 +222,12 @@ const Signup = () => {
             </button>
           </form>
 
-          {/* Divider */}
           <div className="flex items-center gap-3 my-5">
             <div className="flex-1 h-px bg-white/15" />
             <span className="text-xs text-white/40">or</span>
             <div className="flex-1 h-px bg-white/15" />
           </div>
 
-          {/* Google */}
           <button
             onClick={handleGoogleSignup}
             className="w-full py-3 rounded-xl
@@ -230,7 +242,6 @@ const Signup = () => {
             Continue with Google
           </button>
 
-          {/* Footer */}
           <p className="text-center text-xs text-white/50 mt-6">
             Already have an account?{" "}
             <button

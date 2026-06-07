@@ -39,7 +39,7 @@ const EssentialsSection = ({ essentials }) => {
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent dark:from-black/60 dark:to-black/20 transition-all duration-300" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/10 to-transparent dark:from-black/60 dark:to-black/20 transition-all duration-300" />
 
           <div className="absolute top-10 left-10 p-2 z-10">
             <h1 className="font-semibold text-xl md:text-2xl text-black dark:text-white">

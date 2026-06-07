@@ -78,7 +78,7 @@ const Explore = () => {
   if (loading) return <ExploreSkeleton />;
 
   return (
-    <div className="px-4 md:px-10 py-22 bg-white dark:bg-zinc-950 min-h-screen">
+    <div className="px-4 md:px-10 py-22 bg-skin-base dark:bg-skin-bg min-h-screen">
       <div className="flex items-center justify-between mb-6 md:hidden">
         <p className="text-sm text-black dark:text-zinc-300">
           {filtered.length} products

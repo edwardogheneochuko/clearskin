@@ -32,9 +32,8 @@ const Cart = () => {
   if (loading) return <CartSkeleton />;
 
   return (
-    <div className="min-h-screen px-4 md:px-10 py-10 mt-20 bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100">
+    <div className="min-h-screen px-4 md:px-10 py-10 mt-20 bg-skin-base dark:bg-skin-bg text-skin-text">
       
-      {/* HEADER */}
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-3xl font-bold">
           Shopping Cart
@@ -50,9 +49,8 @@ const Cart = () => {
         )}
       </div>
 
-      {/* EMPTY CART */}
       {cart.length === 0 ? (
-        <div className="rounded-2xl bg-white dark:bg-zinc-900 p-10 text-center shadow-sm border border-gray-200 dark:border-gray-800">
+        <div className="rounded-2xl skin-panel p-10 text-center">
           <ShoppingBag
             size={48}
             className="mx-auto text-gray-300 dark:text-gray-700 mb-4"
@@ -78,15 +76,11 @@ const Cart = () => {
       ) : (
         <div className="grid gap-8 lg:grid-cols-[1fr_350px]">
           
-          {/* CART ITEMS */}
           <div className="space-y-5">
             {cart.map((item) => (
               <div
                 key={item.id}
-                className="flex flex-col justify-between gap-5 rounded-2xl
-                bg-white dark:bg-zinc-900
-                border border-gray-200 dark:border-gray-800
-                p-4 shadow-sm sm:flex-row sm:items-center"
+                className="flex flex-col justify-between gap-5 rounded-2xl skin-panel p-4 sm:flex-row sm:items-center"
               >
                 <div className="flex items-center gap-4">
                   <img
@@ -144,12 +138,7 @@ const Cart = () => {
             ))}
           </div>
 
-          {/* SUMMARY */}
-          <div className="sticky top-28 h-fit rounded-2xl
-            bg-white dark:bg-zinc-900
-            border border-gray-200 dark:border-gray-800
-            p-6 shadow-sm"
-          >
+          <div className="sticky top-28 h-fit rounded-2xl skin-panel p-6">
             <h2 className="mb-6 text-xl font-semibold">
               Order Summary
             </h2>

@@ -9,4 +9,72 @@
   --font-text: "Bodoni Moda", serif;
 }
 
+:root {
+  color-scheme: light;
+  --skin-bg: #fff6fb;
+  --skin-base: #fdebf3;
+  --skin-surface: rgba(255, 255, 255, 0.94);
+  --skin-border: rgba(236, 72, 153, 0.18);
+  --skin-accent: #ec4899;
+  --skin-accent-strong: #db2777;
+  --skin-muted: #6b2145;
+  --skin-text: #111827;
+  --skin-subtle: #6b7280;
+  --skin-card-shadow: 0 20px 60px rgba(236, 72, 153, 0.08);
+}
+
+.dark {
+  color-scheme: dark;
+  --skin-bg: #0f0711;
+  --skin-base: #150a16;
+  --skin-surface: rgba(20, 11, 23, 0.95);
+  --skin-border: rgba(236, 72, 153, 0.15);
+  --skin-accent: #f472b6;
+  --skin-accent-strong: #ec4899;
+  --skin-muted: #f9a8d4;
+  --skin-text: #f8fafc;
+  --skin-subtle: #cbd5e1;
+  --skin-card-shadow: 0 20px 60px rgba(236, 72, 153, 0.12);
+}
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, rgba(236, 72, 153, 0.16), transparent 28%), var(--skin-bg);
+  color: var(--skin-text);
+}
+
+::selection {
+  background: rgba(236, 72, 153, 0.24);
+  color: var(--skin-text);
+}
+
+.skin-page {
+  background: var(--skin-bg);
+  color: var(--skin-text);
+}
+
+.skin-panel,
+.skin-card {
+  background: var(--skin-surface);
+  border: 1px solid var(--skin-border);
+  box-shadow: var(--skin-card-shadow);
+}
+
+.skin-btn-primary {
+  background: linear-gradient(135deg, var(--skin-accent), var(--skin-accent-strong));
+  color: white;
+}
+
+.skin-btn-primary:hover {
+  background: linear-gradient(135deg, var(--skin-accent-strong), #c81a69);
+}
+
+.skin-heading {
+  color: var(--skin-accent-strong);
+}
+
+.skin-muted {
+  color: var(--skin-subtle);
+}
+
 @custom-variant dark (&:where(.dark, .dark *));

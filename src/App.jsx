@@ -9,7 +9,7 @@ import PageTransition from "./components/layout/PageTransition";
 
 const Layout = lazy(() => import("./components/layout/Layout"));
 const Home = lazy(() => import("./components/Home"));
-const Explore = lazy(() => import("./pages/Explore"));
+const Explore = lazy(() => import("./pages/shop/Explore"));
 const BlogDetails = lazy(() => import("./components/blog/BlogDetails"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const AdminRoute = lazy(() => import("./components/auth/AdminRoute"));
@@ -18,11 +18,11 @@ const Login = lazy(() => import("./components/auth/Login"));
 const Signup = lazy(() => import("./components/auth/Signup"));
 const ProtectedRoute = lazy(() => import("./components/auth/ProtectedRoute"));
 const ForgotPassword = lazy(() => import("./components/auth/ForgotPassword"));
-const Favorite = lazy(() => import("./pages/Favorite"));
-const ProductDetails = lazy(() => import("./pages/ProductDetails"));
-const Cart = lazy(() => import("./pages/Cart"));
+const Favorite = lazy(() => import("./pages/shop/Favorite"));
+const ProductDetails = lazy(() => import("./pages/shop/ProductDetails"));
+const Cart = lazy(() => import("./pages/shop/Cart"));
 const NotFound = lazy(() => import("./components/layout/NotFound"));
-const Funds = lazy(() => import("./pages/Funds"));
+const Funds = lazy(() => import("./pages/shop/Funds"));
 const Checkout = lazy(() => import("./pages/checkout/Checkout"));
 
 const PageLoader = () => (

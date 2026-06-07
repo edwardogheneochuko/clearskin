@@ -32,11 +32,11 @@ const Funds = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 md:px-10 py-10 mt-20">
+    <div className="min-h-screen bg-skin-base px-4 md:px-10 py-10 mt-20 dark:bg-skin-bg">
       <div className="max-w-2xl mx-auto space-y-6">
 
         {/* Balance card */}
-        <div className="bg-black text-white rounded-3xl p-8">
+        <div className="bg-linear-to-br from-pink-500 to-fuchsia-500 text-white rounded-3xl p-8 shadow-xl">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
               <Wallet size={20} />
@@ -83,7 +83,7 @@ const Funds = () => {
         </div>
 
         {/* Transactions */}
-        <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
+        <div className="skin-panel rounded-2xl overflow-hidden">
           <div className="px-6 py-4 border-b">
             <h2 className="font-semibold">Transaction History</h2>
           </div>

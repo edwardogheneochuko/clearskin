@@ -24,7 +24,7 @@ const OfferSection = () => {
     <div
       className="mt-16 grid md:grid-cols-4 gap-10 items-center
       overflow-x-hidden rounded-3xl p-6 md:p-10
-      bg-gray-50 dark:bg-gradient-to-r dark:from-gray-950 dark:to-gray-900"
+      bg-gray-50 dark:bg-linear-to-r dark:from-gray-950 dark:to-gray-900"
     >
       <motion.div
         className="md:col-span-2 grid grid-cols-2 gap-4 overflow-hidden"
