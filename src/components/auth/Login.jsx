@@ -98,6 +98,7 @@ const Login = () => {
         src={urlImage}
         alt="background"
         className="absolute inset-0 w-full h-full object-cover"
+        loading="lazy"
       />
       <div className="absolute inset-0 bg-black/55 dark:bg-black/75" />
 

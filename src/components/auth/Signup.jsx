@@ -76,7 +76,7 @@ const Signup = () => {
         name:  data.name,
       });
 
-      toast.success("Account created successfully 🎉");
+      toast.success("Account created successfully ");
       redirectAfterAuth(userCredential.user.email);
       createOrUpdateUser({
         ...userCredential.user,
@@ -105,7 +105,7 @@ const Signup = () => {
         name:     credential.user.displayName,
         photoURL: credential.user.photoURL,
       });
-      toast.success("Google signup successful 🚀");
+      toast.success("Google signup successful");
       redirectAfterAuth(credential.user.email);
       createOrUpdateUser(credential.user).catch((error) => {
         console.error("Failed to create/update Firestore user after Google signup:", error);
@@ -123,6 +123,7 @@ const Signup = () => {
         src={urlImage}
         alt="background"
         className="absolute inset-0 w-full h-full object-cover"
+        loading="lazy"
       />
       <div className="absolute inset-0 bg-black/55 dark:bg-black/75" />
 

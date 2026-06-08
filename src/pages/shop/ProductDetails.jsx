@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Heart, Star, ShoppingBag, ZoomIn, Share2 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 import { allProducts } from "@/utils/product";
 import useCartStore from "@/store/cartStore";
@@ -10,12 +11,14 @@ import toast from "react-hot-toast";
 import { ProductDetailsSkeleton } from "@/components/ui/Skeleton";
 import ImageZoom from "@/components/ui/ImageZoom";
 import RelatedProducts from "@/components/ui/RelatedProducts";
+import ProductJsonLd from "@/components/seo/ProductJsonLd";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 
 const ProductDetails = () => {
-  const { slug } = useParams();
-  const navigate = useNavigate();
+  const { slug }  = useParams();
+  const navigate  = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [zoomed, setZoomed] = useState(false);
+  const [zoomed, setZoomed]   = useState(false);
 
   const addRecent = useRecentStore((s) => s.addRecent);
 
@@ -24,17 +27,17 @@ const ProductDetails = () => {
     return () => clearTimeout(timer);
   }, [slug]);
 
-  const user = useAuthStore((state) => state.user);
+  const user   = useAuthStore((state) => state.user);
   const userId = user?.uid || "guest";
 
-  const cartsMap = useCartStore((state) => state.carts);
-  const cart = cartsMap[userId] || [];
-  const addToCart = useCartStore((state) => state.addToCart);
-  const removeFromCart = useCartStore((state) => state.removeFromCart);
+  const cartsMap            = useCartStore((state) => state.carts);
+  const cart                = cartsMap[userId] || [];
+  const addToCart           = useCartStore((state) => state.addToCart);
+  const removeFromCart      = useCartStore((state) => state.removeFromCart);
 
-  const favoritesMap = useCartStore((state) => state.favorites);
-  const favorites = favoritesMap[userId] || [];
-  const addToFavorites = useCartStore((state) => state.addToFavorites);
+  const favoritesMap        = useCartStore((state) => state.favorites);
+  const favorites           = favoritesMap[userId] || [];
+  const addToFavorites      = useCartStore((state) => state.addToFavorites);
   const removeFromFavorites = useCartStore((state) => state.removeFromFavorites);
 
   const product = useMemo(() => {
@@ -46,7 +49,7 @@ const ProductDetails = () => {
   }, [slug]);
 
   const isFavorite = favorites.some((item) => item.id === product?.id);
-  const isInCart = cart.some((item) => item.id === product?.id);
+  const isInCart   = cart.some((item) => item.id === product?.id);
 
   useEffect(() => {
     if (product) addRecent(product);
@@ -97,12 +100,11 @@ const ProductDetails = () => {
 
   const handleShare = async () => {
     const url = window.location.href;
-
     if (navigator.share) {
       try {
         await navigator.share({
           title: product.title,
-          text: `Check out ${product.title} on ClearSkin`,
+          text:  `Check out ${product.title} on ClearSkin`,
           url,
         });
       } catch {}
@@ -114,6 +116,27 @@ const ProductDetails = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{product.title} — ClearSkin</title>
+        <meta name="description"           content={product.details} />
+        <meta property="og:title"          content={`${product.title} — ClearSkin`} />
+        <meta property="og:description"    content={product.details} />
+        <meta property="og:image"          content={product.image} />
+        <meta property="og:type"           content="product" />
+        <meta property="og:url"            content={`https://clearskin.com/product/${product.slug || product.id}`} />
+        <meta property="product:price:amount"   content={String(product.price)} />
+        <meta property="product:price:currency" content="USD" />
+      </Helmet>
+
+      <ProductJsonLd product={product} />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home",        path: "/"                                          },
+          { name: "Explore",     path: "/explore"                                   },
+          { name: product.title, path: `/product/${product.slug || product.id}`    },
+        ]}
+      />
+
       <ImageZoom
         src={product.image}
         alt={product.title}
@@ -123,7 +146,7 @@ const ProductDetails = () => {
 
       <div className="px-4 md:px-10 py-10 mt-20 bg-skin-base dark:bg-skin-bg text-skin-text">
         <div className="grid md:grid-cols-2 gap-10">
-          
+
           <div
             className="relative skin-panel overflow-hidden group cursor-zoom-in"
             onClick={() => setZoomed(true)}
@@ -134,7 +157,6 @@ const ProductDetails = () => {
               alt={product.title}
               loading="lazy"
             />
-
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 dark:group-hover:bg-black/40 transition duration-300 flex items-center justify-center">
               <div className="opacity-0 group-hover:opacity-100 transition duration-300 bg-white/90 dark:bg-zinc-800 dark:text-white rounded-full px-4 py-2 flex items-center gap-2 text-sm font-medium shadow">
                 <ZoomIn size={16} />
@@ -143,40 +165,29 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          {/* DETAILS */}
           <div className="md:mt-10">
             <div className="flex items-start justify-between gap-3 flex-wrap">
               <h1 className="text-3xl md:text-4xl font-bold flex-1 min-w-0">
                 {product.title}
               </h1>
-
               <button
                 onClick={handleFavToggle}
                 className={`shrink-0 p-3 rounded-full border transition cursor-pointer
-                  ${
-                    isFavorite
-                      ? "bg-pink-500 border-pink-500 text-white"
-                      : "hover:bg-pink-50 dark:hover:bg-pink-950/30 border-gray-300 dark:border-gray-700"
+                  ${isFavorite
+                    ? "bg-pink-500 border-pink-500 text-white"
+                    : "hover:bg-pink-50 dark:hover:bg-pink-950/30 border-gray-300 dark:border-gray-700"
                   }`}
               >
-                <Heart
-                  size={20}
-                  fill={isFavorite ? "currentColor" : "none"}
-                />
+                <Heart size={20} fill={isFavorite ? "currentColor" : "none"} />
               </button>
             </div>
 
             <div className="flex items-center gap-2 mt-4">
               <div className="flex items-center gap-1 text-yellow-500">
                 {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    size={18}
-                    fill={i < product.rating ? "currentColor" : "none"}
-                  />
+                  <Star key={i} size={18} fill={i < product.rating ? "currentColor" : "none"} />
                 ))}
               </div>
-
               {product.reviews && (
                 <span className="text-sm text-gray-500 dark:text-gray-400">
                   ({product.reviews.toLocaleString()} reviews)
@@ -185,16 +196,10 @@ const ProductDetails = () => {
             </div>
 
             <div className="flex items-center gap-3 mt-6">
-              <p className="text-3xl font-bold">
-                ${product.price}
-              </p>
-
+              <p className="text-3xl font-bold">${product.price}</p>
               {product.oldPrice && (
-                <p className="text-lg text-gray-400 line-through">
-                  ${product.oldPrice}
-                </p>
+                <p className="text-lg text-gray-400 line-through">${product.oldPrice}</p>
               )}
-
               {product.badge && (
                 <span className="text-xs font-semibold bg-pink-100 dark:bg-pink-900/30 text-pink-500 px-2 py-1 rounded-full">
                   {product.badge}
@@ -210,10 +215,9 @@ const ProductDetails = () => {
               <button
                 onClick={handleCartToggle}
                 className={`flex-1 cursor-pointer text-white px-8 py-4 rounded-xl transition flex items-center justify-center gap-3
-                  ${
-                    isInCart
-                      ? "bg-red-600 hover:bg-red-700"
-                      : "bg-black dark:bg-white dark:text-black hover:bg-neutral-700 dark:hover:bg-gray-200"
+                  ${isInCart
+                    ? "bg-red-600 hover:bg-red-700"
+                    : "bg-black dark:bg-white dark:text-black hover:bg-neutral-700 dark:hover:bg-gray-200"
                   }`}
               >
                 <ShoppingBag size={18} />
