@@ -14,13 +14,11 @@ const NotFound = () => {
   }));
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 overflow-hidden relative">
-
-      {/* Floating petal decorations */}
+    <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-gray-950 dark:via-gray-900 dark:to-black flex items-center justify-center px-4 overflow-hidden relative transition-colors duration-300">
       {floatingPetals.map((petal) => (
         <motion.div
           key={petal.id}
-          className="absolute rounded-full bg-pink-200 opacity-40 pointer-events-none"
+          className="absolute rounded-full bg-pink-200 dark:bg-pink-500/30 opacity-40 pointer-events-none"
           style={{
             width: petal.size,
             height: petal.size,
@@ -44,8 +42,6 @@ const NotFound = () => {
       ))}
 
       <div className="relative z-10 text-center max-w-md mx-auto">
-
-        {/* Big 404 */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -55,7 +51,8 @@ const NotFound = () => {
           <span
             className="text-[9rem] sm:text-[12rem] font-black leading-none select-none"
             style={{
-              background: "linear-gradient(135deg, #f9a8d4 0%, #ec4899 50%, #db2777 100%)",
+              background:
+                "linear-gradient(135deg, #f9a8d4 0%, #ec4899 50%, #db2777 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -65,38 +62,39 @@ const NotFound = () => {
             404
           </span>
 
-          {/* Flower emoji centered on the 0 */}
           <motion.span
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl sm:text-5xl select-none pointer-events-none"
             animate={{ rotate: [0, 15, -15, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
           >
             🌸
           </motion.span>
         </motion.div>
 
-        {/* Heading */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3"
+          className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-3"
         >
           Oops! Page not found
         </motion.h1>
 
-        {/* Subtext */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.5 }}
-          className="text-gray-400 text-sm sm:text-base mb-8 leading-relaxed"
+          className="text-gray-500 dark:text-gray-400 text-sm sm:text-base mb-8 leading-relaxed"
         >
           The page you're looking for may have been moved,
-          <br className="hidden sm:block" /> deleted, or never existed.
+          <br className="hidden sm:block" />
+          deleted, or never existed.
         </motion.p>
 
-        {/* CTA buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -107,7 +105,7 @@ const NotFound = () => {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => navigate("/")}
-            className="w-full sm:w-auto bg-pink-400 hover:bg-pink-500 text-white font-medium px-8 py-3 rounded-xl transition shadow-md shadow-pink-100 cursor-pointer"
+            className="w-full sm:w-auto bg-pink-400 hover:bg-pink-500 text-white font-medium px-8 py-3 rounded-xl transition shadow-md shadow-pink-100 dark:shadow-pink-950/30 cursor-pointer"
           >
             Go back home
           </motion.button>
@@ -116,12 +114,11 @@ const NotFound = () => {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => navigate(-1)}
-            className="w-full sm:w-auto border border-gray-200 hover:bg-gray-100 text-gray-600 font-medium px-8 py-3 rounded-xl transition cursor-pointer"
+            className="w-full sm:w-auto border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300 font-medium px-8 py-3 rounded-xl transition cursor-pointer"
           >
             Go back
           </motion.button>
         </motion.div>
-
       </div>
     </div>
   );

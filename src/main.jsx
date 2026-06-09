@@ -6,6 +6,7 @@ import { initAuthListener } from "./utils/authListener";
 import { HelmetProvider } from "react-helmet-async";
 import ToasterWithTheme from "./store/ToasterWithTheme.jsx";
 import { registerServiceWorker } from "./utils/registerSW.jsx";
+import ErrorBoundary from "./components/layout/ErrorBoundary.jsx";
 
 initAuthListener();
 registerServiceWorker();
@@ -21,11 +22,13 @@ try {
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
       <HelmetProvider>
         <ToasterWithTheme />
         <App />
       </HelmetProvider>
     </BrowserRouter>
+    </ErrorBoundary>
   </StrictMode>
 );

@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import PageTransition from "./PageTransition";
 import CompareDrawer from "@/components/ui/CompareDrawer"
 import InstallPrompt from "../ui/InstallPrompt";
+import ErrorBoundary from "./ErrorBoundary";
 
 const Layout = () => {
   const location = useLocation();
@@ -14,11 +15,13 @@ const Layout = () => {
       <Navbar />
       <InstallPrompt />
       <main className="flex-1">
-        <AnimatePresence mode="wait">
+        <ErrorBoundary>
+          <AnimatePresence mode="wait">
           <PageTransition key={location.pathname}>
             <Outlet />
           </PageTransition>
         </AnimatePresence>
+        </ErrorBoundary>
       </main>
       <Footer />
       <CompareDrawer />

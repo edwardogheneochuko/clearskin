@@ -1,11 +1,10 @@
-
 import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import "../src/App.css";
 
 import useThemeStore from "./store/themeStore";
-
 import PageTransition from "./components/layout/PageTransition";
+import GlobalParticles from "./components/ui/GlobalParticles";
 
 const Layout = lazy(() => import("./components/layout/Layout"));
 const Home = lazy(() => import("./components/Home"));
@@ -33,7 +32,6 @@ const PageLoader = () => (
 
 export default function App() {
   const location = useLocation();
-
   const initTheme = useThemeStore((s) => s.initTheme);
 
   useEffect(() => {
@@ -42,6 +40,10 @@ export default function App() {
 
   return (
     <Suspense fallback={<PageLoader />}>
+      
+      {/* 🌸 GLOBAL BACKGROUND EFFECT (dark mode only) */}
+      <GlobalParticles />
+
       <Routes location={location} key={location.pathname}>
 
         <Route element={<Layout />}>
@@ -65,13 +67,16 @@ export default function App() {
 
         <Route
           path="/login"
-          element={<PageTransition>
-            <Login />
-          </PageTransition>
-          } />
+          element={
+            <PageTransition>
+              <Login />
+            </PageTransition>
+          }
+        />
 
         <Route
-          path="/signup" element={
+          path="/signup"
+          element={
             <PageTransition>
               <Signup />
             </PageTransition>
@@ -95,6 +100,7 @@ export default function App() {
             </PageTransition>
           }
         />
+
       </Routes>
     </Suspense>
   );
