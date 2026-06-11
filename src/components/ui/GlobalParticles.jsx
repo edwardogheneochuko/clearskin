@@ -22,7 +22,6 @@ const GlobalParticles = () => {
   return (
     <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden">
 
-      {/* ================= ORBS ================= */}
       {orbs.map((orb) => (
         <motion.div
           key={orb.id}

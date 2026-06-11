@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import useCartStore from "@/store/cartStore";
 import useAuthStore from "@/store/authStore";
 import usePromoStore from "@/store/promoStore";
+import useOrderStore from "../../store/orderStore";
 
 import ShippingStep   from "./steps/ShippingStep";
 import PaymentStep    from "./steps/PaymentStep";
@@ -48,6 +49,7 @@ const Checkout = () => {
 
   const user      = useAuthStore((s) => s.user);
   const userId    = user?.uid || "guest";
+  const addOrder   = useOrderStore((s) => s.addOrder);
   const cartsMap  = useCartStore((s) => s.carts);
   const cart      = cartsMap[userId] || [];
   const clearCart = useCartStore((s) => s.clearCart);
@@ -79,11 +81,17 @@ const Checkout = () => {
 
     try {
       await new Promise((r) => setTimeout(r, 1500));
+
+      addOrder(
+        userId, cart, total, shipping,
+        `${getValues("address")}, ${getValues("city")}, ${getValues("country")} - ${getValues("zip")}`
+      )
+
       clearCart(userId);
       removeCode();
       setConfirmed(true);
       toast.dismiss(loadingToast);
-      toast.success("Order placed successfully 🎉");
+      toast.success("Order placed successfully");
     } catch (err) {
       toast.dismiss(loadingToast);
       toast.error("Something went wrong");
