@@ -32,6 +32,8 @@ const FilterContent = () => {
     setMaxPrice,
     minRating,
     setMinRating,
+    inStock,
+    setInStock,
     resetFilters,
   } = useFilterStore();
 
@@ -41,6 +43,7 @@ const FilterContent = () => {
     minPrice !== 0 ||
     maxPrice !== 100 ||
     minRating !== 0 ||
+    inStock ||
     search !== "";
 
   return (
@@ -55,6 +58,7 @@ const FilterContent = () => {
         </button>
       )}
 
+      {/* SEARCH */}
       <div>
         <label className="text-xs font-medium text-gray-500 dark:text-zinc-400 block mb-2">
           Search
@@ -68,6 +72,7 @@ const FilterContent = () => {
         />
       </div>
 
+      {/* CATEGORY */}
       <div>
         <label className="text-xs font-medium text-gray-500 dark:text-zinc-400 block mb-2">
           Category
@@ -91,6 +96,7 @@ const FilterContent = () => {
         </div>
       </div>
 
+      {/* SORT */}
       <div>
         <label className="text-xs font-medium text-gray-500 dark:text-zinc-400 block mb-2">
           Sort By
@@ -114,6 +120,7 @@ const FilterContent = () => {
         </div>
       </div>
 
+      {/* PRICE RANGE */}
       <div>
         <div className="flex items-center justify-between mb-2">
           <label className="text-xs font-medium text-gray-500 dark:text-zinc-400">
@@ -154,6 +161,7 @@ const FilterContent = () => {
         </div>
       </div>
 
+      {/* MIN RATING */}
       <div>
         <label className="text-xs font-medium text-gray-500 dark:text-zinc-400 block mb-2">
           Min Rating
@@ -175,6 +183,33 @@ const FilterContent = () => {
             </button>
           ))}
         </div>
+      </div>
+
+      {/* ✅ AVAILABILITY FILTER (NEW) */}
+      <div>
+        <label className="text-xs font-medium text-gray-500 dark:text-zinc-400 block mb-2">
+          Availability
+        </label>
+
+        <button
+          onClick={() => setInStock(!inStock)}
+          className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium transition cursor-pointer border
+            ${
+              inStock
+                ? "bg-green-50 dark:bg-green-950/30 text-green-600 border-green-200 dark:border-green-800"
+                : "bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-zinc-300 border-transparent"
+            }`}
+        >
+          <span>In Stock Only</span>
+
+          <div
+            className={`w-4 h-4 rounded-full border-2 transition ${
+              inStock
+                ? "bg-green-500 border-green-500"
+                : "border-gray-300 dark:border-zinc-600"
+            }`}
+          />
+        </button>
       </div>
     </div>
   );
@@ -205,13 +240,9 @@ const FilterPanel = ({ total, isOpen, onClose }) => {
             >
               <div className="flex items-center justify-between p-5 border-b border-gray-200 dark:border-zinc-800 sticky top-0 bg-white dark:bg-zinc-900 z-10">
                 <div className="flex items-center gap-2">
-                  <SlidersHorizontal
-                    size={16}
-                    className="text-pink-400"
-                  />
+                  <SlidersHorizontal size={16} className="text-pink-400" />
 
-                  <span className="font-semibold text-sm text-gray-900 
-                  dark:text-gray-300">
+                  <span className="font-semibold text-sm text-gray-900 dark:text-gray-300">
                     Filters
                   </span>
 
@@ -238,13 +269,11 @@ const FilterPanel = ({ total, isOpen, onClose }) => {
         )}
       </AnimatePresence>
 
+      {/* DESKTOP */}
       <div className="hidden md:block w-56 shrink-0">
         <div className="sticky top-28 bg-white dark:bg-zinc-900 rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-sm p-5">
           <div className="flex items-center gap-2 mb-5">
-            <SlidersHorizontal
-              size={16}
-              className="text-pink-400"
-            />
+            <SlidersHorizontal size={16} className="text-pink-400" />
 
             <span className="font-semibold text-sm text-gray-900 dark:text-white">
               Filters

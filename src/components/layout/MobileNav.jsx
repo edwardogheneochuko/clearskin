@@ -4,7 +4,7 @@ import { Search, X } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import content from "@/assets/data/content.json";
-import { allProducts } from "@/utils/product";
+import useAdminStore from "@/store/adminStore";
 import useCartStore from "@/store/cartStore";
 import { isAdmin } from "@/utils/adminConfig";
 import ThemeToggle from "../ui/ThemeToggle";
@@ -24,6 +24,7 @@ const MobileSidebar = ({
 
   const carts = useCartStore((state) => state.carts);
   const cart = carts[user?.uid || "guest"] || [];
+  const allProducts = useAdminStore((state) => state.products);
 
   const cartCount = useMemo(
     () => cart.reduce((acc, item) => acc + item.quantity, 0),
@@ -52,7 +53,7 @@ const MobileSidebar = ({
     return allProducts
       .filter((p) => p.title.toLowerCase().includes(q.toLowerCase()))
       .slice(0, 6);
-  }, [search]);
+  }, [search, allProducts]);
 
   const icons = content.icons.map((icon) => {
     if (icon.alt === "user") {

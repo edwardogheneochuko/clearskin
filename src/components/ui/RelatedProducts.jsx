@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
-import { allProducts } from "@/utils/product";
+import useAdminStore from "@/store/adminStore";
 
 const RelatedProducts = ({ currentProduct }) => {
   const navigate = useNavigate();
+  const allProducts = useAdminStore((s) => s.products);
 
   const related = allProducts
     .filter((p) => {

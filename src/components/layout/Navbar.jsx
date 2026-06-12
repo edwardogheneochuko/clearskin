@@ -7,8 +7,8 @@ import toast from "react-hot-toast";
 import content from "@/assets/data/content.json";
 import useCartStore from "@/store/cartStore";
 import useAuthStore from "@/store/authStore";
+import useAdminStore from "@/store/adminStore";
 import MobileSidebar from "./MobileNav"
-import { allProducts } from "@/utils/product";
 import { isAdmin } from "@/utils/adminConfig";
 import ThemeToggle from "../ui/ThemeToggle";
 
@@ -29,6 +29,8 @@ const Navbar = () => {
   const cart = carts[user?.uid || "guest"] || [];
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
+  const allProducts = useAdminStore((state) => state.products);
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
@@ -44,7 +46,7 @@ const Navbar = () => {
     return allProducts.filter((product) =>
       product.title.toLowerCase().includes(search.toLowerCase())
     );
-  }, [search]);
+  }, [search, allProducts]);
 
   const handleItemClick = (item) => {
     if (item?.link) navigate(item.link);

@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Pencil, Trash2, Plus, X, Search } from "lucide-react";
+import { Pencil, Trash2, Plus, X, Search, ToggleLeft, ToggleRight } from "lucide-react";
 import useAdminStore from "@/store/adminStore";
 import toast from "react-hot-toast";
 
@@ -13,12 +13,14 @@ const AdminProducts = () => {
   const addProduct    = useAdminStore((s) => s.addProduct);
   const updateProduct = useAdminStore((s) => s.updateProduct);
   const deleteProduct = useAdminStore((s) => s.deleteProduct);
+  const toggleStock   = useAdminStore((s) => s.toggleStock);
 
   const [modal, setModal]         = useState(false);
   const [editing, setEditing]     = useState(null);
   const [form, setForm]           = useState(EMPTY);
   const [search, setSearch]       = useState("");
   const [category, setCategory]   = useState("all");
+  const [stockFilter, setStockFilter] = useState("all");
   const [confirmId, setConfirmId] = useState(null);
 
   const openAdd  = () => { setEditing(null); setForm(EMPTY); setModal(true); };
@@ -27,10 +29,18 @@ const AdminProducts = () => {
   const handleSave = () => {
     if (!form.title || !form.price) { toast.error("Title and price are required"); return; }
     if (editing !== null) {
-      updateProduct(editing, { ...form, price: Number(form.price), oldPrice: Number(form.oldPrice) || undefined });
+      updateProduct(editing, {
+        ...form,
+        price:    Number(form.price),
+        oldPrice: Number(form.oldPrice) || undefined,
+      });
       toast.success("Product updated");
     } else {
-      addProduct({ ...form, price: Number(form.price), oldPrice: Number(form.oldPrice) || undefined });
+      addProduct({
+        ...form,
+        price:    Number(form.price),
+        oldPrice: Number(form.oldPrice) || undefined,
+      });
       toast.success("Product added");
     }
     setModal(false);
@@ -42,22 +52,28 @@ const AdminProducts = () => {
     toast.success("Product deleted");
   };
 
+  const handleToggleStock = (p) => {
+    toggleStock(p.id);
+    toast(p.inStock ? `${p.title} marked out of stock` : `${p.title} marked in stock`);
+  };
+
   const filtered = useMemo(() => {
     let result = [...products];
-    if (category !== "all") result = result.filter((p) => p.category === category);
-    if (search.trim()) result = result.filter((p) => p.title.toLowerCase().includes(search.toLowerCase()));
+    if (category !== "all")    result = result.filter((p) => p.category === category);
+    if (stockFilter !== "all") result = result.filter((p) => stockFilter === "in" ? p.inStock : !p.inStock);
+    if (search.trim())         result = result.filter((p) => p.title.toLowerCase().includes(search.toLowerCase()));
     return result;
-  }, [products, search, category]);
+  }, [products, search, category, stockFilter]);
 
   const inputClass = "w-full px-3 py-2 rounded-xl text-sm outline-none focus:ring-2 focus:ring-pink-400 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white border border-transparent dark:border-gray-700";
 
   return (
     <div className="space-y-5">
 
-      {/* Search and filter bar */}
+      {/* Toolbar */}
       <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-        <div className="flex gap-3 flex-1 w-full">
-          <div className="relative flex-1">
+        <div className="flex gap-3 flex-1 w-full flex-wrap">
+          <div className="relative flex-1 min-w-[160px]">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
             <input
               value={search}
@@ -70,10 +86,7 @@ const AdminProducts = () => {
                          placeholder-gray-400 dark:placeholder-gray-500"
             />
             {search && (
-              <button
-                onClick={() => setSearch("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black dark:hover:text-white cursor-pointer"
-              >
+              <button onClick={() => setSearch("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black dark:hover:text-white cursor-pointer">
                 <X size={14} />
               </button>
             )}
@@ -83,13 +96,25 @@ const AdminProducts = () => {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             className="px-3 py-2 rounded-xl text-sm outline-none focus:ring-2 focus:ring-pink-400 cursor-pointer
-                       bg-white dark:bg-gray-800
-                       border border-gray-200 dark:border-gray-700
+                       bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
                        text-gray-900 dark:text-white"
           >
-            <option value="all">All</option>
+            <option value="all">All Categories</option>
             <option value="products">Full Size</option>
             <option value="under25">Under $25</option>
+          </select>
+
+          {/* ✅ Stock filter */}
+          <select
+            value={stockFilter}
+            onChange={(e) => setStockFilter(e.target.value)}
+            className="px-3 py-2 rounded-xl text-sm outline-none focus:ring-2 focus:ring-pink-400 cursor-pointer
+                       bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
+                       text-gray-900 dark:text-white"
+          >
+            <option value="all">All Stock</option>
+            <option value="in">In Stock</option>
+            <option value="out">Out of Stock</option>
           </select>
         </div>
 
@@ -105,12 +130,16 @@ const AdminProducts = () => {
 
       <p className="text-xs text-gray-400 dark:text-gray-500">
         {filtered.length} product{filtered.length !== 1 ? "s" : ""} found
+        {" · "}
+        <span className="text-green-500">{products.filter(p => p.inStock).length} in stock</span>
+        {" · "}
+        <span className="text-red-400">{products.filter(p => !p.inStock).length} out of stock</span>
       </p>
 
       {/* Table */}
       <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
         {filtered.length === 0 ? (
-          <p className="text-center text-gray-400 dark:text-gray-500 text-sm py-16">No products match your search</p>
+          <p className="text-center text-gray-400 dark:text-gray-500 text-sm py-16">No products match</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -120,6 +149,7 @@ const AdminProducts = () => {
                   <th className="px-6 py-3 font-medium">Price</th>
                   <th className="px-6 py-3 font-medium">Category</th>
                   <th className="px-6 py-3 font-medium">Rating</th>
+                  <th className="px-6 py-3 font-medium">Stock</th>
                   <th className="px-6 py-3 font-medium">Actions</th>
                 </tr>
               </thead>
@@ -128,8 +158,17 @@ const AdminProducts = () => {
                   <tr key={p.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <img src={p.image} loading="lazy" className="w-10 h-10 rounded-lg object-cover bg-gray-100 dark:bg-gray-800" />
-                        <span className="font-medium line-clamp-1 text-gray-900 dark:text-white">{p.title}</span>
+                        <div className="relative">
+                          <img src={p.image} loading="lazy" className={`w-10 h-10 rounded-lg object-cover bg-gray-100 dark:bg-gray-800 ${!p.inStock ? "opacity-50" : ""}`} />
+                          {!p.inStock && (
+                            <div className="absolute inset-0 rounded-lg bg-gray-900/40 flex items-center justify-center">
+                              <span className="text-[8px] text-white font-bold">OUT</span>
+                            </div>
+                          )}
+                        </div>
+                        <span className={`font-medium line-clamp-1 ${!p.inStock ? "text-gray-400 dark:text-gray-600" : "text-gray-900 dark:text-white"}`}>
+                          {p.title}
+                        </span>
                       </div>
                     </td>
                     <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
@@ -140,6 +179,23 @@ const AdminProducts = () => {
                     </td>
                     <td className="px-6 py-4 capitalize text-gray-700 dark:text-gray-300">{p.category}</td>
                     <td className="px-6 py-4 text-gray-700 dark:text-gray-300">{p.rating}/5</td>
+                    <td className="px-6 py-4">
+                      {/* ✅ Stock toggle */}
+                      <button
+                        onClick={() => handleToggleStock(p)}
+                        className="flex items-center gap-1.5 cursor-pointer group"
+                        title={p.inStock ? "Mark out of stock" : "Mark in stock"}
+                      >
+                        {p.inStock ? (
+                          <ToggleRight size={22} className="text-green-500 group-hover:text-green-600 transition" />
+                        ) : (
+                          <ToggleLeft size={22} className="text-gray-400 group-hover:text-gray-500 transition" />
+                        )}
+                        <span className={`text-xs font-medium ${p.inStock ? "text-green-500" : "text-gray-400 dark:text-gray-600"}`}>
+                          {p.inStock ? "In Stock" : "Out of Stock"}
+                        </span>
+                      </button>
+                    </td>
                     <td className="px-6 py-4">
                       <div className="flex gap-2">
                         <button onClick={() => openEdit(p)} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-pointer transition">
@@ -183,7 +239,9 @@ const AdminProducts = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
           <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 w-full max-w-md shadow-xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-5">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{editing ? "Edit Product" : "Add Product"}</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                {editing ? "Edit Product" : "Add Product"}
+              </h3>
               <button onClick={() => setModal(false)} className="cursor-pointer text-gray-400 hover:text-black dark:hover:text-white transition">
                 <X size={20} />
               </button>

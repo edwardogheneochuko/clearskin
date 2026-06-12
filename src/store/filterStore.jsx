@@ -7,6 +7,7 @@ const useFilterStore = create((set) => ({
   minPrice:  0,
   maxPrice:  100,
   minRating: 0,
+  inStock:   false,
 
   setSearch:    (search)    => set({ search }),
   setCategory:  (category)  => set({ category }),
@@ -14,14 +15,11 @@ const useFilterStore = create((set) => ({
   setMinPrice:  (minPrice)  => set({ minPrice }),
   setMaxPrice:  (maxPrice)  => set({ maxPrice }),
   setMinRating: (minRating) => set({ minRating }),
+  setInStock:   (inStock)   => set({ inStock }),
 
   resetFilters: () => set({
-    search:    "",
-    category:  "all",
-    sortBy:    "default",
-    minPrice:  0,
-    maxPrice:  100,
-    minRating: 0,
+    search: "", category: "all", sortBy: "default",
+    minPrice: 0, maxPrice: 100, minRating: 0, inStock: false,
   }),
 }));
 

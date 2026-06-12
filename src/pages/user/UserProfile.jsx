@@ -3,6 +3,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import { auth, storage } from "@/utils/firebase";
 import useAuthStore from "@/store/authStore";
+import PageHeader from "@/components/layout/PageHeader";
 import {
   User,
   MapPin,
@@ -107,9 +108,14 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 px-4 md:px-10 py-10 mt-20">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-center gap-4 mb-8">
+    <>
+      <PageHeader 
+        title="My Profile" 
+        subtitle="Manage your account, orders, and preferences"
+      />
+      <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 px-4 md:px-10 py-12">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center gap-4 mb-8">
           <div className="relative shrink-0">
             <div
               onClick={handleAvatarClick}
@@ -203,6 +209,7 @@ const UserProfile = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

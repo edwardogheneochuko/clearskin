@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useCartStore from "@/store/cartStore";
 import useAuthStore from "@/store/authStore";
+import PageHeader from "@/components/layout/PageHeader";
 import { CartSkeleton } from "@/components/ui/Skeleton";
 import { ShoppingBag } from "lucide-react";
 
@@ -32,13 +33,13 @@ const Cart = () => {
   if (loading) return <CartSkeleton />;
 
   return (
-    <div className="min-h-screen px-4 md:px-10 py-10 mt-20 bg-skin-base dark:bg-skin-bg text-skin-text">
-      
-      <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-3xl font-bold">
-          Shopping Cart
-        </h1>
-
+    <>
+      <PageHeader 
+        title="Shopping Cart" 
+        subtitle="Review and manage your items"
+      />
+      <div className="min-h-screen px-4 md:px-10 py-12 bg-skin-base dark:bg-skin-bg text-skin-text">
+      <div className="mb-8">
         {cart.length > 0 && (
           <button
             onClick={() => clearCart(userId)}
@@ -167,6 +168,7 @@ const Cart = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

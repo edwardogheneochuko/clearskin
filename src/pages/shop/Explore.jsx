@@ -3,28 +3,27 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { PackageX, SlidersHorizontal } from "lucide-react";
 
-import content from "@/assets/data/content.json";
 import ProductCard from "@/components/ui/ProductCard";
 import FilterPanel from "@/components/ui/FilterPanel";
+import PageHeader from "@/components/layout/PageHeader";
 import { ExploreSkeleton } from "@/components/ui/Skeleton";
 import useFilterStore from "@/store/filterStore";
+import useAdminStore from "@/store/adminStore";
 
 const containerVariants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.08 } },
 };
 
-const allProductsCombined = [
-  ...content.products.map((p) => ({ ...p, category: "products" })),
-  ...content.under25Products.map((p) => ({ ...p, category: "under25" })),
-];
-
 const Explore = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [filterOpen, setFilterOpen] = useState(false);
+  
+  // Get products from admin store instead of static JSON
+  const allProductsCombined = useAdminStore((s) => s.products);
 
-  const { search, category, sortBy, minPrice, maxPrice, minRating } =
+  const { search, category, sortBy, minPrice, maxPrice, minRating, inStock } =
     useFilterStore();
 
   useEffect(() => {
@@ -55,6 +54,10 @@ const Explore = () => {
       result = result.filter((p) => p.rating >= minRating);
     }
 
+    if (inStock) {
+      result = result.filter((p) => p.inStock);
+    }
+
     switch (sortBy) {
       case "price-asc":
         result.sort((a, b) => a.price - b.price);
@@ -73,30 +76,36 @@ const Explore = () => {
     }
 
     return result;
-  }, [search, category, sortBy, minPrice, maxPrice, minRating]);
+  }, [search, category, sortBy, minPrice, maxPrice, minRating, inStock]);
 
   if (loading) return <ExploreSkeleton />;
 
   return (
-    <div className="px-4 md:px-10 py-22 bg-skin-base dark:bg-skin-bg min-h-screen">
-      <div className="flex items-center justify-between mb-6 md:hidden">
-        <p className="text-sm text-black dark:text-zinc-300">
-          {filtered.length} products
-        </p>
+    <>
+      <PageHeader 
+        title="Shop All Products" 
+        subtitle="Discover our complete collection of skincare essentials"
+        bgImage={true}
+      />
+      <div className="px-4 md:px-10 py-12 bg-skin-base dark:bg-skin-bg min-h-screen">
+        <div className="flex items-center justify-between mb-6 md:hidden">
+          <p className="text-sm text-black dark:text-zinc-300">
+            {filtered.length} products
+          </p>
 
-        <button
-          onClick={() => setFilterOpen(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl border
-          bg-white dark:bg-zinc-900
-          text-sm font-medium
-          hover:bg-gray-50 dark:hover:bg-zinc-800
-          transition cursor-pointer shadow-sm
-          border-gray-200 dark:border-zinc-800"
-        >
-          <SlidersHorizontal size={15} className="text-pink-400" />
-          <span className="dark:text-white">Filters</span>
-        </button>
-      </div>
+          <button
+            onClick={() => setFilterOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl border
+            bg-white dark:bg-zinc-900
+            text-sm font-medium
+            hover:bg-gray-50 dark:hover:bg-zinc-800
+            transition cursor-pointer shadow-sm
+            border-gray-200 dark:border-zinc-800"
+          >
+            <SlidersHorizontal size={15} className="text-pink-400" />
+            <span className="dark:text-white">Filters</span>
+          </button>
+        </div>
 
       <div className="flex gap-8">
         <FilterPanel
@@ -143,6 +152,7 @@ const Explore = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Trash2, Heart } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import PageHeader from "@/components/layout/PageHeader";
 import { FavoriteSkeleton } from "@/components/ui/Skeleton";
 import useCartStore from "@/store/cartStore";
 import useAuthStore from "@/store/authStore";
@@ -31,32 +32,43 @@ const Favorite = () => {
 
   if (favorites.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-4 py-10 text-center bg-skin-base dark:bg-skin-bg text-skin-text">
-        <div className="mb-5 rounded-full bg-pink-100 p-5">
-          <Heart size={45} className="text-pink-500" />
+      <>
+        <PageHeader 
+          title="My Favorites" 
+          subtitle="Save and manage your favorite products"
+        />
+        <div className="min-h-screen flex flex-col items-center justify-center px-4 py-10 text-center bg-skin-base dark:bg-skin-bg text-skin-text">
+          <div className="mb-5 rounded-full bg-pink-100 dark:bg-pink-900/30 p-5">
+            <Heart size={45} className="text-pink-500" />
+          </div>
+          <h1 className="text-2xl font-semibold sm:text-3xl">No Favorites Yet</h1>
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-gray-500 sm:text-base">
+            Products you favorite will appear here. Start building your wishlist!
+          </p>
+          <Link
+            to="/explore"
+            className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black text-sm font-medium hover:opacity-90 transition"
+          >
+            Explore Products
+          </Link>
         </div>
-        <h1 className="text-2xl font-semibold sm:text-3xl">No Favorites Yet</h1>
-        <p className="mt-3 max-w-md text-sm leading-relaxed text-gray-500 sm:text-base">
-          Products you favorite will appear here.
-        </p>
-        <Link
-          to="/explore"
-          className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-black text-white text-sm font-medium hover:bg-neutral-800 transition"
-        >
-          Start Shopping
-        </Link>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="px-4 py-20 sm:px-6 md:px-10 md:py-24 bg-skin-base dark:bg-skin-bg text-skin-text">
-      <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-bold sm:text-3xl md:text-4xl">
-          My Favorites
-        </h1>
-        <p className="text-sm text-gray-500">{favorites.length} items</p>
-      </div>
+    <>
+      <PageHeader 
+        title="My Favorites" 
+        subtitle="Your collection of favorite products"
+      />
+      <div className="px-4 py-12 sm:px-6 md:px-10 md:py-16 bg-skin-base dark:bg-skin-bg text-skin-text">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-8 flex items-center justify-between">
+            <h2 className="text-xl font-semibold">
+              {favorites.length} {favorites.length === 1 ? "item" : "items"} saved
+            </h2>
+          </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {favorites.map((item) => (
@@ -90,7 +102,7 @@ const Favorite = () => {
 
               <button
                 onClick={() => removeFromFavorites(userId, item.id)}
-                className="mt-5 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-black py-3 text-sm text-white transition duration-300 hover:bg-red-500 sm:text-base"
+                className="mt-5 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-black dark:bg-white py-3 text-sm text-white dark:text-black transition duration-300 hover:bg-red-500 sm:text-base"
               >
                 <Trash2 size={18} />
                 Remove Favorite
@@ -99,7 +111,8 @@ const Favorite = () => {
           </div>
         ))}
       </div>
-    </div>
+        </div>
+    </>
   );
 };
 

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Wallet, Plus, CreditCard, ArrowDownLeft } from "lucide-react";
 import useAuthStore from "@/store/authStore";
+import PageHeader from "@/components/layout/PageHeader";
 import toast from "react-hot-toast";
 
 const AMOUNTS = [10, 25, 50, 100];
@@ -32,8 +33,13 @@ const Funds = () => {
   };
 
   return (
-    <div className="min-h-screen bg-skin-base px-4 md:px-10 py-10 mt-20 dark:bg-skin-bg">
-      <div className="max-w-2xl mx-auto space-y-6">
+    <>
+      <PageHeader 
+        title="My Wallet" 
+        subtitle="Manage your wallet balance and add funds"
+      />
+      <div className="min-h-screen bg-skin-base px-4 md:px-10 py-12 dark:bg-skin-bg">
+        <div className="max-w-2xl mx-auto space-y-6">
 
         {/* Balance card */}
         <div className="bg-linear-to-br from-pink-500 to-fuchsia-500 text-white rounded-3xl p-8 shadow-xl">
@@ -123,7 +129,8 @@ const Funds = () => {
         </div>
 
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

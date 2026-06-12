@@ -3,10 +3,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Heart, Star, ShoppingBag, ZoomIn, Share2 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 
-import { allProducts } from "@/utils/product";
 import useCartStore from "@/store/cartStore";
 import useAuthStore from "@/store/authStore";
+import useAdminStore from "@/store/adminStore";
 import useRecentStore from "@/store/recentStore";
+import PageHeader from "@/components/layout/PageHeader";
 import toast from "react-hot-toast";
 import { ProductDetailsSkeleton } from "@/components/ui/Skeleton";
 import ImageZoom from "@/components/ui/ImageZoom";
@@ -21,6 +22,7 @@ const ProductDetails = () => {
   const [zoomed, setZoomed]   = useState(false);
 
   const addRecent = useRecentStore((s) => s.addRecent);
+  const adminProducts = useAdminStore((s) => s.products);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800);
@@ -41,12 +43,20 @@ const ProductDetails = () => {
   const removeFromFavorites = useCartStore((state) => state.removeFromFavorites);
 
   const product = useMemo(() => {
-    return allProducts.find(
+    // Helper to slugify title for comparison
+    const slugify = (text) =>
+      text
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+    
+    return adminProducts.find(
       (p) =>
-        p.slug?.trim().toLowerCase() === slug?.trim().toLowerCase() ||
+        slugify(p.title) === slug?.trim().toLowerCase() ||
         String(p.id) === String(slug)
     );
-  }, [slug]);
+  }, [slug, adminProducts]);
 
   const isFavorite = favorites.some((item) => item.id === product?.id);
   const isInCart   = cart.some((item) => item.id === product?.id);
@@ -75,6 +85,7 @@ const ProductDetails = () => {
   }
 
   const handleFavToggle = () => {
+    if (product.inStock === false) return;
     requireAuth(() => {
       if (isFavorite) {
         removeFromFavorites(userId, product.id);
@@ -87,6 +98,7 @@ const ProductDetails = () => {
   };
 
   const handleCartToggle = () => {
+    if (product.inStock === false) return;
     requireAuth(() => {
       if (isInCart) {
         removeFromCart(userId, product.id);
@@ -99,6 +111,7 @@ const ProductDetails = () => {
   };
 
   const handleShare = async () => {
+    if (product.inStock === false) return;
     const url = window.location.href;
     if (navigator.share) {
       try {
@@ -137,6 +150,10 @@ const ProductDetails = () => {
         ]}
       />
 
+      <PageHeader 
+        title={product.title}
+      />
+
       <ImageZoom
         src={product.image}
         alt={product.title}
@@ -144,37 +161,40 @@ const ProductDetails = () => {
         onClose={() => setZoomed(false)}
       />
 
-      <div className="px-4 md:px-10 py-10 mt-20 bg-skin-base dark:bg-skin-bg text-skin-text">
+      <div className={`px-4 md:px-10 py-12 bg-skin-base dark:bg-skin-bg text-skin-text ${product.inStock === false ? "opacity-70 grayscale" : ""}`}>
         <div className="grid md:grid-cols-2 gap-10">
 
           <div
-            className="relative skin-panel overflow-hidden group cursor-zoom-in"
-            onClick={() => setZoomed(true)}
+            className={`relative skin-panel overflow-hidden group ${product.inStock === false ? "cursor-not-allowed" : "cursor-zoom-in"}`}
+            onClick={() => product.inStock !== false && setZoomed(true)}
           >
             <img
               src={product.image}
-              className="w-full h-[400px] md:h-[600px] object-cover transition duration-300 group-hover:scale-105"
+              className={`w-full h-[400px] md:h-[600px] object-cover transition duration-300 ${product.inStock === false ? "group-hover:scale-100" : "group-hover:scale-105"}`}
               alt={product.title}
               loading="lazy"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 dark:group-hover:bg-black/40 transition duration-300 flex items-center justify-center">
-              <div className="opacity-0 group-hover:opacity-100 transition duration-300 bg-white/90 dark:bg-zinc-800 dark:text-white rounded-full px-4 py-2 flex items-center gap-2 text-sm font-medium shadow">
+              <div className={`opacity-0 transition duration-300 bg-white/90 dark:bg-zinc-800 dark:text-white rounded-full px-4 py-2 flex items-center gap-2 text-sm font-medium shadow ${product.inStock === false ? "" : "group-hover:opacity-100"}`}>
                 <ZoomIn size={16} />
                 Click to zoom
               </div>
             </div>
           </div>
 
-          <div className="md:mt-10">
+          <div className={`md:mt-10 ${product.inStock === false ? "text-gray-600 dark:text-gray-400" : ""}`}>
             <div className="flex items-start justify-between gap-3 flex-wrap">
-              <h1 className="text-3xl md:text-4xl font-bold flex-1 min-w-0">
+              <h1 className={`text-3xl md:text-4xl font-bold flex-1 min-w-0 ${product.inStock === false ? "text-gray-700 dark:text-gray-500" : ""}`}>
                 {product.title}
               </h1>
               <button
                 onClick={handleFavToggle}
-                className={`shrink-0 p-3 rounded-full border transition cursor-pointer
+                disabled={product.inStock === false}
+                className={`shrink-0 p-3 rounded-full border transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed
                   ${isFavorite
                     ? "bg-pink-500 border-pink-500 text-white"
+                    : product.inStock === false
+                    ? "border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500"
                     : "hover:bg-pink-50 dark:hover:bg-pink-950/30 border-gray-300 dark:border-gray-700"
                   }`}
               >
@@ -183,41 +203,44 @@ const ProductDetails = () => {
             </div>
 
             <div className="flex items-center gap-2 mt-4">
-              <div className="flex items-center gap-1 text-yellow-500">
+              <div className={`flex items-center gap-1 ${product.inStock === false ? "opacity-50" : "text-yellow-500"}`}>
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={18} fill={i < product.rating ? "currentColor" : "none"} />
+                  <Star key={i} size={18} fill={i < product.rating ? "currentColor" : "none"} className={product.inStock === false ? "" : "text-yellow-500"} />
                 ))}
               </div>
               {product.reviews && (
-                <span className="text-sm text-gray-500 dark:text-gray-400">
+                <span className={`text-sm ${product.inStock === false ? "text-gray-500 dark:text-gray-500" : "text-gray-500 dark:text-gray-400"}`}>
                   ({product.reviews.toLocaleString()} reviews)
                 </span>
               )}
             </div>
 
             <div className="flex items-center gap-3 mt-6">
-              <p className="text-3xl font-bold">${product.price}</p>
+              <p className={`text-3xl font-bold ${product.inStock === false ? "text-gray-700 dark:text-gray-600" : ""}`}>${product.price}</p>
               {product.oldPrice && (
-                <p className="text-lg text-gray-400 line-through">${product.oldPrice}</p>
+                <p className={`text-lg line-through ${product.inStock === false ? "text-gray-500 dark:text-gray-600" : "text-gray-400"}`}>${product.oldPrice}</p>
               )}
               {product.badge && (
-                <span className="text-xs font-semibold bg-pink-100 dark:bg-pink-900/30 text-pink-500 px-2 py-1 rounded-full">
+                <span className={`text-xs font-semibold px-2 py-1 rounded-full ${product.inStock === false ? "bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-600" : "bg-pink-100 dark:bg-pink-900/30 text-pink-500"}`}>
                   {product.badge}
                 </span>
               )}
             </div>
 
-            <p className="mt-6 text-gray-600 dark:text-gray-300 leading-relaxed">
+            <p className={`mt-6 leading-relaxed ${product.inStock === false ? "text-gray-600 dark:text-gray-500" : "text-gray-600 dark:text-gray-300"}`}>
               {product.details}
             </p>
 
             <div className="flex gap-3 mt-8">
               <button
                 onClick={handleCartToggle}
-                className={`flex-1 cursor-pointer text-white px-8 py-4 rounded-xl transition flex items-center justify-center gap-3
+                disabled={product.inStock === false}
+                className={`flex-1 cursor-pointer px-8 py-4 rounded-xl transition flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed
                   ${isInCart
-                    ? "bg-red-600 hover:bg-red-700"
-                    : "bg-black dark:bg-white dark:text-black hover:bg-neutral-700 dark:hover:bg-gray-200"
+                    ? "bg-red-600 hover:bg-red-700 text-white"
+                    : product.inStock === false
+                    ? "bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400"
+                    : "bg-black dark:bg-white dark:text-black text-white hover:bg-neutral-700 dark:hover:bg-gray-200"
                   }`}
               >
                 <ShoppingBag size={18} />
@@ -226,7 +249,12 @@ const ProductDetails = () => {
 
               <button
                 onClick={handleShare}
-                className="px-4 py-4 rounded-xl border border-gray-300 dark:border-gray-700 text-sm font-medium hover:bg-gray-50 dark:hover:bg-zinc-800 transition cursor-pointer flex items-center gap-2"
+                disabled={product.inStock === false}
+                className={`px-4 py-4 rounded-xl border text-sm font-medium transition cursor-pointer flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed
+                  ${product.inStock === false 
+                    ? "border-gray-300 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-100" 
+                    : "border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-zinc-800"
+                  }`}
                 title="Share product"
               >
                 <Share2 size={18} />

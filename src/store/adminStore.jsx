@@ -1,36 +1,50 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import content from "@/assets/data/content.json";
 
-const useAdminStore = create((set, get) => ({
-  products: [
-    ...content.products.map((p) => ({ ...p, category: "products" })),
-    ...content.under25Products.map((p) => ({ ...p, category: "under25" })),
-  ],
-  orders: [], 
-  users: [],  
-
-  // PRODUCTS
-  addProduct: (product) =>
-    set((state) => ({
+const useAdminStore = create(
+  persist(
+    (set, get) => ({
       products: [
-        ...state.products,
-        { ...product, id: Date.now(), category: product.category || "products" },
+        ...content.products.map((p)        => ({ ...p, category: "products", inStock: true })),
+        ...content.under25Products.map((p) => ({ ...p, category: "under25",  inStock: true })),
       ],
-    })),
 
-  updateProduct: (id, updates) =>
-    set((state) => ({
-      products: state.products.map((p) => (p.id === id ? { ...p, ...updates } : p)),
-    })),
+      addProduct: (product) =>
+        set((state) => ({
+          products: [
+            ...state.products,
+            {
+              ...product,
+              id:       Date.now(),
+              category: product.category || "products",
+              inStock:  true,
+            },
+          ],
+        })),
 
-  deleteProduct: (id) =>
-    set((state) => ({
-      products: state.products.filter((p) => p.id !== id),
-    })),
+      updateProduct: (id, updates) =>
+        set((state) => ({
+          products: state.products.map((p) =>
+            p.id === id ? { ...p, ...updates } : p
+          ),
+        })),
 
-  setOrders: (orders) => set({ orders }),
+      deleteProduct: (id) =>
+        set((state) => ({
+          products: state.products.filter((p) => p.id !== id),
+        })),
 
-  setUsers: (users) => set({ users }),
-}));
+      // ✅ Toggle in/out of stock
+      toggleStock: (id) =>
+        set((state) => ({
+          products: state.products.map((p) =>
+            p.id === id ? { ...p, inStock: !p.inStock } : p
+          ),
+        })),
+    }),
+    { name: "admin-storage" }
+  )
+);
 
 export default useAdminStore;
