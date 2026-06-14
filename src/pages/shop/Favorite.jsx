@@ -112,6 +112,7 @@ const Favorite = () => {
         ))}
       </div>
         </div>
+      </div>
     </>
   );
 };
