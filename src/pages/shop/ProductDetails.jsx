@@ -7,7 +7,6 @@ import useCartStore from "@/store/cartStore";
 import useAuthStore from "@/store/authStore";
 import useAdminStore from "@/store/adminStore";
 import useRecentStore from "@/store/recentStore";
-import PageHeader from "@/components/layout/PageHeader";
 import toast from "react-hot-toast";
 import { ProductDetailsSkeleton } from "@/components/ui/Skeleton";
 import ImageZoom from "@/components/ui/ImageZoom";
@@ -150,10 +149,6 @@ const ProductDetails = () => {
         ]}
       />
 
-      <PageHeader 
-        title={product.title}
-      />
-
       <ImageZoom
         src={product.image}
         alt={product.title}
@@ -170,7 +165,8 @@ const ProductDetails = () => {
           >
             <img
               src={product.image}
-              className={`w-full h-[400px] md:h-[600px] object-cover transition duration-300 ${product.inStock === false ? "group-hover:scale-100" : "group-hover:scale-105"}`}
+              className={`w-full h-[400px] md:h-[600px] object-cover transition duration-300 mt-10
+                 ${product.inStock === false ? "group-hover:scale-100" : "group-hover:scale-105"}`}
               alt={product.title}
               loading="lazy"
             />
@@ -182,11 +178,11 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          <div className={`md:mt-10 ${product.inStock === false ? "text-gray-600 dark:text-gray-400" : ""}`}>
-            <div className="flex items-start justify-between gap-3 flex-wrap">
-              <h1 className={`text-3xl md:text-4xl font-bold flex-1 min-w-0 ${product.inStock === false ? "text-gray-700 dark:text-gray-500" : ""}`}>
+          <div className={`md:mt-35 ${product.inStock === false ? "text-gray-600 dark:text-gray-400" : ""}`}>
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <h2 className={`text-2xl sm:text-3xl font-semibold flex-1 min-w-0 ${product.inStock === false ? "text-gray-700 dark:text-gray-500" : "text-gray-900 dark:text-gray-100"}`}>
                 {product.title}
-              </h1>
+              </h2>
               <button
                 onClick={handleFavToggle}
                 disabled={product.inStock === false}
@@ -231,7 +227,7 @@ const ProductDetails = () => {
               {product.details}
             </p>
 
-            <div className="flex gap-3 mt-8">
+            <div className="flex flex-col sm:flex-row gap-3 mt-8">
               <button
                 onClick={handleCartToggle}
                 disabled={product.inStock === false}
@@ -250,7 +246,8 @@ const ProductDetails = () => {
               <button
                 onClick={handleShare}
                 disabled={product.inStock === false}
-                className={`px-4 py-4 rounded-xl border text-sm font-medium transition cursor-pointer flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed
+                className={`px-4 py-4 rounded-xl border text-sm font-medium transition cursor-pointer flex items-center gap-2 
+                  disabled:opacity-50 disabled:cursor-not-allowed justify-center
                   ${product.inStock === false 
                     ? "border-gray-300 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-100" 
                     : "border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-zinc-800"

@@ -12,11 +12,16 @@ import MobileSidebar from "./MobileNav"
 import { isAdmin } from "@/utils/adminConfig";
 import ThemeToggle from "../ui/ThemeToggle";
 
+import RecentSearches from "../ui/RecentSearches";
+import useSearchStore from "@/store/searchStore";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [search, setSearch] = useState("");
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [showRecent, setShowRecent]               = useState(false);
+
 
   const timeoutRef = useRef(null);
   const searchRef = useRef(null);
@@ -30,11 +35,21 @@ const Navbar = () => {
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   const allProducts = useAdminStore((state) => state.products);
+  const addSearch = useSearchStore((s) => s.addSearch);
+
+  const handleSearchSubmit = (term) => {
+    const trimmed = term.trim();
+    if (!trimmed) return;
+    addSearch(trimmed);
+    setShowSearchResults(true);
+    setShowRecent(false);
+  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
         setShowSearchResults(false);
+        setShowRecent(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -47,6 +62,12 @@ const Navbar = () => {
       product.title.toLowerCase().includes(search.toLowerCase())
     );
   }, [search, allProducts]);
+
+    const handleSearchSelect = (term) => {
+    setSearch(term);
+    setShowRecent(false);
+    setShowSearchResults(true);
+  };
 
   const handleItemClick = (item) => {
     if (item?.link) navigate(item.link);
@@ -161,7 +182,16 @@ const Navbar = () => {
           <div className="relative" ref={searchRef}>
             <input
               value={search}
-              onFocus={() => setShowSearchResults(true)}
+              onFocus={() => {
+                setShowSearchResults(true);
+                setShowRecent(true);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleSearchSubmit(search);
+                }
+              }}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search products..."
               className="w-56 lg:w-64 rounded-full
@@ -192,6 +222,7 @@ const Navbar = () => {
                     <div
                       key={product.id}
                       onClick={() => {
+                        handleSearchSubmit(search);
                         navigate(
                           `/product/${product.slug || product.id}`
                         );
@@ -222,6 +253,10 @@ const Navbar = () => {
                   </p>
                 )}
               </div>
+            )}
+
+            {showRecent && !search.trim() && (
+              <RecentSearches onSelect={handleSearchSelect} />
             )}
           </div>
 

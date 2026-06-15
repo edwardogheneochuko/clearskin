@@ -1,6 +1,8 @@
 import { SlidersHorizontal, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import useFilterStore from "@/store/filterStore";
+import useSearchStore from "@/store/searchStore";
+import RecentSearches from "./RecentSearches";
 
 const SORT_OPTIONS = [
   { value: "default", label: "Default" },
@@ -37,6 +39,15 @@ const FilterContent = () => {
     resetFilters,
   } = useFilterStore();
 
+  const addSearch = useSearchStore((s) => s.addSearch);
+
+  const handleSearchKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      addSearch(search);
+    }
+  };
+
   const isFiltered =
     category !== "all" ||
     sortBy !== "default" ||
@@ -59,7 +70,7 @@ const FilterContent = () => {
       )}
 
       {/* SEARCH */}
-      <div>
+      <div className="relative">
         <label className="text-xs font-medium text-gray-500 dark:text-zinc-400 block mb-2">
           Search
         </label>
@@ -67,8 +78,14 @@ const FilterContent = () => {
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={handleSearchKeyDown}
           placeholder="Search products..."
           className="w-full px-3 py-2 rounded-xl bg-gray-100 dark:bg-zinc-800 text-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-zinc-500 text-sm outline-none focus:ring-2 focus:ring-pink-400 transition"
+        />
+
+        <RecentSearches
+          staticLayout
+          onSelect={(term) => setSearch(term)}
         />
       </div>
 
