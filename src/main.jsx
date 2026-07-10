@@ -7,18 +7,13 @@ import { HelmetProvider } from "react-helmet-async";
 import ToasterWithTheme from "./store/ToasterWithTheme.jsx";
 import { registerServiceWorker } from "./utils/registerSW.jsx";
 import ErrorBoundary from "./components/layout/ErrorBoundary.jsx";
+import { getPreferredTheme } from "./store/themeStore.jsx";
 
 initAuthListener();
 registerServiceWorker();
 
-try {
-  const stored   = localStorage.getItem("theme-storage");
-  const theme    = stored ? JSON.parse(stored)?.state?.theme : null;
-  const resolved = theme ||
-    (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-  document.documentElement.classList.toggle("dark", resolved === "dark");
-} catch {
-}
+const initialTheme = getPreferredTheme();
+document.documentElement.classList.toggle("dark", initialTheme === "dark");
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

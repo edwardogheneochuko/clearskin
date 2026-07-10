@@ -1,11 +1,12 @@
 
 export const registerServiceWorker = () => {
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker
-        .register("/sw.js")
-        .then((reg) => console.log("SW registered:", reg.scope))
-        .catch((err) => console.error("SW registration failed:", err));
-    });
-  }
+  if (!("serviceWorker" in navigator)) return;
+
+  window.addEventListener("load", async () => {
+    try {
+      await navigator.serviceWorker.register("/sw.js");
+    } catch (err) {
+      console.error("Service worker registration failed:", err);
+    }
+  });
 };

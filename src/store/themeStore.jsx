@@ -1,6 +1,16 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+export const getPreferredTheme = () => {
+  try {
+    const stored = localStorage.getItem("theme-storage");
+    const savedTheme = stored ? JSON.parse(stored)?.state?.theme : null;
+    return savedTheme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  } catch {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+};
+
 const useThemeStore = create(
   persist(
     (set, get) => ({
@@ -19,12 +29,14 @@ const useThemeStore = create(
       },
 
       initTheme: () => {
-        const savedTheme = get().theme;
+        const resolved = getPreferredTheme();
 
         document.documentElement.classList.toggle(
           "dark",
-          savedTheme === "dark"
+          resolved === "dark"
         );
+
+        set({ theme: resolved });
       },
     }),
     {

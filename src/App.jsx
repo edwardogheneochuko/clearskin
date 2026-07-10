@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "../src/App.css";
 
 import useThemeStore from "./store/themeStore";
@@ -31,20 +31,16 @@ const PageLoader = () => (
 );
 
 export default function App() {
-  const location = useLocation();
   const initTheme = useThemeStore((s) => s.initTheme);
 
-  useEffect(() => {
-    initTheme();
-  }, []);
+  useEffect(initTheme, [initTheme]);
 
   return (
     <Suspense fallback={<PageLoader />}>
-      
       {/* 🌸 GLOBAL BACKGROUND EFFECT (dark mode only) */}
       <GlobalParticles />
 
-      <Routes location={location} key={location.pathname}>
+      <Routes>
 
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
