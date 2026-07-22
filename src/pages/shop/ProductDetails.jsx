@@ -62,7 +62,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     if (product) addRecent(product);
-  }, [product]);
+  }, [addRecent, product]);
 
   const requireAuth = (action) => {
     if (!user) {
@@ -116,10 +116,12 @@ const ProductDetails = () => {
       try {
         await navigator.share({
           title: product.title,
-          text:  `Check out ${product.title} on ClearSkin`,
+          text: `Check out ${product.title} on ClearSkin`,
           url,
         });
-      } catch {}
+      } catch {
+        toast.error("Unable to share this product right now");
+      }
     } else {
       await navigator.clipboard.writeText(url);
       toast.success("Link copied to clipboard!");

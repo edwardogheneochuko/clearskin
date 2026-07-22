@@ -5,22 +5,20 @@ import { useNavigate } from "react-router-dom";
 const HeroSection = ({ hero = [] }) => {
   const [index, setIndex] = useState(0);
   const navigate = useNavigate();
+  const safeHero = Array.isArray(hero) ? hero : [];
 
   useEffect(() => {
-    if (index >= hero.length) setIndex(0);
-  }, [hero.length]);
-
-  useEffect(() => {
-    if (!hero.length) return;
+    if (!safeHero.length) return undefined;
 
     const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % hero.length);
+      setIndex((prev) => (prev + 1) % safeHero.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [hero.length]);
+  }, [safeHero.length]);
 
-  const current = hero[index];
+  const currentIndex = safeHero.length ? index % safeHero.length : 0;
+  const current = safeHero[currentIndex];
   if (!current) return null;
 
   return (

@@ -22,15 +22,19 @@ const CustomTooltip = ({ active, payload, label }) => {
   );
 };
 
-const StatCard = ({ label, value, icon: Icon, color }) => (
-  <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-5 shadow-sm">
-    <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 ${color}`}>
-      <Icon size={20} />
+const StatCard = ({ label, value, icon: Icon, color }) => {
+  const IconComponent = Icon;
+
+  return (
+    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-5 shadow-sm">
+      <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 ${color}`}>
+        <IconComponent size={20} />
+      </div>
+      <p className="text-2xl font-bold text-gray-900 dark:text-white">{value}</p>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{label}</p>
     </div>
-    <p className="text-2xl font-bold text-gray-900 dark:text-white">{value}</p>
-    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{label}</p>
-  </div>
-);
+  );
+};
 
 const AdminStats = () => {
   const products = useAdminStore((s) => s.products);

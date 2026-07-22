@@ -4,7 +4,7 @@ import content from "@/assets/data/content.json";
 
 const useAdminStore = create(
   persist(
-    (set, get) => ({
+    (set) => ({
       products: [
         ...content.products.map((p)        => ({ ...p, category: "products", inStock: true })),
         ...content.under25Products.map((p) => ({ ...p, category: "under25",  inStock: true })),

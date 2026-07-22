@@ -23,7 +23,10 @@ const MobileSidebar = ({
   const [activeIcon, setActiveIcon] = useState(null);
 
   const carts = useCartStore((state) => state.carts);
-  const cart = carts[user?.uid || "guest"] || [];
+  const cart = useMemo(
+    () => carts[user?.uid || "guest"] || [],
+    [carts, user?.uid]
+  );
   const allProducts = useAdminStore((state) => state.products);
 
   const cartCount = useMemo(

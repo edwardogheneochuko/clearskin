@@ -6,11 +6,11 @@ const NotFound = () => {
 
   const floatingPetals = Array.from({ length: 12 }, (_, i) => ({
     id: i,
-    size: Math.random() * 18 + 8,
-    left: Math.random() * 100,
-    delay: Math.random() * 4,
-    duration: Math.random() * 6 + 6,
-    rotate: Math.random() * 360,
+    size: 8 + i * 1.4,
+    left: (i * 8.5) % 100,
+    delay: i * 0.28,
+    duration: 6 + (i % 4),
+    rotate: i * 28,
   }));
 
   return (
@@ -29,7 +29,7 @@ const NotFound = () => {
           animate={{
             y: ["0vh", "110vh"],
             rotate: [petal.rotate, petal.rotate + 180],
-            x: [0, Math.random() * 60 - 30],
+            x: [0, 18],
             opacity: [0.4, 0.1],
           }}
           transition={{

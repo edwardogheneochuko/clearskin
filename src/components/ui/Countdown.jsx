@@ -1,21 +1,19 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const Countdown = () => {
-    const targetDateRef = useRef(Date.now() + 2 * 24 * 60 * 60 * 1000);
+    const [targetDate] = useState(() => Date.now() + 2 * 24 * 60 * 60 * 1000);
 
-    const [timeLeft, setTimeLeft] = useState(
-        targetDateRef.current - Date.now()
-    );
+    const [timeLeft, setTimeLeft] = useState(() => targetDate - Date.now());
 
     useEffect(() => {
         const interval = setInterval(() => {
-            const diff = targetDateRef.current - Date.now();
+            const diff = targetDate - Date.now();
 
             setTimeLeft(diff > 0 ? diff : 0);
         }, 1000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [targetDate]);
 
     const formatTime = (time) => String(time).padStart(2, "0");
 

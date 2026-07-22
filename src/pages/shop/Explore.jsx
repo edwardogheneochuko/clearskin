@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import { PackageX, SlidersHorizontal } from "lucide-react";
 
 import ProductCard from "@/components/ui/ProductCard";
@@ -16,7 +15,6 @@ const containerVariants = {
 };
 
 const Explore = () => {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [filterOpen, setFilterOpen] = useState(false);
   
@@ -76,7 +74,7 @@ const Explore = () => {
     }
 
     return result;
-  }, [search, category, sortBy, minPrice, maxPrice, minRating, inStock]);
+  }, [allProductsCombined, search, category, sortBy, minPrice, maxPrice, minRating, inStock]);
 
   if (loading) return <ExploreSkeleton />;
 
