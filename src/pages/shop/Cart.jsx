@@ -38,8 +38,8 @@ const Cart = () => {
         title="Shopping Cart" 
         subtitle="Review and manage your items"
       />
-      <div className="min-h-screen px-4 md:px-10 py-12 bg-skin-base dark:bg-skin-bg text-skin-text">
-      <div className="mb-8">
+      <div className="min-h-screen px-4 md:px-10 py-2 bg-skin-base dark:bg-skin-bg text-skin-text">
+      <div className="mb-8 flex items-center justify-between">
         {cart.length > 0 && (
           <button
             onClick={() => clearCart(userId)}

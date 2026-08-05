@@ -18,7 +18,6 @@ const Explore = () => {
   const [loading, setLoading] = useState(true);
   const [filterOpen, setFilterOpen] = useState(false);
   
-  // Get products from admin store instead of static JSON
   const allProductsCombined = useAdminStore((s) => s.products);
 
   const { search, category, sortBy, minPrice, maxPrice, minRating, inStock } =
@@ -80,12 +79,8 @@ const Explore = () => {
 
   return (
     <>
-      <PageHeader 
-        title="Shop All Products" 
-        subtitle="Discover our complete collection of skincare essentials"
-        bgImage={true}
-      />
-      <div className="px-4 md:px-10 py-12 bg-skin-base dark:bg-skin-bg min-h-screen">
+      
+      <div className="mt-10 md:mt-0 px-4 md:px-10 py-12 bg-skin-base dark:bg-skin-bg min-h-screen">
         <div className="flex items-center justify-between mb-6 md:hidden">
           <p className="text-sm text-black dark:text-zinc-300">
             {filtered.length} products

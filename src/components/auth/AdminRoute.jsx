@@ -3,10 +3,8 @@ import useAuthStore from "@/store/authStore";
 import {isAdmin} from "@/utils/adminConfig"
 
 const AdminRoute = () => {
-  const { user, loading } = useAuthStore((state) => ({
-    user: state.user,
-    loading: state.loading,
-  }));
+  const user = useAuthStore((state) => state.user);
+  const loading = useAuthStore((state) => state.loading);
 
   if (loading) {
     return (
